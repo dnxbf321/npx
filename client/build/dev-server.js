@@ -2,6 +2,7 @@ var koa = require('koa')
 var staticServe = require('koa-static')
 var webpack = require('webpack')
 var webpackMiddleware = require('koa-webpack-dev-middleware')
+var sassMiddleware = require('koa-sass-middleware')
 var path = require('path')
 var config = require('./webpack.dev.conf')
 
@@ -26,6 +27,12 @@ app.use(function*(next) {
   yield hotMiddleware.bind(null, this.req, this.res)
   yield next
 })
+
+// use sass middleware
+app.use(sassMiddleware({
+  src: path.join(__dirname, '../static'),
+  publicPath: '/static/'
+}))
 
 // serve pure static assets
 app.use(staticServe(path.join(__dirname, '../dist/')))

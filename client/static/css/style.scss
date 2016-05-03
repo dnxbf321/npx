@@ -1,4 +1,10 @@
 html {
-	color: #000;
-	background: #fff;
+  color: #000;
+  background: #fff;
+}
+.flex {
+  display: flex;
+  .item {
+    flex: 1;
+  }
 }
