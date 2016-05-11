@@ -1,7 +1,3 @@
-/**
- * 金贝塔介绍
- */
-
 import KoaRouter from 'koa-router'
 
 export default class RouterHome {

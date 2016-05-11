@@ -1,6 +1,6 @@
 # npm script template
 
-npm script 模板，使用 webpack 打包 js，imagemin 压缩处理图片，sass 编译样式文件
+npm script 模板，使用 webpack 打包 js，imagemin 压缩处理图片，sass 编译样式文件。使用 koa 作为 server 端框架。
 
 ## 使用
 ```
@@ -16,15 +16,18 @@ npm run serve
 
 ## 编译路径
 ```
-./client/asset -> ./client/dist/static
-./client/static -> ./client/dist/static
+./client/asset 复制到 ./client/dist/static
+./client/static/css/**/[^_]*.scss 通过 sass、autoprefixer 编译到 ./client/dist/static/css
+./client/static/js/**/*.wp.js 通过 webpack 打包到 ./client/dist/static/js
+./client/static/img/* 通过 imagemin 压缩打包到 ./client/dist/static/img
 ```
 
-## 静态资源
-```
-./client/dist
-```
+## 访问静态资源
 
-## 其他
-
-`npm run dev`，js 资源通过 8080 端口获取，可修改 `./client/build/dev-server.js` 更改端口号
+执行 `npm run dev` 时，js、css 并不会输出到 dist 目录，通过以下路径获得
+```
+// 8080 端口号在 /config.json 中 client.port 配置
+// main.js 原文件名为 main.wp.js
+http://127.0.0.1:8080/static/js/main.js
+http://127.0.0.1:8080/static/css/style.css
+```

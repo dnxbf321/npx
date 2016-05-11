@@ -4,10 +4,11 @@ var webpack = require('webpack')
 var webpackMiddleware = require('koa-webpack-dev-middleware')
 var sassMiddleware = require('koa-sass-middleware')
 var path = require('path')
-var config = require('./webpack.dev.conf')
+var wpConfig = require('./webpack.dev.conf')
+var config = require('../../config.json')
 
 var app = koa()
-var compiler = webpack(config)
+var compiler = webpack(wpConfig)
 
 app.use(webpackMiddleware(compiler, {
   noInfo: false,
@@ -16,13 +17,13 @@ app.use(webpackMiddleware(compiler, {
   watchOptions: {
     aggregateTimeout: 300
   },
-  publicPath: config.output.publicPath,
+  publicPath: wpConfig.output.publicPath,
   stats: {
     colors: true
   }
 }))
 
-var hotMiddleware = require("webpack-hot-middleware")(compiler);
+var hotMiddleware = require('webpack-hot-middleware')(compiler);
 app.use(function*(next) {
   yield hotMiddleware.bind(null, this.req, this.res)
   yield next
@@ -37,10 +38,11 @@ app.use(sassMiddleware({
 // serve pure static assets
 app.use(staticServe(path.join(__dirname, '../dist/')))
 
-module.exports = app.listen(8080, function(err) {
+var PORT = config.client.port
+module.exports = app.listen(PORT, function(err) {
   if (err) {
     console.log(err)
     return
   }
-  console.log('Listening at http://localhost:8080')
+  console.log('static files on port: ' + PORT)
 })

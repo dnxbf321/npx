@@ -1,0 +1,12 @@
+{
+  "client": {
+    "port": 8080
+  },
+  "server": {
+    "port": 8090,
+		"staticRoot": "http://127.0.0.1:8080/static",
+		"version": 1461547380716,
+		"keywords": "",
+		"description": ""
+  }
+}

@@ -8,7 +8,7 @@ import staticServe from 'koa-static'
 import session from 'koa-session'
 import hbs from './help/hbs-with-helper'
 import routes from './route'
-import config from './config.json'
+import config from '../config.json'
 
 let app = koa()
 let router = routes()
@@ -46,7 +46,7 @@ app.use(hbs.middleware({
 
 // Locals: config.json => global
 app.use(function*(next) {
-  this.state.global = config
+  this.state.global = config.server
   yield next
 })
 
@@ -58,11 +58,11 @@ app
   }))
 
 // start server
-const PORT = config.port
+const PORT = config.server.port
 
 app.listen(PORT, err => {
   if (err) {
     throw err
   }
-  console.log(`listening on PORT: ${PORT}`)
+  console.log(`server listening on PORT: ${PORT}`)
 })
