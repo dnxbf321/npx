@@ -1,7 +1,7 @@
 {
-  "name": "npm-script-template",
+  "name": "node-project-template",
   "version": "1.0.0",
-  "description": "serve the project with npm scripts",
+  "description": "develop the project based on npm scripts",
   "main": "server/app.js",
   "scripts": {
     "dev": "npm-run-all pre --parallel asset image webpack-dev serve-dev",

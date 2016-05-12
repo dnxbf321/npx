@@ -1,6 +1,6 @@
-# npm script template
+# node project template
 
-npm script 模板，使用 webpack 打包 js，imagemin 压缩处理图片，sass 编译样式文件。使用 koa 作为 server 端框架。
+node 项目模板。技术采用 koa 作为 server 端框架，用 webpack 打包 js，imagemin 压缩处理图片，sass 编译样式文件。client 端、node 端均可直接使用 ECMAScript 6 语法，转换过程就交给 Babel 自动完成吧。
 
 ## 使用
 ```
