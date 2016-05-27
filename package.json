@@ -16,6 +16,7 @@
     "asset": "ncp ./client/asset ./client/dist/static",
     "image": "ncp ./client/static/img ./client/dist/static/img",
     "image-tiny": "imagemin ./client/static/img ./client/dist/static/img",
+    "pack": "node client/build/zip.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jason Deng",
