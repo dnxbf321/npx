@@ -1,6 +1,8 @@
+var webpack = require('webpack')
 var path = require('path')
 var projectRoot = path.resolve(__dirname, '../static')
 var entry = require('./webpack-entry')(projectRoot)
+var definition = require('./definition')
 
 module.exports = {
   context: projectRoot,
@@ -46,5 +48,8 @@ module.exports = {
   },
   eslint: {
     formatter: require('eslint-friendly-formatter')
-  }
+  },
+  plugins: [
+    new webpack.DefinePlugin(definition())
+  ]
 }

@@ -1,12 +1,26 @@
 {
-  "client": {
-    "port": 8080
+  "default": {
+    "client": {
+      "port": 8080
+    },
+    "server": {
+      "port": 8090,
+      "staticRoot": "http://127.0.0.1:8080/static",
+      "version": 1461547380716,
+      "keywords": "default keywords",
+      "description": ""
+    }
   },
-  "server": {
-    "port": 8090,
-		"staticRoot": "http://127.0.0.1:8080/static",
-		"version": 1461547380716,
-		"keywords": "",
-		"description": ""
+  "experiment": {
+    "server": {
+      "staticRoot": "http://127.0.0.1:8090/static",
+      "keywords": "experiment keywords"
+    }
+  },
+  "production": {
+    "server": {
+      "staticRoot": "http://127.0.0.1:8090/static",
+      "keywords": "production keywords"
+    }
   }
 }

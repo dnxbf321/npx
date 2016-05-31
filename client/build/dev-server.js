@@ -38,7 +38,7 @@ app.use(sassMiddleware({
 // serve pure static assets
 app.use(staticServe(path.join(__dirname, '../dist/')))
 
-var PORT = config.client.port
+var PORT = config['default'].client.port
 module.exports = app.listen(PORT, function(err) {
   if (err) {
     console.log(err)

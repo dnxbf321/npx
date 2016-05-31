@@ -32,4 +32,5 @@ function pack(zipName, patterns, ctx) {
 }
 
 pack('static.zip', '**/*', path.join(codePath, 'client/dist'))
-pack('server.zip', ['server/**/*', 'upload/**/*', '.babelrc', '*.js', '*.json', '**.md'], codePath)
+pack('server.zip', ['server/**/*', 'upload/**/*', '.babelrc', '.eslintrc.js', '**.js', '**.json', '**.md'], codePath)
+pack('project.zip', ['client/**/*', 'server/**/*', 'upload/**/*', '.babelrc', '.eslintrc.js', '**.js', '**.json', '**.md'], codePath)

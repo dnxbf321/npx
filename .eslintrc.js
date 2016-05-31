@@ -10,7 +10,8 @@ module.exports = {
     indent: [2, 2],
     semi: [2, 'never'],
     'space-before-function-paren': [2, 'never'],
-    'no-new': 0
+    'no-new': 0,
+    'no-undef': 0
   },
   globals: {
     '$': true

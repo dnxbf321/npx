@@ -8,7 +8,9 @@ import staticServe from 'koa-static'
 import session from 'koa-session'
 import hbs from './help/hbs-with-helper'
 import routes from './route'
-import config from '../config.json'
+import getConfig from './config'
+
+const config = getConfig()
 
 let app = koa()
 let router = routes()
