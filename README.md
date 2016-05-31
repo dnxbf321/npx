@@ -10,8 +10,14 @@ npm run dev
 # 编译生产环境文件
 npm run build
 
+# 编译预发环境文件
+npm run build-exp
+
 # 生产环境启动服务
 npm run serve
+
+# 预发环境启动服务
+npm run serve-exp
 ```
 
 ## 编译路径
@@ -32,6 +38,10 @@ http://127.0.0.1:8080/static/js/main.js
 http://127.0.0.1:8080/static/css/style.css
 ```
 
+## 配置不同环境下的变量
+
+修改 config.json 文件，将配置分别填入 experiment、production 中，没有声明的项使用默认配置
+
 ## change log
 
 ### v1.0.1
@@ -45,3 +55,8 @@ http://127.0.0.1:8080/static/css/style.css
 - js 支持 ecmascript 6 语法，支持 sourcemap，支持 uglify；开发阶段，js 将编译到内存中，并不会生成真实可见的文件
 - 如果你有其他类型的文件，放在 client/asset 目录中，编译时将原封不懂的复制到 dist 目录且保留文件夹结构
 - 完整的 koa 后台服务示例
+
+### v1.1.0
+
+- 支持环境变量
+- 打包新增全部文件打包

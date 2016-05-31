@@ -1,6 +1,6 @@
 {
   "name": "node-project-template",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "develop the project based on npm scripts",
   "main": "server/app.js",
   "scripts": {
