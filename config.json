@@ -2,9 +2,9 @@
   "ftp": {
     "host": "10.31.74.103",
     "port": 22,
-    "path": "/home/frontend/workspace",
-    "user": "root",
-    "password": "First@2015++"
+    "username": "root",
+    "password": "First@2015++",
+    "remotePath": "/home/frontend/workspace"
   },
   "default": {
     "client": {
