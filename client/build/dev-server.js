@@ -2,7 +2,7 @@ var koa = require('koa')
 var staticServe = require('koa-static')
 var webpack = require('webpack')
 var webpackMiddleware = require('koa-webpack-dev-middleware')
-var sassMiddleware = require('koa-sass-middleware')
+var cssMiddleware = require('koa-postcss-middleware')
 var path = require('path')
 var wpConfig = require('./webpack.dev.conf')
 var config = require('../../config.json')
@@ -29,8 +29,8 @@ app.use(function*(next) {
   yield next
 })
 
-// use sass middleware
-app.use(sassMiddleware({
+// use css middleware
+app.use(cssMiddleware({
   src: path.join(__dirname, '../static'),
   publicPath: '/static/'
 }))

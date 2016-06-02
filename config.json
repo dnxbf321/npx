@@ -1,4 +1,11 @@
 {
+  "ftp": {
+    "host": "10.31.74.103",
+    "port": 22,
+    "path": "/home/frontend/workspace",
+    "user": "root",
+    "password": "First@2015++"
+  },
   "default": {
     "client": {
       "port": 8080
