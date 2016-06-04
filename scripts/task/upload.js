@@ -4,10 +4,9 @@ var extend = require('extend')
 var fs = require('fs')
 var path = require('path')
 var config = require('../config.json')
-var packageConfig = require('../package.json')
 
-var codePath = path.join(__dirname, '../')
-var remotePath = path.resolve(config.ftp.remotePath, packageConfig.name)
+var codePath = process.cwd()
+var remotePath = config.ftp.remotePath
 var options = {
   port: 22,
   host: config.ftp.host,

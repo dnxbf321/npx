@@ -4,7 +4,7 @@
     "port": 22,
     "username": "root",
     "password": "First@2015++",
-    "remotePath": "/home/frontend/workspace"
+    "remotePath": "/home/frontend/workspace/node-project-template"
   },
   "default": {
     "client": {

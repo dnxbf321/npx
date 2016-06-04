@@ -1,26 +1,27 @@
 var webpack = require('webpack')
 var path = require('path')
-var projectRoot = path.resolve(__dirname, '../static')
+var codePath = process.cwd()
+var projectRoot = path.join(codePath, 'client/static')
 var entry = require('./webpack-entry')(projectRoot)
-var definition = require('./definition')
+var definition = require('./webpack-definition')
 
 module.exports = {
   context: projectRoot,
   entry: entry,
   output: {
-    path: path.resolve(__dirname, '../dist/static'),
+    path: path.join(codePath, 'client/dist/static'),
     publicPath: '/static/',
     filename: '[name].js'
   },
   resolve: {
     extensions: ['', '.js'],
-    fallback: [path.join(__dirname, '../../node_modules')],
+    fallback: [path.join(codePath, 'node_modules')],
     alias: {
-      'src': path.resolve(__dirname, '../')
+      'src': path.join(codePath, 'src')
     }
   },
   resolveLoader: {
-    fallback: [path.join(__dirname, '../../node_modules')]
+    fallback: [path.join(codePath, 'node_modules')]
   },
   module: {
     preLoaders: [{

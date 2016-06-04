@@ -4,8 +4,10 @@ var webpack = require('webpack')
 var webpackMiddleware = require('koa-webpack-dev-middleware')
 var cssMiddleware = require('koa-postcss-middleware')
 var path = require('path')
-var wpConfig = require('./webpack.dev.conf')
+var wpConfig = require('../conf/webpack-dev-conf')
 var config = require('../../config.json')
+
+var codePath = process.cwd()
 
 var app = koa()
 var compiler = webpack(wpConfig)
@@ -31,12 +33,12 @@ app.use(function*(next) {
 
 // use css middleware
 app.use(cssMiddleware({
-  src: path.join(__dirname, '../static'),
+  src: path.join(codePath, 'client/static'),
   publicPath: '/static/'
 }))
 
 // serve pure static assets
-app.use(staticServe(path.join(__dirname, '../dist/')))
+app.use(staticServe(path.join(codePath, 'client/dist/')))
 
 var PORT = config['default'].client.port
 module.exports = app.listen(PORT, function(err) {

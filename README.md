@@ -3,7 +3,7 @@
 node 项目模板。技术采用 koa 作为 server 端框架，用 webpack 打包 js，imagemin 压缩处理图片，postcss 编译样式文件。client 端、node 端均可直接使用 ECMAScript 6 语法，转换过程就交给 Babel 自动完成吧。
 
 ## 使用
-```
+```bash
 # 开发环境运行项目
 npm run dev
 
@@ -18,31 +18,54 @@ npm run serve
 
 # 预发环境启动服务
 npm run serve-exp
+
+# 打包项目文件
+npm run pack
+
+# 部署代码到服务器
+npm run upload
+
 ```
 
 ## 编译路径
-```
-./client/asset 复制到 ./client/dist/static
-./client/static/css/**/[^_]*.scss 通过 sass、autoprefixer 编译到 ./client/dist/static/css
-./client/static/js/**/*.wp.js 通过 webpack 打包到 ./client/dist/static/js
-./client/static/img/* 通过 imagemin 压缩打包到 ./client/dist/static/img
-```
+
+源路径                               | 目的地                      | 中间过程
+----------------------------------- | -------------------------- | ---------------------
+client/asset                        | client/dist/static         | 拷贝
+client/static/css/\*\*/[^_]\*.css   | client/dist/static/css     | postcss 编译，配置见 scripts/conf/postcss.json
+client/static/js/\*\*/\*.wp.js      | client/dist/static/js      | webpack 打包，配置见 scripts/conf/webpack\*.js
+client/static/img/\*\*/\*           | client/dist/static/img     | 开发环境拷贝，正式环境拷贝并压缩
 
 ## 访问静态资源
 
-执行 `npm run dev` 时，js、css 并不会输出到 dist 目录，通过以下路径获得
+执行 `npm run dev` 时，js、css 并不会输出到 dist 目录，通过以下形式路径访问
 ```
 // 8080 端口号在 /config.json 中 client.port 配置
-// main.js 原文件名为 main.wp.js
+
+// main.js 原文件为 client/static/js/main.wp.js
 http://127.0.0.1:8080/static/js/main.js
+
+// style.css 原文件为 client/static/css/style.css
 http://127.0.0.1:8080/static/css/style.css
 ```
 
 ## 配置不同环境下的变量
 
-修改 config.json 文件，将配置分别填入 experiment、production 中，没有声明的项使用默认配置
+修改 config.json 文件，将配置分别填入 experiment、production 中，没有声明的项使用 default 项
 
 ## change log
+
+### v1.4.0
+
+- 目录结构调整，npm scripts 更新。此处改动很大，请睁大眼睛对比目录变动。为什么要这么做？之后的升级将轻便，只需要将 scripts 文件夹替换，merge package.json、config.json 即可
+
+### v1.3.0
+
+- 增加代码上传到服务器的功能，需先配置 config.json
+
+### v1.2.0
+
+- postcss 代替 node-sass，client/static/**/*.scss 需重命名为 *.css。注意：`import 'other'`，_other.css 必须是带 `_` 前缀的
 
 ### v1.1.0
 

@@ -3,3 +3,4 @@ log
 *.log*
 client/dist
 test*
+zip*
