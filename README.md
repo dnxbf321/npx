@@ -65,7 +65,7 @@ http://127.0.0.1:8080/static/css/style.css
 
 ### v1.2.0
 
-- postcss 代替 node-sass，client/static/**/*.scss 需重命名为 *.css。注意：`import 'other'`，_other.css 必须是带 `_` 前缀的
+- postcss 代替 node-sass，client/static/\*\*/\*.scss 需重命名为 \*.css。注意：`import 'other'`，_other.css 必须是带 `_` 前缀的
 
 ### v1.1.0
 

@@ -22,7 +22,7 @@ function formatDefinitions(obj) {
 module.exports = function() {
   var env = process.env.NODE_ENV
   var defaultConfig = config['default']
-  var envConfig = extend(true, defaultConfig, config[env] || {})
+  var envConfig = extend(true, {}, defaultConfig, config[env] || {})
   envConfig = formatDefinitions(envConfig)
   return envConfig
 }
