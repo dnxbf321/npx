@@ -55,6 +55,11 @@ http://127.0.0.1:8080/static/css/style.css
 
 ## change log
 
+### v1.4.2
+- 支持 vue
+- webpack output.publicPath 使用 http 绝对路径
+- js 中引入的 css 文件将输出到独立文件，与该 entry js 同名同目录，所以在 html 引入时，引用路径是 `{{global.staticRoot}}/js/[filename].css`
+
 ### v1.4.0
 
 - 目录结构调整，npm scripts 更新。此处改动很大，请睁大眼睛对比目录变动。为什么要这么做？之后的升级将轻便，只需要将 scripts 文件夹替换，merge package.json、config.json 即可

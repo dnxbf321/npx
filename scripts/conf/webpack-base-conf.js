@@ -1,4 +1,5 @@
 var webpack = require('webpack')
+var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var path = require('path')
 var codePath = process.cwd()
 var projectRoot = path.join(codePath, 'client/static')
@@ -9,9 +10,9 @@ module.exports = {
   context: projectRoot,
   entry: entry,
   output: {
+    filename: '[name].js',
     path: path.join(codePath, 'client/dist/static'),
-    publicPath: '/static/',
-    filename: '[name].js'
+    publicPath: '/static/'
   },
   resolve: {
     extensions: ['', '.js'],
@@ -25,7 +26,7 @@ module.exports = {
   },
   module: {
     preLoaders: [{
-      test: /\.js$/,
+      test: /\.(js|vue)$/,
       loader: 'eslint',
       include: projectRoot,
       exclude: /node_modules|build/
@@ -33,6 +34,11 @@ module.exports = {
     loaders: [{
       test: /\.js$/,
       loader: 'babel',
+      include: projectRoot,
+      exclude: /node_modules/
+    }, {
+      test: /\.vue$/,
+      loader: 'vue',
       include: projectRoot,
       exclude: /node_modules/
     }, {
@@ -50,7 +56,29 @@ module.exports = {
   eslint: {
     formatter: require('eslint-friendly-formatter')
   },
+  babel: {
+    presets: ['es2015', 'stage-2'],
+    plugins: ['transform-runtime', 'add-module-exports'],
+    comments: false
+  },
+  vue: {
+    postcss: {
+      plugins: [
+        require('precss'),
+        require('autoprefixer')({
+          browsers: ['last 2 versions', '> 5%', 'safari >= 5', 'ie >= 8', 'opera >= 12', 'Firefox ESR', 'iOS >= 6', 'android >= 4']
+        }),
+        require('cssnano')({
+          safe: true
+        })
+      ]
+    },
+    loaders: {
+      css: ExtractTextPlugin.extract('vue-style-loader', ['css-loader'])
+    }
+  },
   plugins: [
-    new webpack.DefinePlugin(definition())
+    new webpack.DefinePlugin(definition()),
+    new ExtractTextPlugin('[name].css')
   ]
 }

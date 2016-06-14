@@ -12,6 +12,9 @@ export default class RouterHome {
       .get('/', function*() {
         yield this.render('home')
       })
+      .get('/vue', function*() {
+        yield this.render('vue')
+      })
   }
 
 }

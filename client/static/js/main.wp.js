@@ -1,4 +1,3 @@
-$(function() {
-  console.log(server.keywords)
-  console.log(window)
-})
+require('../img/cover2.png')
+
+console.log(server.keywords)
