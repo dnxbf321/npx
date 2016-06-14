@@ -12,13 +12,16 @@
   "license": "MIT",
   "scripts": {
     "dev": "npm-run-all pre --parallel asset image serve-client serve-dev",
+    "build-dev": "npm-run-all pre asset webpack-dev postcss image-tiny",
     "build-exp": "npm-run-all pre asset webpack-exp postcss image-tiny",
     "build": "npm-run-all pre asset webpack-prod postcss image-tiny",
     "serve-client": "cross-env NODE_ENV=development node scripts/task/webpack-dev-server.js",
-    "serve-dev": "pm2-dev scripts/conf/pm2-dev.json",
+    "serve-dev-log": "pm2-dev scripts/conf/pm2-dev.json",
+    "serve-dev": "pm2 start scripts/conf/pm2-dev.json",
     "serve-exp": "pm2 start scripts/conf/pm2-exp.json",
     "serve": "pm2 start scripts/conf/pm2-prod.json",
     "pre": "rimraf client/dist && mkdirp client/dist/static/img && mkdirp client/dist/static/css && mkdirp client/dist/static/js",
+    "webpack-dev": "cross-env NODE_ENV=development webpack --progress --hide-modules --config scripts/conf/webpack-prod-conf.js",
     "webpack-exp": "cross-env NODE_ENV=experiment webpack --progress --hide-modules --config scripts/conf/webpack-prod-conf.js",
     "webpack-prod": "cross-env NODE_ENV=production webpack --progress --hide-modules --config scripts/conf/webpack-prod-conf.js",
     "postcss": "postcss --no-map.inline --config scripts/conf/postcss.json client/static/**/[^_]*.css -d client/dist/static/css",
@@ -26,7 +29,8 @@
     "image": "ncp client/static/img client/dist/static/img",
     "image-tiny": "imagemin client/static/img client/dist/static/img",
     "pack": "node scripts/task/pack.js",
-    "upload": "node scripts/task/upload.js"
+    "upload": "node scripts/task/upload.js",
+    "clean": "rimraf client/dist && rimraf zip"
   },
   "dependencies": {
     "koa": "^1.2.0",

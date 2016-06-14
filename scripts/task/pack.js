@@ -8,13 +8,13 @@ var codePath = process.cwd()
 
 var packageConfig = require(path.join(codePath, 'package.json'))
 
-mkdirp(path.join(codePath, 'zip'))
+mkdirp.sync(path.join(codePath, 'zip'))
 
 function pack(zipName, patterns, ctx) {
   patterns = [].concat(patterns)
 
   var zip = archiver.create('zip')
-  var output = fs.createWriteStream(path.join(codePath, 'zip', moment().format('YYYY-MM-DD HH:mm:ss') + '_' + packageConfig.name + '-' + zipName))
+  var output = fs.createWriteStream(path.join(codePath, 'zip', moment().format('YYYY-MM-DD HH/mm/ss') + '_' + packageConfig.name + '-' + zipName))
   output.on('close', function() {
     console.log(zip.pointer() + ' total bytes')
     console.log('archiver has been finalized and the output file descriptor has closed.')

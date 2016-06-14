@@ -38,6 +38,13 @@ app.use(compress())
 app.use(bodyParser())
 
 // static server
+app.use(function*(next) {
+  let isStaticFile = /\.(js|css|png|jpg|gif|ico|woff|ttf|svg|eot)/.test(path.extname(this.req.path))
+  if (isStaticFile) {
+    this.res.setHeader('Access-Control-Allow-Origin', '*');
+  }
+  yield next
+})
 app.use(staticServe(path.join(__dirname, '../client/dist/')))
 
 // koa-hbs is middleware. `use` it before you want to render a view

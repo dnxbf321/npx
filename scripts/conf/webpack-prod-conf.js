@@ -14,11 +14,6 @@ module.exports = merge(baseConfig, {
     chunkFilename: '[id].js'
   },
   plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: '"production"'
-      }
-    }),
     new webpack.IgnorePlugin(/vertx/),
     new webpack.optimize.CommonsChunkPlugin('js/common.js'),
     new webpack.optimize.UglifyJsPlugin({

@@ -6,7 +6,7 @@ function formatDefinitions(obj) {
     var v = obj[k]
     var typeV = Object.prototype.toString.call(v)
     switch (typeV) {
-    	case '[object Number]':
+      case '[object Number]':
       case '[object String]': // define plugin 把 string 当做可执行代码
         obj[k] = JSON.stringify(v)
         break
@@ -22,7 +22,11 @@ function formatDefinitions(obj) {
 module.exports = function() {
   var env = process.env.NODE_ENV
   var defaultConfig = config['default']
-  var envConfig = extend(true, {}, defaultConfig, config[env] || {})
+  var envConfig = extend(true, {}, {
+    'process.env': {
+      NODE_ENV: env || 'production'
+    }
+  }, defaultConfig, config[env] || {})
   envConfig = formatDefinitions(envConfig)
   return envConfig
 }
