@@ -2,7 +2,7 @@ var koa = require('koa')
 var staticServe = require('koa-static')
 var webpack = require('webpack')
 var webpackConnectHistoryApiFallback = require('koa-connect-history-api-fallback')
-var webpackMiddleware = require('koa-webpack-dev-middleware')
+var webpackDevMiddleware = require('koa-webpack-dev-middleware')
 var cssMiddleware = require('koa-postcss-middleware')
 var colors = require('colors')
 var path = require('path')
@@ -16,7 +16,7 @@ var compiler = webpack(wpConfig)
 
 app.use(webpackConnectHistoryApiFallback())
 
-app.use(webpackMiddleware(compiler, {
+app.use(webpackDevMiddleware(compiler, {
   noInfo: false,
   quiet: false,
   lazy: false,
@@ -38,7 +38,7 @@ app.use(function*(next) {
 // use css middleware
 app.use(cssMiddleware({
   src: path.join(codePath, 'client/static'),
-  publicPath: '/static/'
+  publicPath: wpConfig.output.publicPath
 }))
 
 // serve pure static assets

@@ -6,6 +6,7 @@ import logger from 'koa-logger'
 import onerror from 'koa-onerror'
 import staticServe from 'koa-static'
 import session from 'koa-session'
+import proxy from 'koa-proxy'
 import hbs from './help/hbs-with-helper'
 import routes from './route'
 import getConfig from './config'
@@ -36,6 +37,15 @@ app.use(session(app, {
 app.use(logger())
 app.use(compress())
 app.use(bodyParser())
+
+// proxy hot-update.json to client server
+// hack：因为 webpack-hot-middleware 模块总是将 hot-update 请求发送到当前域名，但实际上 hot-update 应由 client server 应答，所以需要 proxy
+if (process.env.NODE_ENV === 'development') {
+  app.use(proxy({
+    host: 'http://127.0.0.1:' + config.client.port,
+    match: /hot-update/
+  }))
+}
 
 // static server
 app.use(function*(next) {

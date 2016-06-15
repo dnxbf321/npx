@@ -12,7 +12,7 @@ module.exports = {
   output: {
     filename: '[name].js',
     path: path.join(codePath, 'client/dist/static'),
-    publicPath: '/static/'
+    publicPath: path.join(JSON.parse(definition().server.staticRoot), '/')
   },
   resolve: {
     extensions: ['', '.js'],
@@ -48,7 +48,7 @@ module.exports = {
       test: /\.(png|jpg|gif|svg|woff2?|eot|ttf)(\?.*)?$/,
       loader: 'url',
       query: {
-        limit: 100,
+        limit: 1,
         name: '[path][name].[ext]?[hash:7]'
       }
     }]

@@ -3,7 +3,7 @@
     "name": "npm script template",
     "script": "server/app.js",
     "watch": ["server"],
-    "ignore_watch": ["node_modules", "log", "static", "upload"],
+    "ignore_watch": ["node_modules", "log", "client", "upload"],
     "watch_options": {
       "followSymlinks": false
     },
