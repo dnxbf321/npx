@@ -1,9 +1,10 @@
 var scp = require('scp2')
 var glob = require('glob')
 var extend = require('extend')
+var colors = require('colors')
 var fs = require('fs')
 var path = require('path')
-var config = require('../config.json')
+var config = require('../../config.json')
 
 var codePath = process.cwd()
 var remotePath = config.ftp.remotePath
@@ -46,7 +47,7 @@ function step() {
         console.error(err)
         reject()
       } else {
-        console.log('[task ftp] ' + local + ' => ' + remote)
+        console.log(colors.bgCyan.bold('[task upload] '), local + ' => ' + remote)
         resolve()
       }
     })
@@ -61,7 +62,7 @@ function run() {
         return run()
       } else {
         client.close()
-        console.log('[task ftp] done in ' + (Date.now() - time) / 1000 + 's')
+        console.log(colors.bgCyan.bold('[task upload] '), 'done in ' + (Date.now() - time) / 1000 + 's')
       }
     })
 }

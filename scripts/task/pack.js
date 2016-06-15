@@ -3,21 +3,23 @@ var path = require('path')
 var fs = require('fs')
 var mkdirp = require('mkdirp')
 var moment = require('moment')
+var colors = require('colors')
 
 var codePath = process.cwd()
 
 var packageConfig = require(path.join(codePath, 'package.json'))
 
-mkdirp.sync(path.join(codePath, 'zip'))
+mkdirp(path.join(codePath, 'zip'))
 
 function pack(zipName, patterns, ctx) {
   patterns = [].concat(patterns)
 
   var zip = archiver.create('zip')
-  var output = fs.createWriteStream(path.join(codePath, 'zip', moment().format('YYYY-MM-DD HH/mm/ss') + '_' + packageConfig.name + '-' + zipName))
+  var outputFilename = moment().format('YYYY-MM-DD HH-mm-ss') + '_' + packageConfig.name + '-' + zipName
+  var output = fs.createWriteStream(path.join(codePath, 'zip', outputFilename))
   output.on('close', function() {
-    console.log(zip.pointer() + ' total bytes')
-    console.log('archiver has been finalized and the output file descriptor has closed.')
+    console.log(colors.bgCyan.bold('[task pack] '), zip.pointer() + ' total bytes')
+    console.log(colors.bgCyan.bold('[task pack] '), outputFilename + ' has been finalized and the output file descriptor has closed.')
   })
   zip.on('error', function(err) {
     throw err;

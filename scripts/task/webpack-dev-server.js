@@ -1,8 +1,10 @@
 var koa = require('koa')
 var staticServe = require('koa-static')
 var webpack = require('webpack')
+var webpackConnectHistoryApiFallback = require('koa-connect-history-api-fallback')
 var webpackMiddleware = require('koa-webpack-dev-middleware')
 var cssMiddleware = require('koa-postcss-middleware')
+var colors = require('colors')
 var path = require('path')
 var wpConfig = require('../conf/webpack-dev-conf')
 var config = require('../../config.json')
@@ -11,6 +13,8 @@ var codePath = process.cwd()
 
 var app = koa()
 var compiler = webpack(wpConfig)
+
+app.use(webpackConnectHistoryApiFallback())
 
 app.use(webpackMiddleware(compiler, {
   noInfo: false,
@@ -38,13 +42,20 @@ app.use(cssMiddleware({
 }))
 
 // serve pure static assets
+app.use(function*(next) {
+  var isStaticFile = /\.(js|css|png|jpg|gif|ico|woff|ttf|svg|eot)/.test(path.extname(this.req.path))
+  if (isStaticFile) {
+    this.res.setHeader('Access-Control-Allow-Origin', '*');
+  }
+  yield next
+})
 app.use(staticServe(path.join(codePath, 'client/dist/')))
 
 var PORT = config['default'].client.port
 module.exports = app.listen(PORT, function(err) {
   if (err) {
-    console.log(err)
+    console.log(colors.bgRed('[task serve-client] '), colors.red(err))
     return
   }
-  console.log('static files on port: ' + PORT)
+  console.log(colors.bgCyan.bold('[task serve-client] '), 'static files on port: ' + PORT)
 })
