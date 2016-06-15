@@ -53,6 +53,17 @@ http://127.0.0.1:8080/static/css/style.css
 
 修改 config.json 文件，将配置分别填入 experiment、production 中，没有声明的项使用 default 项
 
+
+# 如何升级我的项目
+
+step 1: 查看日志
+
+step 2: 下载。下载此项目文件到你的电脑
+
+step 3: 覆盖。使用新的文件覆盖 scripts 文件夹
+
+step 4: 合并。合并其他根目录下的文件及 server/config.js, server/server.js
+
 ## change log
 
 ### v1.4.2
