@@ -12,7 +12,7 @@ module.exports = {
   output: {
     filename: '[name].js',
     path: path.join(codePath, 'client/dist/static'),
-    publicPath: path.join(JSON.parse(definition().server.staticRoot), '/')
+    publicPath: path.join(JSON.parse(definition().server.staticRoot), '/').replace(/(\:\/)[^\/]/i, '://')
   },
   resolve: {
     extensions: ['', '.js'],
