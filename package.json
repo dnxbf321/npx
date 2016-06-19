@@ -11,6 +11,7 @@
   "author": "Jason Deng",
   "license": "MIT",
   "scripts": {
+    "help": "node scripts/task/help.js",
     "dev": "npm-run-all pre --parallel asset image serve-client serve-dev-log",
     "build-dev": "npm-run-all pre asset webpack-dev postcss image-tiny",
     "build-exp": "npm-run-all pre asset webpack-exp postcss image-tiny",
