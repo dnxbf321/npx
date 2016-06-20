@@ -3,8 +3,9 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var path = require('path')
 var codePath = process.cwd()
 var projectRoot = path.join(codePath, 'client/static')
-var entry = require('./webpack-entry')(projectRoot)
+var entry = require('./webpack-entry')
 var definition = require('./webpack-definition')
+var htmlPlugins = require('./webpack-html-plugins')
 
 module.exports = {
   context: projectRoot,
@@ -29,7 +30,7 @@ module.exports = {
       test: /\.(js|vue)$/,
       loader: 'eslint',
       include: projectRoot,
-      exclude: /node_modules|build/
+      exclude: /node_modules/
     }],
     loaders: [{
       test: /\.js$/,
@@ -50,6 +51,13 @@ module.exports = {
       query: {
         limit: 1,
         name: '[path][name].[ext]?[hash:7]'
+      }
+    }, {
+      test: /\.hbs$/,
+      loader: 'handlebars',
+      query: {
+        helperDirs: [path.join(__dirname, '../../client/static/js/hbs-helper'), path.join(__dirname, '../helper')],
+        partialDirs: [path.join(__dirname, '../../client/static/html/partial')]
       }
     }]
   },
@@ -78,7 +86,10 @@ module.exports = {
     }
   },
   plugins: [
+    new webpack.IgnorePlugin(/vertx/),
     new webpack.DefinePlugin(definition()),
-    new ExtractTextPlugin('[name].css')
-  ]
+    new webpack.optimize.CommonsChunkPlugin('js/common.js'),
+    new ExtractTextPlugin('[name].css'),
+    new webpack.optimize.OccurenceOrderPlugin()
+  ].concat(htmlPlugins)
 }

@@ -10,13 +10,10 @@ Object.keys(baseConfig.entry).forEach(function(name) {
 module.exports = merge(baseConfig, {
   devtool: '#eval-source-map',
   output: {
-  	publicPath: '/static/'
+    publicPath: '/static/'
   },
   plugins: [
-    new webpack.IgnorePlugin(/vertx/),
-    new webpack.optimize.CommonsChunkPlugin('js/common.js'),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin(),
-    new webpack.optimize.OccurenceOrderPlugin()
+    new webpack.NoErrorsPlugin()
   ]
 })

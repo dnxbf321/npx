@@ -4,6 +4,9 @@ node 项目模板。技术采用 koa 作为 server 端框架，用 webpack 打�
 
 ## 使用
 ```bash
+# 查看帮助
+npm run help
+
 # 开发环境运行项目
 npm run dev
 
@@ -51,7 +54,7 @@ http://127.0.0.1:8080/static/css/style.css
 
 ## 配置不同环境下的变量
 
-修改 config.json 文件，将配置分别填入 experiment、production 中，没有声明的项使用 default 项
+修改 [config.json](https://github.com/dnxbf321/node-project-template/blob/master/config.json) 文件，将配置分别填入 experiment、production 中，没有声明的项使用 default 项
 
 
 # 如何升级我的项目
@@ -62,9 +65,24 @@ step 2: 下载。下载此项目文件到你的电脑
 
 step 3: 覆盖。使用新的文件覆盖 scripts 文件夹
 
-step 4: 合并。合并其他根目录下的文件及 server/config.js, server/server.js
+step 4: 合并。合并其他根目录下的文件及 [server/config.js](https://github.com/dnxbf321/node-project-template/blob/master/server/config.js), [server/server.js](https://github.com/dnxbf321/node-project-template/blob/master/server/server.js)
+
+# 纯静态项目 html 怎么处理
+
+1. v1.4.3 版本以上版本支持 .html .hbs（handlebars模板文件）文件的处理。
+
+2. [client/static/html](https://github.com/dnxbf321/node-project-template/blob/master/client/static/html) 为 .html .hbs 文件的存储目录
+
+3. handlebars 的 helper 应放置在 [client/static/js/hbs-helper](https://github.com/dnxbf321/node-project-template/blob/master/client/static/js/hbs-helper) 中
+
+4. 通过 `{{config 'key1.key1-2'}}` 将 config 中定义的变量输出到 html 中。如：`{{config 'client.port'}}` 得到 `8080`
+
+使用方法可参考 [client/static/html/hbs-test.hbs](https://github.com/dnxbf321/node-project-template/blob/master/client/static/html/hbs-test.html)
 
 ## change log
+
+### v1.4.3
+- 支持纯静态项目 html 的处理
 
 ### v1.4.2
 - 支持 vue
@@ -97,5 +115,5 @@ step 4: 合并。合并其他根目录下的文件及 server/config.js, server/s
 - scss 自动编译成 css 文件并执行 autoprefixer，文件名以 _ 开头不会进行编译；开发阶段，无需预编译 scss 文件，程序将在请求时输出编译的文本
 - 图片自动优化压缩；开发阶段，图片只复制到 dist 目录
 - js 支持 ecmascript 6 语法，支持 sourcemap，支持 uglify；开发阶段，js 将编译到内存中，并不会生成真实可见的文件
-- 如果你有其他类型的文件，放在 client/asset 目录中，编译时将原封不懂的复制到 dist 目录且保留文件夹结构
+- 如果你有其他类型的文件，放在 [client/asset](https://github.com/dnxbf321/node-project-template/blob/master/client/asset) 目录中，编译时将原封不懂的复制到 dist 目录且保留文件夹结构
 - 完整的 koa 后台服务示例

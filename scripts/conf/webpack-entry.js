@@ -1,15 +1,15 @@
 var path = require('path')
 var glob = require('glob')
+var projectRoot = path.join(process.cwd(), 'client/static')
 
-module.exports = function(ctx) {
-  var entries = glob.sync(ctx + '/**/*.wp.js', {
-    cwd: ctx
-  })
-  var ret = {}
-  entries.forEach(function(it) {
-    var filePath = path.relative(ctx, it)
-    var entryName = filePath.slice(0, -6)
-    ret[entryName] = './' + filePath
-  })
-  return ret
-}
+var ret = {}
+var entries = glob.sync(projectRoot + '/**/*.wp.js', {
+  cwd: projectRoot
+})
+entries.forEach(function(it) {
+  var filePath = path.relative(projectRoot, it)
+  var entryName = filePath.slice(0, -6)
+  ret[entryName] = './' + filePath
+})
+
+module.exports = ret

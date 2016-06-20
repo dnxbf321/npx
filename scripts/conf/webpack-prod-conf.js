@@ -13,13 +13,10 @@ module.exports = merge(baseConfig, {
     chunkFilename: '[id].js'
   },
   plugins: [
-    new webpack.IgnorePlugin(/vertx/),
-    new webpack.optimize.CommonsChunkPlugin('js/common.js'),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false
       }
-    }),
-    new webpack.optimize.OccurenceOrderPlugin()
+    })
   ]
 })
