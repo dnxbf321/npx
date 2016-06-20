@@ -2,6 +2,11 @@
 
 node 项目模板。技术采用 koa 作为 server 端框架，用 webpack 打包 js，imagemin 压缩处理图片，postcss 编译样式文件。client 端、node 端均可直接使用 ECMAScript 6 语法，转换过程就交给 Babel 自动完成吧。
 
+# 安装
+```bash
+git clone https://github.com/dnxbf321/node-project-template.git
+```
+
 ## 使用
 ```bash
 # 查看帮助
