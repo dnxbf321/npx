@@ -16,7 +16,8 @@ module.exports = merge(baseConfig, {
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false
-      }
+      },
+      exclude: /node_modules/
     })
   ]
 })

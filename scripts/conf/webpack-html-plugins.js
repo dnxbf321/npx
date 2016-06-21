@@ -9,6 +9,22 @@ for (var name in chunks) {
   chunkNames.push(name)
 }
 
+var minify = {
+  // 行内元素内容至多保留一个空格
+  collapseBooleanAttributes: true, // disabled="disabled" => disabled
+  collapseInlineTagWhitespace: true, // display:inline element collapseWhitespace=true
+  collapseWhitespace: true, // <div> <p>    foo </p>    </div> => <div><p>foo</p></div>
+  conservativeCollapse: true, // collapse to 1 space (never remove it entirely)
+  preserveLineBreaks: true, // collapse to 1 line break (never remove it entirely)
+
+  quoteCharacter: '"',
+
+  removeComments: true, // 删除注释
+  removeScriptTypeAttributes: true, // remove type="text/javascript"
+  removeStyleLinkTypeAttributes: true, // remove type="text/css"
+  useShortDoctype: true // html5 doctype
+}
+
 var htmlsInFolders = glob.sync('!(partial)/**/*', {
   cwd: projectRoot + '/static/html'
 })
@@ -29,6 +45,7 @@ all.forEach(function(it) {
   plugin.filename = withoutExt + '.html'
   plugin.template = 'static/html/' + it
   plugin.inject = true
+  plugin.minify = minify
   if (chunkMatch) {
     plugin.chunks = ['static/js/common.js', chunkMatch]
   } else {
