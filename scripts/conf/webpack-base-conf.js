@@ -1,9 +1,21 @@
 var webpack = require('webpack')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
+
 var path = require('path')
+
 var entry = require('./webpack-entry')
 var definition = require('./webpack-definition')
 var htmlPlugins = require('./webpack-html-plugins')
+
+var precss = require('precss')
+var autoprefixer = require('autoprefixer')
+var cssnano = require('cssnano')
+var postcssConf = require('./postcss.json')
+var postcssPlugins = [
+  precss(postcssConf.precss || {}),
+  autoprefixer(postcssConf.autoprefixer || {}),
+  cssnano(postcssConf.cssnano || {})
+]
 
 var codePath = process.cwd()
 var projectRoot = path.join(codePath, 'client')
@@ -61,6 +73,9 @@ module.exports = {
         helperDirs: [path.join(staticRoot, 'js/hbs-helper'), path.join(__dirname, '../helper')],
         partialDirs: [path.join(staticRoot, 'html/partial')]
       }
+    }, {
+      test: /\.css$/,
+      loader: 'style!css!postcss'
     }]
   },
   eslint: {
@@ -73,20 +88,13 @@ module.exports = {
   },
   vue: {
     postcss: {
-      plugins: [
-        require('precss'),
-        require('autoprefixer')({
-          browsers: ['last 2 versions', '> 5%', 'safari >= 5', 'ie >= 8', 'opera >= 12', 'Firefox ESR', 'iOS >= 6', 'android >= 4']
-        }),
-        require('cssnano')({
-          safe: true
-        })
-      ]
+      plugins: postcssPlugins
     },
     loaders: {
       css: ExtractTextPlugin.extract('vue-style-loader', ['css-loader'])
     }
   },
+  postcss: postcssPlugins,
   plugins: [
     new webpack.IgnorePlugin(/vertx/),
     new webpack.DefinePlugin(definition()),

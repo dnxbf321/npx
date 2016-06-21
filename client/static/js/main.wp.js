@@ -1,5 +1,5 @@
 import img from '../img/cover2.png'
-// import '../css/style.css'
+import '../css/style.css'
 
 console.log(server.keywords)
 
