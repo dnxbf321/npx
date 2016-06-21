@@ -43,6 +43,7 @@ client/asset                        | client/dist/static         | 拷贝
 client/static/css/\*\*/[^_]\*.css   | client/dist/static/css     | postcss 编译，配置见 scripts/conf/postcss.json
 client/static/js/\*\*/\*.wp.js      | client/dist/static/js      | webpack 打包，配置见 scripts/conf/webpack\*.js
 client/static/img/\*\*/\*           | client/dist/static/img     | 开发环境拷贝，正式环境拷贝并压缩
+client/static/html/!(partial)/\*\*/\*, client/static/html/\*.@(html或hbs) | client/dist | 模板处理
 
 ## 访问静态资源
 
