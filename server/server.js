@@ -65,7 +65,7 @@ app.use(hbs.middleware({
 
 // Locals: config.json => global
 app.use(function*(next) {
-  this.state.global = config.server
+  this.state.global = config
   yield next
 })
 

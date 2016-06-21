@@ -1,19 +1,21 @@
 var webpack = require('webpack')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var path = require('path')
-var codePath = process.cwd()
-var projectRoot = path.join(codePath, 'client/static')
 var entry = require('./webpack-entry')
 var definition = require('./webpack-definition')
 var htmlPlugins = require('./webpack-html-plugins')
+
+var codePath = process.cwd()
+var projectRoot = path.join(codePath, 'client')
+var staticRoot = path.join(projectRoot, 'static')
 
 module.exports = {
   context: projectRoot,
   entry: entry,
   output: {
     filename: '[name].js',
-    path: path.join(codePath, 'client/dist/static'),
-    publicPath: path.join(JSON.parse(definition().server.staticRoot), '/').replace(/\:\/([^\/])/i, '://$1')
+    path: path.join(codePath, 'client/dist'),
+    publicPath: path.join(JSON.parse(definition().client.publicPath), '/').replace(/\:\/([^\/])/i, '://$1')
   },
   resolve: {
     extensions: ['', '.js'],
@@ -29,18 +31,18 @@ module.exports = {
     preLoaders: [{
       test: /\.(js|vue)$/,
       loader: 'eslint',
-      include: projectRoot,
+      include: staticRoot,
       exclude: /node_modules/
     }],
     loaders: [{
       test: /\.js$/,
       loader: 'babel',
-      include: projectRoot,
+      include: staticRoot,
       exclude: /node_modules/
     }, {
       test: /\.vue$/,
       loader: 'vue',
-      include: projectRoot,
+      include: staticRoot,
       exclude: /node_modules/
     }, {
       test: /\.json$/,
@@ -56,8 +58,8 @@ module.exports = {
       test: /\.hbs$/,
       loader: 'handlebars',
       query: {
-        helperDirs: [path.join(__dirname, '../../client/static/js/hbs-helper'), path.join(__dirname, '../helper')],
-        partialDirs: [path.join(__dirname, '../../client/static/html/partial')]
+        helperDirs: [path.join(staticRoot, 'js/hbs-helper'), path.join(__dirname, '../helper')],
+        partialDirs: [path.join(staticRoot, 'html/partial')]
       }
     }]
   },
@@ -88,7 +90,7 @@ module.exports = {
   plugins: [
     new webpack.IgnorePlugin(/vertx/),
     new webpack.DefinePlugin(definition()),
-    new webpack.optimize.CommonsChunkPlugin('js/common.js'),
+    new webpack.optimize.CommonsChunkPlugin('static/js/common.js'),
     new ExtractTextPlugin('[name].css'),
     new webpack.optimize.OccurenceOrderPlugin()
   ].concat(htmlPlugins)

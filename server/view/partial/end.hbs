@@ -1,7 +1,7 @@
 {{#if script}}
-	<script src="{{global.staticRoot}}/jquery.js?v={{global.version}}"></script>
-	<script src="{{global.staticRoot}}/js/common.js?v={{global.version}}"></script>
-	<script src="{{global.staticRoot}}{{script}}?v={{global.version}}"></script>
+	<script src="{{global.client.publicPath}}/static/jquery.js?v={{global.version}}"></script>
+	<script src="{{global.client.publicPath}}/static/js/common.js?v={{global.version}}"></script>
+	<script src="{{global.client.publicPath}}{{script}}?v={{global.version}}"></script>
 {{/if}}
 </body>
 </html>

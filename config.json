@@ -7,26 +7,30 @@
     "remotePath": "/home/frontend/workspace/node-project-template"
   },
   "default": {
+    "version": 1461547380716,
     "client": {
-      "port": 8080
+      "port": 8080,
+      "publicPath": "http://127.0.0.1:8080"
     },
     "server": {
       "port": 8090,
-      "staticRoot": "http://127.0.0.1:8080/static",
-      "version": 1461547380716,
       "keywords": "default keywords",
       "description": ""
     }
   },
   "experiment": {
+    "client": {
+      "publicPath": "http://127.0.0.1:8090"
+    },
     "server": {
-      "staticRoot": "http://127.0.0.1:8090/static",
       "keywords": "experiment keywords"
     }
   },
   "production": {
+    "client": {
+      "publicPath": "http://127.0.0.1:8090"
+    },
     "server": {
-      "staticRoot": "http://127.0.0.1:8090/static",
       "keywords": "production keywords"
     }
   }

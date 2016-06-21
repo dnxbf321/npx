@@ -37,7 +37,7 @@ app.use(function*(next) {
 
 // use css middleware
 app.use(cssMiddleware({
-  src: path.join(codePath, 'client/static'),
+  src: path.join(codePath, 'client'),
   publicPath: wpConfig.output.publicPath
 }))
 
