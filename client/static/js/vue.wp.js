@@ -1,3 +1,6 @@
+/**
+ * @module vue example
+ */
 import aCom from './component/a.vue'
 import Vue from 'vue'
 new Vue({

@@ -1,6 +1,9 @@
 var webpack = require('webpack')
 var merge = require('webpack-merge')
+var path = require('path')
+var JsDocPlugin = require('jsdoc-webpack-plugin')
 var baseConfig = require('./webpack-base-conf')
+var jsdocConfig = require('../../jsdoc.json')
 
 var SOURCE_MAP = false
 
@@ -19,5 +22,8 @@ module.exports = merge(baseConfig, {
       },
       exclude: /node_modules/
     })
-  ]
+  ].concat(jsdocConfig.enable ?
+    new JsDocPlugin({
+      conf: './jsdoc.json'
+    }) : [])
 })
