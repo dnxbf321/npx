@@ -7,6 +7,17 @@ node 项目模板。技术采用 koa 作为 server 端框架，用 webpack 打�
 git clone https://github.com/dnxbf321/node-project-template.git
 ```
 
+# 升级
+
+step 1: 查看日志
+
+step 2: 下载。下载此项目文件到你的电脑
+
+step 3: 覆盖。使用新的文件覆盖 scripts 文件夹
+
+step 4: 合并。合并其他根目录下的文件及 [server/config.js](https://github.com/dnxbf321/node-project-template/blob/master/server/config.js), [server/server.js](https://github.com/dnxbf321/node-project-template/blob/master/server/server.js)
+
+
 ## 使用
 ```bash
 # 查看帮助
@@ -63,16 +74,6 @@ http://127.0.0.1:8080/static/css/style.css
 修改 [config.json](https://github.com/dnxbf321/node-project-template/blob/master/config.json) 文件，将配置分别填入 experiment、production 中，没有声明的项使用 default 项
 
 
-# 如何升级我的项目
-
-step 1: 查看日志
-
-step 2: 下载。下载此项目文件到你的电脑
-
-step 3: 覆盖。使用新的文件覆盖 scripts 文件夹
-
-step 4: 合并。合并其他根目录下的文件及 [server/config.js](https://github.com/dnxbf321/node-project-template/blob/master/server/config.js), [server/server.js](https://github.com/dnxbf321/node-project-template/blob/master/server/server.js)
-
 # 纯静态项目 html 怎么处理
 
 1. v1.4.3 版本以上版本支持 .html .hbs（handlebars模板文件）文件的处理。
@@ -86,6 +87,9 @@ step 4: 合并。合并其他根目录下的文件及 [server/config.js](https:/
 使用方法可参考 [client/static/html/hbs-test.hbs](https://github.com/dnxbf321/node-project-template/blob/master/client/static/html/hbs-test.html)
 
 ## change log
+
+### v1.4.4
+- 增加 css 代码风格检查，参见 [css rules](https://github.com/stylelint/stylelint-config-standard#suggested-additions)
 
 ### v1.4.3
 - 支持纯静态项目 html 的处理

@@ -7,11 +7,15 @@ var entry = require('./webpack-entry')
 var definition = require('./webpack-definition')
 var htmlPlugins = require('./webpack-html-plugins')
 
+var postcssEasyImport = require('postcss-easy-import')
+var stylelint = require('stylelint')
 var precss = require('precss')
 var autoprefixer = require('autoprefixer')
 var cssnano = require('cssnano')
 var postcssConf = require('./postcss.json')
 var postcssPlugins = [
+  postcssEasyImport(postcssConf['postcss-easy-import'] || {}),
+  stylelint(postcssConf.stylelint || {}),
   precss(postcssConf.precss || {}),
   autoprefixer(postcssConf.autoprefixer || {}),
   cssnano(postcssConf.cssnano || {})
