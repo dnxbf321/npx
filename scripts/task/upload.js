@@ -17,7 +17,7 @@ var options = {
 
 var client = new scp.Client(options)
 var paths = []
-var patterns = ['*', '.*']
+var patterns = config.ftp.patterns || ['*', '.*']
 var idx = 0
 var time = Date.now()
 
@@ -33,10 +33,14 @@ function step() {
   var local = path.resolve(codePath, paths[idx])
   var remote
   var stats = fs.statSync(local)
-  if (stats.isFile()) {
-    remote = path.dirname(path.resolve(remotePath, paths[idx]))
-  } else if (stats.isDirectory()) {
-    remote = path.resolve(remotePath, paths[idx])
+  if (config.ftp.keepFinder) {
+    if (stats.isFile()) {
+      remote = path.dirname(path.resolve(remotePath, paths[idx]))
+    } else if (stats.isDirectory()) {
+      remote = path.resolve(remotePath, paths[idx])
+    }
+  } else {
+    remote = remotePath
   }
 
   return new Promise(function(resolve, reject) {
