@@ -15,3 +15,7 @@ html {
 .t {
   font-size: responsive 12px 20px;
 }
+
+body {
+  background: resolve(cover2.png);
+}
