@@ -11,3 +11,7 @@ html {
     flex: 1;
   }
 }
+
+.t {
+  font-size: responsive 12px 20px;
+}

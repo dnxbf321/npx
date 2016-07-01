@@ -3,23 +3,10 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 var path = require('path')
 
-var entry = require('./webpack-entry')
-var definition = require('./webpack-definition')
-var htmlPlugins = require('./webpack-html-plugins')
-
-var postcssEasyImport = require('postcss-easy-import')
-var stylelint = require('stylelint')
-var precss = require('precss')
-var autoprefixer = require('autoprefixer')
-var cssnano = require('cssnano')
-var postcssConf = require('./postcss.json')
-var postcssPlugins = [
-  postcssEasyImport(postcssConf['postcss-easy-import'] || {}),
-  stylelint(postcssConf.stylelint || {}),
-  precss(postcssConf.precss || {}),
-  autoprefixer(postcssConf.autoprefixer || {}),
-  cssnano(postcssConf.cssnano || {})
-]
+var entry = require('../util/webpack-entry')
+var definition = require('../util/webpack-definition')
+var htmlPlugins = require('../util/webpack-html-plugins')
+var postcssPlugins = require('../util/postcss-plugins')
 
 var codePath = process.cwd()
 var projectRoot = path.join(codePath, 'client')

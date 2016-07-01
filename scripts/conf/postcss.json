@@ -1,5 +1,5 @@
 {
-  "use": ["postcss-easy-import", "stylelint", "precss", "autoprefixer", "cssnano", "postcss-reporter"],
+  "use": ["postcss-easy-import", "stylelint", "precss", "rucksack-css", "autoprefixer", "cssnano", "postcss-reporter"],
   "postcss-easy-import": {
     "prefix": "_"
   },
@@ -13,6 +13,9 @@
     "import": {
       "disable": true
     }
+  },
+  "rucksack-css": {
+    "fallbacks": true
   },
   "autoprefixer": {
     "browsers": ["last 2 versions", "> 5%", "safari >= 5", "ie >= 8", "opera >= 12", "Firefox ESR", "iOS >= 6", "android >= 4"]
