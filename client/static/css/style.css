@@ -1,6 +1,8 @@
 @import 'base/index';
 
 html {
+  font-size: 16px;
+
   color: #000;
   background: #fff;
 }
@@ -13,7 +15,7 @@ html {
 }
 
 .t {
-  font-size: responsive 12px 20px;
+  font-size: 16px;
 }
 
 body {

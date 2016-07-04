@@ -6,7 +6,7 @@ var env = process.env.NODE_ENV || 'production'
 var envConfig = extend(true, {}, config['default'], config[env])
 
 module.exports = {
-  use: ['postcss-easy-import', 'stylelint', 'precss', 'rucksack-css', 'postcss-assets', 'autoprefixer', 'cssnano', 'postcss-reporter'],
+  use: ['postcss-easy-import', 'stylelint', 'precss', 'postcss-pxtorem', 'rucksack-css', 'postcss-assets', 'autoprefixer', 'cssnano', 'postcss-reporter'],
   'postcss-easy-import': {
     prefix: '_'
   },
@@ -20,6 +20,9 @@ module.exports = {
     import: {
       disable: true
     }
+  },
+  'postcss-pxtorem': {
+    selectorBlackList: [/^html$/]
   },
   'rucksack-css': {
     fallbacks: true

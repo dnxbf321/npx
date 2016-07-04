@@ -3,9 +3,9 @@ var staticServe = require('koa-static')
 var webpack = require('webpack')
 var webpackConnectHistoryApiFallback = require('koa-connect-history-api-fallback')
 var webpackDevMiddleware = require('koa-webpack-dev-middleware')
-var cssMiddleware = require('../util/koa-postcss-middleware')
 var colors = require('colors')
 var path = require('path')
+var cssMiddleware = require('../util/koa-postcss-middleware')
 var wpConfig = require('../conf/webpack-dev-conf')
 var config = require('../../config.json')
 
@@ -45,7 +45,7 @@ app.use(cssMiddleware({
 app.use(function*(next) {
   var isStaticFile = /\.(js|css|png|jpg|gif|ico|woff|ttf|svg|eot)/.test(path.extname(this.req.path))
   if (isStaticFile) {
-    this.res.setHeader('Access-Control-Allow-Origin', '*');
+    this.res.setHeader('Access-Control-Allow-Origin', '*')
   }
   yield next
 })
