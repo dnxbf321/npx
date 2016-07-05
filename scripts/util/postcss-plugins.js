@@ -1,3 +1,4 @@
+var extend = require('extend')
 var postcssEasyImport = require('postcss-easy-import')
 var stylelint = require('stylelint')
 var precss = require('precss')
@@ -6,17 +7,49 @@ var rucksackCss = require('rucksack-css')
 var postcssAssets = require('postcss-assets')
 var autoprefixer = require('autoprefixer')
 var cssnano = require('cssnano')
+var postcssRepoter = require('postcss-reporter')
 var postcssConf = require('../conf/postcss')
+var config = require('../../config.json')
 
-var postcssPlugins = [
-  postcssEasyImport(postcssConf['postcss-easy-import'] || {}),
-  stylelint(postcssConf.stylelint || {}),
-  precss(postcssConf.precss || {}),
-  postcssPxtorem(postcssConf['postcss-pxtorem'] || {}),
-  rucksackCss(postcssConf['rucksack-css'] || {}),
-  postcssAssets(postcssConf['postcss-assets'] || {}),
-  autoprefixer(postcssConf.autoprefixer || {}),
-  cssnano(postcssConf.cssnano || {})
-]
+var enableConfig = extend({
+  'postcss-easy-import': true,
+  'stylelint': true,
+  'precss': true,
+  'postcss-pxtorem': true,
+  'rucksack-css': true,
+  'postcss-assets': true,
+  'autoprefixer': true,
+  'cssnano': true,
+  'postcss-reporter': true
+}, config['postcss'] || {})
 
-module.exports = postcssPlugins
+var plugins = []
+if (enableConfig['postcss-easy-import']) {
+  plugins.push(postcssEasyImport(postcssConf['postcss-easy-import'] || {}))
+}
+if (enableConfig['stylelint']) {
+  plugins.push(stylelint(postcssConf.stylelint || {}))
+}
+if (enableConfig['precss']) {
+  plugins.push(precss(postcssConf.precss || {}))
+}
+if (enableConfig['postcss-pxtorem']) {
+  plugins.push(postcssPxtorem(postcssConf['postcss-pxtorem'] || {}))
+}
+if (enableConfig['rucksack-css']) {
+  plugins.push(rucksackCss(postcssConf['rucksack-css'] || {}))
+}
+if (enableConfig['postcss-assets']) {
+  plugins.push(postcssAssets(postcssConf['postcss-assets'] || {}))
+}
+if (enableConfig['autoprefixer']) {
+  plugins.push(autoprefixer(postcssConf.autoprefixer || {}))
+}
+if (enableConfig['cssnano']) {
+  plugins.push(cssnano(postcssConf.cssnano || {}))
+}
+if (enableConfig['postcss-reporter']) {
+  plugins.push(postcssRepoter(postcssConf['postcss-reporter'] || {}))
+}
+
+module.exports = plugins

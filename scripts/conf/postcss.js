@@ -5,8 +5,23 @@ var config = require('../../config.json')
 var env = process.env.NODE_ENV || 'production'
 var envConfig = extend(true, {}, config['default'], config[env])
 
+var pluginList = [
+  'postcss-easy-import',
+  'stylelint',
+  'precss',
+  'postcss-pxtorem',
+  'rucksack-css',
+  'postcss-assets',
+  'autoprefixer',
+  'cssnano',
+  'postcss-reporter'
+]
+var usePlugins = pluginList.filter(function(pluginName) {
+  return config['postcss'][pluginName] === undefined ? true : !!config['postcss'][pluginName]
+})
+
 module.exports = {
-  use: ['postcss-easy-import', 'stylelint', 'precss', 'postcss-pxtorem', 'rucksack-css', 'postcss-assets', 'autoprefixer', 'cssnano', 'postcss-reporter'],
+  use: usePlugins,
   'postcss-easy-import': {
     prefix: '_'
   },

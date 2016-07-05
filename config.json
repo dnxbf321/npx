@@ -8,6 +8,7 @@
     "patterns": ["client/dist"],
     "keepFinder": true
   },
+  "postcss": {},
   "default": {
     "version": 1461547380716,
     "client": {
