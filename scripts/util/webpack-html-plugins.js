@@ -47,7 +47,7 @@ all.forEach(function(it) {
   plugin.inject = true
   plugin.minify = minify
   if (chunkMatch) {
-    plugin.chunks = ['static/js/common.js', chunkMatch]
+    plugin.chunks = ['static/js/common', chunkMatch]
   } else {
     plugin.chunks = []
   }

@@ -16,7 +16,7 @@ module.exports = {
   context: projectRoot,
   entry: entry,
   output: {
-    filename: '[name].js',
+    filename: '[name].js?[hash:7]',
     path: path.join(codePath, 'client/dist'),
     publicPath: path.join(JSON.parse(definition().client.publicPath), '/').replace(/\:\/([^\/])/i, '://$1')
   },
@@ -89,8 +89,10 @@ module.exports = {
   plugins: [
     new webpack.IgnorePlugin(/vertx/),
     new webpack.DefinePlugin(definition()),
-    new webpack.optimize.CommonsChunkPlugin('static/js/common.js'),
-    new ExtractTextPlugin('[name].css'),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'static/js/common'
+    }),
+    new ExtractTextPlugin('[name].css?[hash:7]'),
     new webpack.optimize.OccurenceOrderPlugin()
   ].concat(htmlPlugins)
 }
