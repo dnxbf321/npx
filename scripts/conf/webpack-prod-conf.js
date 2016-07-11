@@ -11,6 +11,7 @@ module.exports = merge(baseConfig, {
   stats: {
     children: false
   },
+  cache: false,
   devtool: SOURCE_MAP ? '#source-map' : false,
   output: {
     chunkFilename: '[id].js'

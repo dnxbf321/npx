@@ -8,6 +8,7 @@ Object.keys(baseConfig.entry).forEach(function(name) {
 })
 
 module.exports = merge(baseConfig, {
+  cache: true,
   devtool: '#eval-source-map',
   output: {
     publicPath: '/'

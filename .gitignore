@@ -5,3 +5,4 @@ client/dist
 test*
 zip*
 jsdoc/*
+tmp/*

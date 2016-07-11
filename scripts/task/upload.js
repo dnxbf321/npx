@@ -24,7 +24,7 @@ var time = Date.now()
 patterns.forEach(function(pattern) {
   var _paths = glob.sync(pattern, {
     cwd: codePath,
-    ignore: ['.git', '*.log*', 'node_modules', 'zip', 'log']
+    ignore: ['.git', '*.log*', 'node_modules', 'zip', 'log', 'tmp']
   })
   paths = paths.concat(_paths)
 })

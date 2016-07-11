@@ -1,5 +1,6 @@
 var webpack = require('webpack')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
+var HappyPack = require('happypack')
 
 var path = require('path')
 
@@ -41,12 +42,21 @@ module.exports = {
       test: /\.js$/,
       loader: 'babel',
       include: staticRoot,
-      exclude: /node_modules/
+      exclude: /node_modules/,
+      query: {
+        cacheDirectory: path.join(codePath, 'tmp')
+      },
+      happy: {
+        id: 'js'
+      }
     }, {
       test: /\.vue$/,
       loader: 'vue',
       include: staticRoot,
-      exclude: /node_modules/
+      exclude: /node_modules/,
+      happy: {
+        id: 'vue'
+      }
     }, {
       test: /\.json$/,
       loader: 'json'
@@ -66,7 +76,10 @@ module.exports = {
       }
     }, {
       test: /\.css$/,
-      loader: 'style!css!postcss'
+      loader: 'style!css!postcss',
+      happy: {
+        id: 'css'
+      }
     }]
   },
   eslint: {
@@ -89,6 +102,18 @@ module.exports = {
   plugins: [
     new webpack.IgnorePlugin(/vertx/),
     new webpack.DefinePlugin(definition()),
+    new HappyPack({
+      id: 'js',
+      tempDir: path.join(codePath, 'tmp')
+    }),
+    new HappyPack({
+      id: 'vue',
+      tempDir: path.join(codePath, 'tmp')
+    }),
+    new HappyPack({
+      id: 'css',
+      tempDir: path.join(codePath, 'tmp')
+    }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'static/js/common'
     }),
