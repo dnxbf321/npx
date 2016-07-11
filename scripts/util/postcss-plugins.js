@@ -13,13 +13,13 @@ var config = require('../../config.json')
 
 var enableConfig = extend({
   'postcss-easy-import': true,
-  'stylelint': true,
+  'stylelint': false,
   'precss': true,
   'postcss-pxtorem': true,
   'rucksack-css': true,
   'postcss-assets': true,
   'autoprefixer': true,
-  'cssnano': true,
+  'cssnano': false,
   'postcss-reporter': true
 }, config['postcss'] || {})
 
