@@ -1,92 +1,17 @@
 # node project template
 
-node 项目模板。技术采用 koa 作为 server 端框架，用 webpack 打包 js，imagemin 压缩处理图片，postcss 编译样式文件。client 端、node 端均可直接使用 ECMAScript 6 语法，转换过程就交给 Babel 自动完成吧。
+node-project-template 是一个集成 handlebars、vue、imagemin、postcss、ECMAScript 6、webpack、koa、scp 等技术于一体的构建前端项目的模板，提供了一套较为完整的打包流程。
 
-# 安装
-```bash
-git clone https://github.com/dnxbf321/node-project-template.git
-```
+通过编写 npm scripts 将命令行与任务结合在一起，开发测试将变得十分简便。
 
-# 升级
-
-step 1: 查看日志
-
-step 2: 下载。下载此项目文件到你的电脑
-
-step 3: 覆盖。使用新的文件覆盖 scripts 文件夹
-
-step 4: 合并。合并其他根目录下的文件及 [server/config.js](https://github.com/dnxbf321/node-project-template/blob/master/server/config.js), [server/server.js](https://github.com/dnxbf321/node-project-template/blob/master/server/server.js)
-
-
-## 使用
-```bash
-# 查看帮助
-npm run help
-
-# 开发环境运行项目
-npm run dev
-
-# 编译生产环境文件
-npm run build
-
-# 编译预发环境文件
-npm run build-exp
-
-# 生产环境启动服务
-npm run serve
-
-# 预发环境启动服务
-npm run serve-exp
-
-# 打包项目文件
-npm run pack
-
-# 部署代码到服务器
-npm run upload
-
-```
-
-## 编译路径
-
-源路径                               | 目的地                      | 中间过程
------------------------------------ | -------------------------- | ---------------------
-client/asset                        | client/dist/static         | 拷贝
-client/static/css/\*\*/[^_]\*.css   | client/dist/static/css     | postcss 编译，配置见 scripts/conf/postcss.json
-client/static/js/\*\*/\*.wp.js      | client/dist/static/js      | webpack 打包，配置见 scripts/conf/webpack\*.js
-client/static/img/\*\*/\*           | client/dist/static/img     | 开发环境拷贝，正式环境拷贝并压缩
-client/static/html/!(partial)/\*\*/\*, client/static/html/\*.@(html或hbs) | client/dist | 模板处理
-
-## 访问静态资源
-
-执行 `npm run dev` 时，js、css 并不会输出到 dist 目录，通过以下形式路径访问
-```
-// 8080 端口号在 /config.json 中 client.port 配置
-
-// main.js 原文件为 client/static/js/main.wp.js
-http://127.0.0.1:8080/static/js/main.js
-
-// style.css 原文件为 client/static/css/style.css
-http://127.0.0.1:8080/static/css/style.css
-```
-
-## 配置不同环境下的变量
-
-修改 [config.json](https://github.com/dnxbf321/node-project-template/blob/master/config.json) 文件，将配置分别填入 experiment、production 中，没有声明的项使用 default 项
-
-
-# 纯静态项目 html 怎么处理
-
-1. v1.4.3 版本以上版本支持 .html .hbs（handlebars模板文件）文件的处理。
-
-2. [client/static/html](https://github.com/dnxbf321/node-project-template/blob/master/client/static/html) 为 .html .hbs 文件的存储目录
-
-3. handlebars 的 helper 应放置在 [client/static/js/hbs-helper](https://github.com/dnxbf321/node-project-template/blob/master/client/static/js/hbs-helper) 中
-
-4. 通过 `{{config 'key1.key1-2'}}` 将 config 中定义的变量输出到 html 中。如：`{{config 'client.port'}}` 得到 `8080`
-
-使用方法可参考 [client/static/html/hbs-test.hbs](https://github.com/dnxbf321/node-project-template/blob/master/client/static/html/hbs-test.html)
+# [使用指南 Document](https://dnxbf321.gitbooks.io/node-project-template/content/)
 
 ## change log
+
+### v2.0.0
+- 功能已很完善
+- 优化 webpack 配置，提高 build 性能
+- 版本号将不需要手动更新，每次 build 都是新版本
 
 ### v1.4.4
 - 增加 css 代码风格检查，参见 [css rules](https://github.com/stylelint/stylelint-config-standard#suggested-additions)
