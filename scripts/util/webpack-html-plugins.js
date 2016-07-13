@@ -38,7 +38,7 @@ var plugins = []
 all.forEach(function(it) {
   var withoutExt = it.replace(path.extname(it), '')
   var chunkMatch = chunkNames.find(function(chunk) {
-    return chunk === 'static/js/' + withoutExt
+    return chunk === path.join('static/js', withoutExt)
   })
 
   var plugin = {}
