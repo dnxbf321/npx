@@ -50,6 +50,8 @@ app.use(function*(next) {
   yield next
 })
 app.use(staticServe(path.join(codePath, 'client/dist/')))
+app.use(staticServe(path.join(codePath, 'client/dist/static')))
+app.use(staticServe(path.join(codePath, 'client/assets/')))
 
 var PORT = config['default'].client.port
 module.exports = app.listen(PORT, function(err) {

@@ -26,7 +26,9 @@ module.exports = function() {
     'process.env': {
       NODE_ENV: env || 'production'
     }
-  }, defaultConfig, config[env] || {})
+  }, defaultConfig, config[env] || {}, {
+    version: Date.now()
+  })
   envConfig = formatDefinitions(envConfig)
   return envConfig
 }
