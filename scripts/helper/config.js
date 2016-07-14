@@ -9,7 +9,9 @@ module.exports = function(key) {
     'process.env': {
       NODE_ENV: env || 'production'
     }
-  }, defaultConfig, config[env] || {})
+  }, defaultConfig, config[env] || {}, {
+    version: Date.now()
+  })
   for (var i = 0, len = keyChain.length; i < len; i++) {
     v = v[keyChain[i]]
   }
