@@ -1,5 +1,4 @@
 var webpack = require('webpack')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var HappyPack = require('happypack')
 
 var path = require('path')
@@ -93,9 +92,6 @@ module.exports = {
   vue: {
     postcss: {
       plugins: postcssPlugins
-    },
-    loaders: {
-      css: ExtractTextPlugin.extract('vue-style-loader', ['css-loader'])
     }
   },
   postcss: postcssPlugins,
@@ -117,7 +113,6 @@ module.exports = {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'static/js/common'
     }),
-    new ExtractTextPlugin('[name].css?[hash:7]'),
     new webpack.optimize.OccurenceOrderPlugin()
   ].concat(htmlPlugins)
 }
