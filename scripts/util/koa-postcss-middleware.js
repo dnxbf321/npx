@@ -22,7 +22,8 @@ function middleware(options) {
 
     this.res.writeHead(200, {
       'Content-Type': 'text/css',
-      'Cache-Control': 'max-age=0'
+      'Cache-Control': 'max-age=0',
+      'Access-Control-Allow-Origin': '*'
     })
 
     var reqUrl = url.parse(this.req.url, true, true)

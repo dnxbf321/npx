@@ -43,7 +43,7 @@ app.use(cssMiddleware({
 
 // serve pure static assets
 app.use(function*(next) {
-  var isStaticFile = /\.(js|css|png|jpg|gif|ico|woff|ttf|svg|eot)/.test(path.extname(this.req.path))
+  var isStaticFile = /\.(js|css|png|jpg|gif|ico|woff|ttf|svg|eot)/.test(path.extname(this.req.url))
   if (isStaticFile) {
     this.res.setHeader('Access-Control-Allow-Origin', '*')
   }
