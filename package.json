@@ -1,6 +1,6 @@
 {
   "name": "node-project-template",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "workflows for front-end's project, use npm scripts and enjoy them",
   "main": "server/app.js",
   "homepage": "https://github.com/dnxbf321/node-project-template#readme",
