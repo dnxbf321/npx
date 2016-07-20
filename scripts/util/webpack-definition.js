@@ -1,5 +1,4 @@
-var extend = require('extend')
-var config = require('../../config.json')
+var getConfig = require('./config')
 
 function formatDefinitions(obj) {
   Object.keys(obj).forEach(function(k) {
@@ -20,15 +19,7 @@ function formatDefinitions(obj) {
 }
 
 module.exports = function() {
-  var env = process.env.NODE_ENV
-  var defaultConfig = config['default']
-  var envConfig = extend(true, {}, {
-    'process.env': {
-      NODE_ENV: env || 'production'
-    }
-  }, defaultConfig, config[env] || {}, {
-    version: Date.now()
-  })
+  var envConfig = getConfig()
   envConfig = formatDefinitions(envConfig)
   return envConfig
 }
