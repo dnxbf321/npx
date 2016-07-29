@@ -14,7 +14,7 @@ function writeCss(result) {
     mkdirp.sync(path.dirname(result.opts.to))
     fs.writeFileSync(result.opts.to, result.css)
     fs.writeFileSync(result.opts.to + '.map', result.map)
-    console.log(colors.bgGreen('[task postcss]'), ' ', 'css file write at ' + path.relative(projectRoot, result.opts.to))
+    console.log(colors.bgGreen('[task postcss]'), path.relative(projectRoot, result.opts.to))
   })
 }
 
@@ -26,7 +26,7 @@ module.exports = function(env) {
     nodir: true,
     cwd: path.join(projectRoot, 'client/static')
   })
-  console.log(csses)
+
   csses.forEach((it) => {
     var fromPath = path.join(projectRoot, 'client/static', it)
     var toPath = path.join(projectRoot, 'client/dist/static', it)
@@ -43,7 +43,7 @@ module.exports = function(env) {
         return writeCss(result)
       })
       .catch(function(err) {
-        console.log(colors.bgRed('[task postcss]'), ' ', err)
+        console.log(colors.bgRed('[task postcss]'), err)
       })
   })
 }

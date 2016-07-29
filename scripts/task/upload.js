@@ -58,7 +58,7 @@ function run() {
         return run()
       } else {
         client.close()
-        console.log(colors.bgCyan.bold('[task upload] '), 'done in ' + (Date.now() - time) / 1000 + 's')
+        console.log(colors.bgCyan.bold('[task upload]'), 'done in ' + (Date.now() - time) / 1000 + 's')
       }
     })
 }

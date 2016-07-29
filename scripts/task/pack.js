@@ -19,8 +19,8 @@ module.exports = function() {
     var outputFilename = moment().format('YYYY-MM-DD HH-mm-ss') + '_' + packageConfig.name + '-' + zipName
     var output = fs.createWriteStream(path.join(projectRoot, 'zip', outputFilename))
     output.on('close', function() {
-      console.log(colors.bgCyan.bold('[task pack]'), ' ', zip.pointer() + ' total bytes')
-      console.log(colors.bgCyan.bold('[task pack]'), ' ', outputFilename + ' has been finalized and the output file descriptor has closed.')
+      console.log(colors.bgCyan.bold('[task pack]'), zip.pointer() + ' total bytes')
+      console.log(colors.bgCyan.bold('[task pack]'), outputFilename + ' has been finalized and the output file descriptor has closed.')
     })
     zip.on('error', function(err) {
       throw err;

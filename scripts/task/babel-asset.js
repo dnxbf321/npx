@@ -38,18 +38,18 @@ module.exports = function(env) {
   assets.forEach(function(js) {
     babel.transformFile(path.join(projectRoot, 'client/asset', js), babelrc, function(err, result) {
       if (err) {
-        return console.log(colors.bgRed('[task babel-asset]'), ' ', err)
+        return console.log(colors.bgRed('[task babel-asset]'), err)
       }
 
       var dist = path.join(projectRoot, 'client/dist/static')
       rimraf(path.join(dist, js), {}, function() {})
       mkdirp(dist, function(err) {
         if (err) {
-          return console.log(colors.bgRed('[task babel-asset]'), ' ', err)
+          return console.log(colors.bgRed('[task babel-asset]'), err)
         }
         fs.writeFile(path.join(dist, js).replace('.bl.js', '.js'), result.code, function(err) {
           if (err) {
-            console.log(colors.bgRed('[task babel-asset]'), ' ', err)
+            console.log(colors.bgRed('[task babel-asset]'), err)
           }
         })
       })

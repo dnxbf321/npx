@@ -21,9 +21,9 @@ module.exports = function(env) {
   }
   webpack(conf, (err, stats) => {
     if (err) {
-      console.log(colors.bgRed('[task webpack]'), ' ', err)
+      console.log(colors.bgRed('[task webpack]'), err)
     } else {
-      console.log(colors.bgGreen('[task webpack]'), ' ', stats.toString('normal'))
+      console.log(colors.bgGreen('[task webpack]'), stats.toString('normal'))
     }
   })
 }

@@ -63,9 +63,9 @@ module.exports = function(env) {
   var PORT = config['default'].client.port
   app.listen(PORT, function(err) {
     if (err) {
-      console.log(colors.bgRed('[task serve-client]'), ' ', colors.red(err))
+      console.log(colors.bgRed('[task serve-client]'), colors.red(err))
       return
     }
-    console.log(colors.bgGreen.bold('[task serve-client]'), ' ', 'static files on port: ' + PORT)
+    console.log(colors.bgGreen.bold('[task serve-client]'), 'static files on port: ' + PORT)
   })
 }

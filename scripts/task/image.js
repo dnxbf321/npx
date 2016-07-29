@@ -13,9 +13,9 @@ function ncpImage() {
   return new Promise((resolve, reject) => {
     ncp(path.join(projectRoot, 'client/static/img'), path.join(projectRoot, 'client/dist/static/img'), function(err) {
       if (err) {
-        console.log(colors.bgRed('[task image]'), ' ', err)
+        console.log(colors.bgRed('[task image]'), err)
       } else {
-        console.log(colors.bgGreen('[task image]'), ' ', 'done ncp')
+        console.log(colors.bgGreen('[task image]'), 'done ncp')
         resolve()
       }
     })
@@ -23,7 +23,7 @@ function ncpImage() {
 }
 
 function optimizeImage() {
-  console.log(colors.bgGreen('[task image]'), ' ', 'start imagemin')
+  console.log(colors.bgGreen('[task image]'), 'start imagemin')
   imagemin([path.join(projectRoot, 'client/dist/static/img') + '/**/*.{jpg,png,svg}'], path.join(projectRoot, 'client/dist/static/img'), {
     plugins: [
       jpegtran(),
@@ -34,7 +34,7 @@ function optimizeImage() {
     ]
   })
     .then((imgs) => {
-      console.log(colors.bgGreen('[task image]'), ' ', 'done imagemin')
+      console.log(colors.bgGreen('[task image]'), 'done imagemin')
     })
 }
 
