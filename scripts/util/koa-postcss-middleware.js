@@ -3,13 +3,16 @@ var url = require('url')
 var fs = require('fs')
 var extend = require('extend')
 var postcss = require('postcss')
-var postcssPlugins = require('./postcss-plugins')
+var getPostcssPlugins = require('./postcss-plugins')
 
 function middleware(options) {
   options = extend(true, {
     src: process.cwd,
-    publicPath: ''
+    publicPath: '',
+    env: 'production'
   }, options)
+
+  var postcssPlugins = getPostcssPlugins(options.env)
 
   return function*(next) {
     var ctx = this

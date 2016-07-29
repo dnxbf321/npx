@@ -1,4 +1,4 @@
-var getConfig = require('./config')
+var getConfig = require('../util/config')
 
 function formatDefinitions(obj) {
   Object.keys(obj).forEach(function(k) {
@@ -18,8 +18,8 @@ function formatDefinitions(obj) {
   return obj
 }
 
-module.exports = function() {
-  var envConfig = getConfig()
+module.exports = function(env) {
+  var envConfig = getConfig(env)
   envConfig = formatDefinitions(envConfig)
   return envConfig
 }

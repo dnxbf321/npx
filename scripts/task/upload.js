@@ -21,14 +21,6 @@ var patterns = config.ftp.patterns || ['*', '.*']
 var idx = 0
 var time = Date.now()
 
-patterns.forEach(function(pattern) {
-  var _paths = glob.sync(pattern, {
-    cwd: codePath,
-    ignore: ['.git', '*.log*', 'node_modules', 'zip', 'log', 'tmp']
-  })
-  paths = paths.concat(_paths)
-})
-
 function step() {
   var local = path.resolve(codePath, paths[idx])
   var remote
@@ -71,8 +63,17 @@ function run() {
     })
 }
 
-client.mkdir(remotePath, function() {
-  if (paths.length) {
-    run()
-  }
-})
+module.exports = function() {
+  patterns.forEach(function(pattern) {
+    var _paths = glob.sync(pattern, {
+      cwd: codePath,
+      ignore: ['.git', '*.log*', 'node_modules', 'zip', 'log', 'tmp']
+    })
+    paths = paths.concat(_paths)
+  })
+  client.mkdir(remotePath, function() {
+    if (paths.length) {
+      run()
+    }
+  })
+}

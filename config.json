@@ -12,8 +12,8 @@
   "default": {
     "version": 1461547380716,
     "client": {
-      "port": 8080,
-      "publicPath": "http://127.0.0.1:8080"
+      "port": 9000,
+      "publicPath": "http://127.0.0.1:9000"
     },
     "server": {
       "port": 8090,
