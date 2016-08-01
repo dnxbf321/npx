@@ -9,11 +9,11 @@ var autoprefixer = require('autoprefixer')
 var cssnano = require('cssnano')
 var postcssRepoter = require('postcss-reporter')
 var getPostcssConf = require('./postcss-conf')
-var config = require('../../config.json')
+var getConfig = require('./config')
 
 module.exports = function(env) {
   var postcssConf = getPostcssConf(env)
-
+  var config = getConfig(env)
   var enableConfig = extend({
     'postcss-easy-import': true,
     'stylelint': false,

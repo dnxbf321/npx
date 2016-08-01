@@ -1,6 +1,6 @@
 var extend = require('extend')
 var path = require('path')
-var config = require('../../config.json')
+var getConfig = require('./config')
 
 var pluginList = [
   'postcss-easy-import',
@@ -15,8 +15,7 @@ var pluginList = [
 ]
 
 module.exports = function(env) {
-  env = env || 'production'
-  var envConfig = extend(true, {}, config['default'], config[env])
+  var config = getConfig(env)
 
   var usePlugins = pluginList.filter(function(pluginName) {
     return config['postcss'][pluginName] === undefined ? true : !!config['postcss'][pluginName]
@@ -47,8 +46,9 @@ module.exports = function(env) {
     'postcss-assets': {
       loadPaths: [path.join(process.cwd(), 'client/static/img')],
       basePath: 'client',
-      baseUrl: envConfig.client.publicPath,
-      cachebuster: true
+      baseUrl: config.client.publicPath,
+      cachebuster: true,
+      relative: true
     },
     autoprefixer: {
       browsers: ['last 2 versions', '> 5%', 'safari >= 5', 'ie >= 8', 'opera >= 12', 'Firefox ESR', 'iOS >= 6', 'android >= 4']

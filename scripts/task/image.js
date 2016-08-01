@@ -2,10 +2,6 @@ var path = require('path')
 var colors = require('colors')
 var ncp = require('ncp').ncp
 var mkdirp = require('mkdirp')
-var imagemin = require('imagemin')
-var jpegtran = require('imagemin-jpegtran')
-var optipng = require('imagemin-optipng')
-var svgo = require('imagemin-svgo')
 
 var projectRoot = process.cwd()
 

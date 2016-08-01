@@ -9,28 +9,28 @@ var htmlPlugins = require('./webpack-html-plugins')
 var getPostcssPlugins = require('../util/postcss-plugins')
 var babelrc = require('../util/babelrc')
 
-var codePath = process.cwd()
-var projectRoot = path.join(codePath, 'client')
-var staticRoot = path.join(projectRoot, 'static')
+var projectRoot = process.cwd()
+var contextPath = path.join(projectRoot, 'client')
+var staticRoot = path.join(contextPath, 'static')
 var cliRoot = path.join(__dirname, '../../')
 
 module.exports = function(env) {
   var postcssPlugins = getPostcssPlugins(env)
   var definition = getDefinition(env)
   return {
-    context: projectRoot,
+    context: contextPath,
     entry: entry,
     output: {
       filename: '[name].js?[hash:7]',
-      path: path.join(codePath, 'client/dist'),
+      path: path.join(projectRoot, 'client/dist'),
       publicPath: path.join(JSON.parse(definition.client.publicPath), '/').replace(/\:\/([^\/])/i, '://$1')
     },
     resolve: {
       extensions: ['', '.js'],
-      root: [path.join(codePath, 'node_modules'), path.join(cliRoot, 'node_modules')]
+      root: [path.join(projectRoot, 'node_modules'), path.join(cliRoot, 'node_modules')]
     },
     resolveLoader: {
-      root: [path.join(codePath, 'node_modules'), path.join(cliRoot, 'node_modules')]
+      root: [path.join(projectRoot, 'node_modules'), path.join(cliRoot, 'node_modules')]
     },
     module: {
       preLoaders: [{
@@ -82,6 +82,7 @@ module.exports = function(env) {
       }]
     },
     eslint: {
+      configFile: path.join(cliRoot, '.eslintrc.js'),
       formatter: require('eslint-friendly-formatter')
     },
     babel: babelrc,
@@ -96,15 +97,15 @@ module.exports = function(env) {
       new webpack.DefinePlugin(definition),
       new HappyPack({
         id: 'js',
-        tempDir: path.join(codePath, 'tmp')
+        tempDir: path.join(projectRoot, 'tmp')
       }),
       new HappyPack({
         id: 'vue',
-        tempDir: path.join(codePath, 'tmp')
+        tempDir: path.join(projectRoot, 'tmp')
       }),
       new HappyPack({
         id: 'css',
-        tempDir: path.join(codePath, 'tmp')
+        tempDir: path.join(projectRoot, 'tmp')
       }),
       new webpack.optimize.CommonsChunkPlugin({
         name: 'static/js/common'

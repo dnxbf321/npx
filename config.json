@@ -1,40 +1,17 @@
 {
   "ftp": {
-    "host": "10.31.74.103",
+    "host": "127.0.0.1",
     "port": 22,
     "username": "root",
-    "password": "First@2015++",
-    "remotePath": "/home/frontend/workspace/node-project-template",
-    "patterns": ["client/dist"],
+    "password": "password",
+    "remotePath": "/home/frontend/workspace",
     "keepFinder": true
   },
   "postcss": {},
   "default": {
-    "version": 1461547380716,
     "client": {
       "port": 9000,
-      "publicPath": "http://127.0.0.1:9000"
-    },
-    "server": {
-      "port": 8090,
-      "keywords": "default keywords",
-      "description": ""
-    }
-  },
-  "experiment": {
-    "client": {
-      "publicPath": "http://127.0.0.1:8090"
-    },
-    "server": {
-      "keywords": "experiment keywords"
-    }
-  },
-  "production": {
-    "client": {
-      "publicPath": "http://127.0.0.1:8090"
-    },
-    "server": {
-      "keywords": "production keywords"
+      "publicPath": "."
     }
   }
 }

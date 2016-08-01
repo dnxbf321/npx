@@ -9,7 +9,7 @@ var path = require('path')
 var aliasEnv = require('../util/alias-env')
 var cssMiddleware = require('../util/koa-postcss-middleware')
 var getWpConfig = require('../webpack-conf/webpack-dev-conf')
-var config = require('../../config.json')
+var getConfig = require('../util/config')
 
 var codePath = process.cwd()
 
@@ -17,6 +17,7 @@ module.exports = function(env) {
   env = aliasEnv(env)
 
   var wpConfig = getWpConfig(env)
+  var config = getConfig(env)
   var compiler = webpack(wpConfig)
   var app = koa()
 
@@ -60,7 +61,7 @@ module.exports = function(env) {
   app.use(staticServe(path.join(codePath, 'client/dist/static/')))
   app.use(staticServe(path.join(codePath, 'client/assets/')))
 
-  var PORT = config['default'].client.port
+  var PORT = config.client.port
   app.listen(PORT, function(err) {
     if (err) {
       console.log(colors.bgRed('[task serve-client]'), colors.red(err))

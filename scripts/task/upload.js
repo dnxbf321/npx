@@ -4,9 +4,10 @@ var extend = require('extend')
 var colors = require('colors')
 var fs = require('fs')
 var path = require('path')
-var config = require('../../config.json')
+var getConfig = require('../util/config')
 
 var codePath = process.cwd()
+var config = getConfig('development')
 var remotePath = config.ftp.remotePath
 var options = {
   port: 22,
