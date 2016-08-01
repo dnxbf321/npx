@@ -4,7 +4,7 @@ npx 是一个集成 ECMAScript 6、webpack、vue、postcss、koa、scp、handleb
 
 通过 npm scripts 将 npx 与项目结合在一起，开发测试将变得十分简便。
 
-# [使用指南 Document](https://dnxbf321.gitbooks.io/node-project-template/content/)
+# [使用指南 Document](https://dnxbf321.gitbooks.io/npx/content/)
 
 ## change log
 
