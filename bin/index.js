@@ -18,7 +18,7 @@ var taskPostcss = require('../scripts/task/postcss')
 commander
   .command('webpack')
   .description('webpack files')
-  .option('-e, --node_env [env]')
+  .option('-e, --node_env [env]', 'define NODE_ENV, a string should be "development", "dev", "experiment", "exp", "production" or "prod"')
   .action((options) => {
     taskWebpack(options['node_env'])
   })
@@ -67,7 +67,7 @@ commander
 commander
   .command('image')
   .description('ncp image to dist')
-  .option('-o, --optimize')
+  .option('-o, --optimize', 'use imagemin')
   .action((options) => {
     taskImage(options.optimize)
   })
@@ -77,7 +77,7 @@ commander
 commander
   .command('babel-asset')
   .description('use babel to compile js files those end with .bl.js in asset folder')
-  .option('-e, --node_env [env]')
+  .option('-e, --node_env [env]', 'define NODE_ENV, a string should be "development", "dev", "experiment", "exp", "production" or "prod"')
   .action((options) => {
     taskBabelAsset(options['node_env'])
   })
@@ -87,7 +87,7 @@ commander
 commander
   .command('serve-client')
   .description('serve static files')
-  .option('-e, --node_env [env]')
+  .option('-e, --node_env [env]', 'define NODE_ENV, a string should be "development", "dev", "experiment", "exp", "production" or "prod"')
   .action((options) => {
     taskServeClient(options['node_env'])
   })
@@ -97,7 +97,7 @@ commander
 commander
   .command('postcss')
   .description('compile sass-like stylesheet files')
-  .option('-e, --node_env [env]')
+  .option('-e, --node_env [env]', 'define NODE_ENV, a string should be "development", "dev", "experiment", "exp", "production" or "prod"')
   .action((options) => {
     taskPostcss(options['node_env'])
   })
