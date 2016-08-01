@@ -67,9 +67,8 @@ commander
 commander
   .command('image')
   .description('ncp image to dist')
-  .option('-o, --optimize', 'use imagemin')
-  .action((options) => {
-    taskImage(options.optimize)
+  .action(() => {
+    taskImage()
   })
 
 // babel-asset 任务，将 client/asset 中 *.bl.js 文件通过 babel 进行转换

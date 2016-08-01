@@ -10,42 +10,16 @@ var svgo = require('imagemin-svgo')
 var projectRoot = process.cwd()
 
 function ncpImage() {
-  return new Promise((resolve, reject) => {
-    ncp(path.join(projectRoot, 'client/static/img'), path.join(projectRoot, 'client/dist/static/img'), function(err) {
-      if (err) {
-        console.log(colors.bgRed('[task image]'), err)
-      } else {
-        console.log(colors.bgGreen('[task image]'), 'done ncp')
-        resolve()
-      }
-    })
+  ncp(path.join(projectRoot, 'client/static/img'), path.join(projectRoot, 'client/dist/static/img'), function(err) {
+    if (err) {
+      console.log(colors.bgRed('[task image]'), err)
+    } else {
+      console.log(colors.bgGreen('[task image]'), 'done')
+    }
   })
 }
 
-function optimizeImage() {
-  console.log(colors.bgGreen('[task image]'), 'start imagemin')
-  imagemin([path.join(projectRoot, 'client/dist/static/img') + '/**/*.{jpg,png,svg}'], path.join(projectRoot, 'client/dist/static/img'), {
-    plugins: [
-      jpegtran(),
-      optipng({
-        optimizationLevel: 4
-      }),
-      svgo()
-    ]
-  })
-    .then((imgs) => {
-      console.log(colors.bgGreen('[task image]'), 'done imagemin')
-    })
-}
-
-module.exports = function(optimizeFlag) {
+module.exports = function() {
   mkdirp.sync(path.join(projectRoot, 'client/dist/static/img'))
-  if (optimizeFlag) {
-    ncpImage()
-      .then(() => {
-        optimizeImage()
-      })
-  } else {
-    ncpImage()
-  }
+  ncpImage()
 }

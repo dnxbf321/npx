@@ -1,12 +1,15 @@
-# node project template
+# npx
 
-node-project-template 是一个集成 handlebars、vue、imagemin、postcss、ECMAScript 6、webpack、koa、scp 等技术于一体的构建前端项目的模板，提供了一套较为完整的打包流程。
+npx 是一个集成 ECMAScript 6、webpack、vue、postcss、imagemin、koa、scp、handlebars 等技术于一体的构建前端项目的工具，提供了一套较为完整的打包流程。
 
-通过编写 npm scripts 将命令行与任务结合在一起，开发测试将变得十分简便。
+通过编写 npm scripts 将 npx 与项目结合在一起，开发测试将变得十分简便。
 
 # [使用指南 Document](https://dnxbf321.gitbooks.io/node-project-template/content/)
 
 ## change log
+
+### v3.0.0
+- 提供 cli
 
 ### v2.0.0
 - 功能已很完善
