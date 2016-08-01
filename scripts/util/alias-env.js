@@ -13,6 +13,6 @@ module.exports = function(env) {
     default:
       env = 'production'
   }
-  process.env.NODE_ENV = env
+  global.NODE_ENV = env
   return env
 }

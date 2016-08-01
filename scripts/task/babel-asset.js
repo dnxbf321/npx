@@ -27,7 +27,7 @@ module.exports = function(env) {
     }
   })
 
-  babelrc.plugins.push(['babel-plugin-define', config])
+  babelrc.plugins.push([require.resolve('babel-plugin-define'), config])
   babelrc.minified = env === 'production'
   babelrc.sourceMaps = env !== 'production' ? 'inline' : false
 

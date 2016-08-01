@@ -1,7 +1,7 @@
 {
   "name": "deng-npx",
-  "version": "3.0.2",
-  "description": "Pack static files like html, css, javascript, images and so on. Different environment, different config key-value.",
+  "version": "3.0.3",
+  "description": "Pack static files like html, css, javascript, images and so on. Different environment, different variables.",
   "keywords": [
     "front-end",
     "pack static files",
@@ -28,7 +28,7 @@
     "build-dev": "npm-run-all pre asset image webpack-dev postcss-dev babel-asset-dev",
     "build-exp": "npm-run-all pre asset image webpack-exp postcss-exp babel-asset-exp",
     "build": "npm-run-all pre asset image webpack postcss babel-asset",
-    "serve-client": "npx serve-client",
+    "serve-client": "npx serve-client -e development",
     "pre": "npx pre",
     "webpack-dev": "npx webpack -e development",
     "webpack-exp": "npx webpack -e experiment",
@@ -99,6 +99,7 @@
     "stylelint": "6.7.1",
     "stylelint-config-standard": "9.0.0",
     "url-loader": "0.5.7",
+    "vue": "1.0.26",
     "vue-hot-reload-api": "1.3.2",
     "vue-html-loader": "1.2.2",
     "vue-loader": "8.5.2",

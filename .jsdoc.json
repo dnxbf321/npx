@@ -1,5 +1,4 @@
 {
-  "enable": false,
   "source": {
     "includePattern": "\\.js$",
     "excludePattern": "node_modules|dist"

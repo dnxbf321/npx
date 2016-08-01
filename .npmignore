@@ -2,7 +2,4 @@
 test*
 node_modules
 log
-client
-zip
-jsdoc
 tmp

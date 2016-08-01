@@ -82,7 +82,7 @@ module.exports = function(env) {
       }]
     },
     eslint: {
-      configFile: path.join(cliRoot, '.eslintrc.js'),
+      configFile: path.join(projectRoot, '.eslintrc.js'),
       formatter: require('eslint-friendly-formatter')
     },
     babel: babelrc,
