@@ -1,8 +1,8 @@
 # npx
 
-npx 是一个集成 ECMAScript 6、webpack、vue、postcss、imagemin、koa、scp、handlebars 等技术于一体的构建前端项目的工具，提供了一套较为完整的打包流程。
+npx 是一个集成 ECMAScript 6、webpack、vue、postcss、koa、scp、handlebars 等技术于一体的构建前端项目的工具，提供了一套较为完整的打包流程。
 
-通过编写 npm scripts 将 npx 与项目结合在一起，开发测试将变得十分简便。
+通过 npm scripts 将 npx 与项目结合在一起，开发测试将变得十分简便。
 
 # [使用指南 Document](https://dnxbf321.gitbooks.io/node-project-template/content/)
 
@@ -10,6 +10,8 @@ npx 是一个集成 ECMAScript 6、webpack、vue、postcss、imagemin、koa、sc
 
 ### v3.0.0
 - 提供 cli
+- 去除 imagemin 特性，因为一些 node 的 bug 问题
+- 去除 server 端示例，npx 纯粹为静态项目而生
 
 ### v2.0.0
 - 功能已很完善
