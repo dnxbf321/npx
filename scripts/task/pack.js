@@ -29,13 +29,13 @@ module.exports = function() {
     patterns.forEach(function(pattern) {
       zip.glob(pattern, {
         cwd: ctx,
-        ignore: ['*.log*', 'node_modules', 'zip', 'log']
+        ignore: ['*.log*', 'node_modules', 'zip', 'log', 'tmp']
       })
     })
     zip.finalize()
   }
 
-  pack('static.zip', '**/*', path.join(projectRoot, 'client/dist'))
-  pack('server.zip', ['server/**/*', 'scripts/**/*', '.*', '*'], projectRoot)
-  pack('project.zip', ['client/**/*', 'server/**/*', 'scripts/**/*', '.*', '*'], projectRoot)
+  pack('static.zip', 'static/**/*', path.join(projectRoot, 'client/dist'))
+  pack('html.zip', ['**/*.html'], path.join(projectRoot, 'client/dist'))
+  pack('source.zip', ['.*', '*', 'client/**/*'], projectRoot)
 }
