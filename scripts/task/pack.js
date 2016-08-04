@@ -29,7 +29,7 @@ module.exports = function() {
     patterns.forEach(function(pattern) {
       zip.glob(pattern, {
         cwd: ctx,
-        ignore: ['*.log*', 'node_modules', 'zip', 'log', 'tmp']
+        ignore: ['*.log*', 'node_modules', 'zip', 'log', 'tmp', '.git']
       })
     })
     zip.finalize()

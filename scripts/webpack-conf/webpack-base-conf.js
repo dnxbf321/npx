@@ -23,7 +23,7 @@ module.exports = function(env) {
     output: {
       filename: '[name].js?[hash:7]',
       path: path.join(projectRoot, 'client/dist'),
-      publicPath: path.join(JSON.parse(definition.client.publicPath), '/').replace(/\:\/([^\/])/i, '://$1')
+      publicPath: path.join(JSON.parse(definition.client.publicPath), '/').replace(/\\/g, '/').replace(/\:\/([^\/])/i, '://$1')
     },
     resolve: {
       extensions: ['', '.js'],
