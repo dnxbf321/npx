@@ -1,5 +1,4 @@
 var webpack = require('webpack')
-var HappyPack = require('happypack')
 
 var path = require('path')
 
@@ -44,18 +43,12 @@ module.exports = function(env) {
         loader: 'babel',
         include: staticRoot,
         exclude: /node_modules/,
-        query: babelrc,
-        happy: {
-          id: 'js'
-        }
+        query: babelrc
       }, {
         test: /\.vue$/,
         loader: 'vue',
         include: staticRoot,
-        exclude: /node_modules/,
-        happy: {
-          id: 'vue'
-        }
+        exclude: /node_modules/
       }, {
         test: /\.json$/,
         loader: 'json'
@@ -75,10 +68,7 @@ module.exports = function(env) {
         }
       }, {
         test: /\.css$/,
-        loader: 'style!css!postcss',
-        happy: {
-          id: 'css'
-        }
+        loader: 'style!css!postcss'
       }]
     },
     eslint: {
@@ -95,18 +85,6 @@ module.exports = function(env) {
     plugins: [
       new webpack.IgnorePlugin(/vertx/),
       new webpack.DefinePlugin(definition),
-      new HappyPack({
-        id: 'js',
-        tempDir: path.join(projectRoot, 'tmp')
-      }),
-      new HappyPack({
-        id: 'vue',
-        tempDir: path.join(projectRoot, 'tmp')
-      }),
-      new HappyPack({
-        id: 'css',
-        tempDir: path.join(projectRoot, 'tmp')
-      }),
       new webpack.optimize.CommonsChunkPlugin({
         name: 'static/js/common'
       }),

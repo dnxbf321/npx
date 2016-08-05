@@ -44,7 +44,7 @@ function step() {
         console.error(err)
         reject()
       } else {
-        console.log(colors.bgCyan.bold('[task upload] '), local + ' => ' + remote)
+        console.log(colors.bgCyan.bold('[task upload]'), local + ' => ' + remote)
         resolve()
       }
     })
