@@ -1,8 +1,11 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var glob = require('glob')
 var path = require('path')
-var projectRoot = path.join(process.cwd(), 'client')
 var chunks = require('./webpack-entry')
+var getConfig = require('../util/config')
+
+var projectRoot = path.join(process.cwd(), 'client')
+var entryPrefixer = getConfig().entryPrefixer || ''
 
 var chunkNames = []
 for (var name in chunks) {
@@ -38,7 +41,8 @@ var plugins = []
 all.forEach(function(it) {
   var withoutExt = it.replace(path.extname(it), '')
   var chunkMatch = chunkNames.find(function(chunk) {
-    return chunk === path.join('static/js', withoutExt).replace(/\\/g, '/')
+    chunk = path.dirname(chunk) + '/' + entryPrefixer + path.basename(chunk)
+    return chunk.replace(/\\/g, '/') === path.join('static/js', withoutExt).replace(/\\/g, '/')
   })
 
   var plugin = {}
@@ -47,7 +51,7 @@ all.forEach(function(it) {
   plugin.inject = true
   plugin.minify = minify
   if (chunkMatch) {
-    plugin.chunks = ['static/js/common', chunkMatch]
+    plugin.chunks = ['static/js/' + entryPrefixer + 'common', chunkMatch]
   } else {
     plugin.chunks = []
   }

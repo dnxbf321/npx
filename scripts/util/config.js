@@ -25,7 +25,8 @@ module.exports = function(env) {
     ftp: config['ftp'],
     jsdoc: config['jsdoc'],
     postcss: config['postcss'],
-    version: Date.now()
+    version: Date.now(),
+    entryPrefixer: config['entryPrefixer']
   })
   return envConfig
 }

@@ -6,6 +6,7 @@ var getDefinition = require('./webpack-definition')
 var entry = require('./webpack-entry')
 var htmlPlugins = require('./webpack-html-plugins')
 var getPostcssPlugins = require('../util/postcss-plugins')
+var getConfig = require('../util/config')
 var babelrc = require('../util/babelrc')
 
 var projectRoot = process.cwd()
@@ -15,6 +16,7 @@ var cliRoot = path.join(__dirname, '../../')
 
 module.exports = function(env) {
   var postcssPlugins = getPostcssPlugins(env)
+  var entryPrefixer = getConfig(env).entryPrefixer
   var definition = getDefinition(env)
   return {
     context: contextPath,
@@ -86,7 +88,7 @@ module.exports = function(env) {
       new webpack.IgnorePlugin(/vertx/),
       new webpack.DefinePlugin(definition),
       new webpack.optimize.CommonsChunkPlugin({
-        name: 'static/js/common'
+        name: 'static/js/' + entryPrefixer + 'common'
       }),
       new webpack.optimize.OccurenceOrderPlugin()
     ].concat(htmlPlugins)
