@@ -16,7 +16,7 @@ var cliRoot = path.join(__dirname, '../../')
 
 module.exports = function(env) {
   var postcssPlugins = getPostcssPlugins(env)
-  var entryPrefixer = getConfig(env).entryPrefixer
+  var entryPrefixer = getConfig(env).entryPrefixer || ''
   var definition = getDefinition(env)
   return {
     context: contextPath,
