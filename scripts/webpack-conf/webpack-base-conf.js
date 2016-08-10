@@ -28,10 +28,12 @@ module.exports = function(env) {
     },
     resolve: {
       extensions: ['', '.js'],
-      root: [path.join(projectRoot, 'node_modules'), path.join(cliRoot, 'node_modules')]
+      root: [path.join(projectRoot, 'node_modules')],
+      fallback: [path.join(cliRoot, 'node_modules')]
     },
     resolveLoader: {
-      root: [path.join(projectRoot, 'node_modules'), path.join(cliRoot, 'node_modules')]
+      root: [path.join(cliRoot, 'node_modules')],
+      fallback: [path.join(projectRoot, 'node_modules')]
     },
     module: {
       preLoaders: [{
