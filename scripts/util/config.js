@@ -1,7 +1,6 @@
 var extend = require('extend')
 var path = require('path')
 var fs = require('fs')
-var colors = require('colors')
 
 var config = require('../../config.json')
 var projectRoot = process.cwd()
@@ -13,7 +12,7 @@ try {
   })
   projectConf = JSON.parse(projectConf.toString())
 } catch ( e ) {
-  console.log(colors.bgYellow('[warn]'), colors.yellow('config.json not found at current path'))
+  console.log('[warn] config.json not found at current path')
 }
 
 config = extend(true, {}, config, projectConf)
