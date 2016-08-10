@@ -7,9 +7,9 @@ var colors = require('colors')
 
 var projectRoot = process.cwd()
 
-var packageConfig = require(path.join(projectRoot, 'package.json'))
-
 module.exports = function() {
+  var packageConfig = require(path.join(projectRoot, 'package.json'))
+
   mkdirp(path.join(projectRoot, 'zip'))
 
   function pack(zipName, patterns, ctx) {

@@ -3,6 +3,7 @@
 var commander = require('commander')
 
 var pkgUpdate = require('../scripts/util/pkg-update')
+var taskInit = require('../scripts/task/init')
 var taskWebpack = require('../scripts/task/webpack')
 var taskPre = require('../scripts/task/pre')
 var taskClean = require('../scripts/task/clean')
@@ -15,6 +16,14 @@ var taskServeClient = require('../scripts/task/serve-client')
 var taskPostcss = require('../scripts/task/postcss')
 
 pkgUpdate()
+
+// 初始化任务
+// 将官方模板下载到本目录
+commander
+  .command('init')
+  .action(() => {
+    taskInit()
+  })
 
 // webpack 任务
 // 根据环境定义取不同的 config 值
