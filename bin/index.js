@@ -2,6 +2,7 @@
 
 var commander = require('commander')
 
+var pkgUpdate = require('../scripts/util/pkg-update')
 var taskWebpack = require('../scripts/task/webpack')
 var taskPre = require('../scripts/task/pre')
 var taskClean = require('../scripts/task/clean')
@@ -12,6 +13,8 @@ var taskImage = require('../scripts/task/image')
 var taskBabelAsset = require('../scripts/task/babel-asset')
 var taskServeClient = require('../scripts/task/serve-client')
 var taskPostcss = require('../scripts/task/postcss')
+
+pkgUpdate()
 
 // webpack 任务
 // 根据环境定义取不同的 config 值
