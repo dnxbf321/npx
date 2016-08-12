@@ -51,8 +51,7 @@ module.exports = function(env) {
       }, {
         test: /\.vue$/,
         loader: 'vue',
-        include: staticRoot,
-        exclude: /node_modules/
+        include: [staticRoot, /node_modules/]
       }, {
         test: /\.json$/,
         loader: 'json'
