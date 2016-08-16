@@ -31,9 +31,7 @@ module.exports = function(env) {
       aggregateTimeout: 300
     },
     publicPath: wpConfig.output.publicPath,
-    stats: {
-      colors: true
-    }
+    stats: 'normal'
   }))
 
   var hotMiddleware = webpackHotMiddleware(compiler)

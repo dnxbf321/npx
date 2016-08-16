@@ -45,13 +45,11 @@ module.exports = function(env) {
       loaders: [{
         test: /\.js$/,
         loader: 'babel',
-        include: staticRoot,
         exclude: /node_modules/,
         query: babelrc
       }, {
         test: /\.vue$/,
-        loader: 'vue',
-        include: [staticRoot, /node_modules/]
+        loader: 'vue'
       }, {
         test: /\.json$/,
         loader: 'json'
