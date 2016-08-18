@@ -38,7 +38,8 @@ module.exports = function(env) {
       }
     },
     'postcss-pxtorem': {
-      selectorBlackList: [/^html$/]
+      propWhiteList: [],
+      selectorBlackList: [/^html$/, /\.norem/]
     },
     'rucksack-css': {
       fallbacks: true

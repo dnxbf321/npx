@@ -1,6 +1,6 @@
 {
   "name": "deng-npx",
-  "version": "3.1.5",
+  "version": "3.1.6",
   "description": "Pack static files like html, css, javascript, images and so on. Different environment, different variables.",
   "keywords": [
     "front-end",
