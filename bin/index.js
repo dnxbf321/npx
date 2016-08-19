@@ -1,7 +1,8 @@
 #!/usr/bin/env node --harmony
 
-var commander = require('commander')
+var program = require('commander')
 
+var pkg = require('../package.json')
 var pkgUpdate = require('../scripts/util/pkg-update')
 var taskInit = require('../scripts/task/init')
 var taskWebpack = require('../scripts/task/webpack')
@@ -17,9 +18,11 @@ var taskPostcss = require('../scripts/task/postcss')
 
 pkgUpdate()
 
+program.version(pkg.version)
+
 // 初始化任务
 // 将官方模板下载到本目录
-commander
+program
   .command('init')
   .action(() => {
     taskInit()
@@ -27,7 +30,7 @@ commander
 
 // webpack 任务
 // 根据环境定义取不同的 config 值
-commander
+program
   .command('webpack')
   .description('webpack files')
   .option('-e, --node_env [env]', 'define NODE_ENV, a string should be "development", "dev", "experiment", "exp", "production" or "prod"')
@@ -36,7 +39,7 @@ commander
   })
 
 // pre 任务
-commander
+program
   .command('pre')
   .description('remove tmp folders, make dist folders')
   .action(() => {
@@ -44,7 +47,7 @@ commander
   })
 
 // clean 任务
-commander
+program
   .command('clean')
   .description('remove all tmp folders')
   .action(() => {
@@ -52,7 +55,7 @@ commander
   })
 
 // pack 任务
-commander
+program
   .command('pack')
   .description('pack dist files')
   .action(() => {
@@ -60,7 +63,7 @@ commander
   })
 
 // upload 任务
-commander
+program
   .command('upload')
   .description('upload dist files to remote server')
   .action(() => {
@@ -68,7 +71,7 @@ commander
   })
 
 // 拷贝 asset 任务
-commander
+program
   .command('asset')
   .description('ncp asset to dist')
   .action(() => {
@@ -76,7 +79,7 @@ commander
   })
 
 // image 任务
-commander
+program
   .command('image')
   .description('ncp image to dist')
   .action(() => {
@@ -85,7 +88,7 @@ commander
 
 // babel-asset 任务，将 client/asset 中 *.bl.js 文件通过 babel 进行转换
 // 根据环境定义取不同的 config 值
-commander
+program
   .command('babel-asset')
   .description('use babel to compile js files those end with .bl.js in asset folder')
   .option('-e, --node_env [env]', 'define NODE_ENV, a string should be "development", "dev", "experiment", "exp", "production" or "prod"')
@@ -95,7 +98,7 @@ commander
 
 // serve-client 任务，启动静态资源服务器
 // 根据环境定义取不同的 config 值
-commander
+program
   .command('serve-client')
   .description('serve static files')
   .option('-e, --node_env [env]', 'define NODE_ENV, a string should be "development", "dev", "experiment", "exp", "production" or "prod"')
@@ -105,7 +108,7 @@ commander
 
 // postcss 任务
 // 根据环境定义取不同的 config 值
-commander
+program
   .command('postcss')
   .description('compile sass-like stylesheet files')
   .option('-e, --node_env [env]', 'define NODE_ENV, a string should be "development", "dev", "experiment", "exp", "production" or "prod"')
@@ -113,4 +116,4 @@ commander
     taskPostcss(options['node_env'])
   })
 
-commander.parse(process.argv)
+program.parse(process.argv)
