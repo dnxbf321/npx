@@ -17,8 +17,9 @@ var cliRoot = path.join(__dirname, '../../')
 module.exports = function(env) {
   var postcssPlugins = getPostcssPlugins(env)
   var entryPrefixer = getConfig(env).entryPrefixer || ''
+  var webpackNoCommon = getConfig(env).webpack['no-common'] || false
   var definition = getDefinition(env)
-  return {
+  var conf = {
     context: contextPath,
     entry: entry,
     output: {
@@ -86,10 +87,13 @@ module.exports = function(env) {
     plugins: [
       new webpack.IgnorePlugin(/vertx/),
       new webpack.DefinePlugin(definition),
-      new webpack.optimize.CommonsChunkPlugin({
-        name: 'static/js/' + entryPrefixer + 'common'
-      }),
       new webpack.optimize.OccurenceOrderPlugin()
     ].concat(htmlPlugins)
   }
+  if (!webpackNoCommon) {
+    conf.plugins.push(new webpack.optimize.CommonsChunkPlugin({
+      name: 'static/js/' + entryPrefixer + 'common'
+    }))
+  }
+  return conf
 }

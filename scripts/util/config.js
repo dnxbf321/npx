@@ -26,7 +26,8 @@ module.exports = function(env) {
     jsdoc: config['jsdoc'],
     postcss: config['postcss'],
     version: Date.now(),
-    entryPrefixer: config['entryPrefixer']
+    entryPrefixer: config['entryPrefixer'],
+    webpack: config['webpack'] || {}
   })
   return envConfig
 }

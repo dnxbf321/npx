@@ -6,6 +6,7 @@ var getConfig = require('../util/config')
 
 var projectRoot = path.join(process.cwd(), 'client')
 var entryPrefixer = getConfig().entryPrefixer || ''
+var webpackNoCommon = getConfig().webpack['no-common'] || false
 
 var chunkNames = []
 for (var name in chunks) {
@@ -50,7 +51,10 @@ all.forEach(function(it) {
   plugin.inject = true
   plugin.minify = minify
   if (chunkMatch) {
-    plugin.chunks = ['static/js/' + entryPrefixer + 'common', chunkMatch]
+    plugin.chunks = [chunkMatch]
+    if (!webpackNoCommon) {
+      plugin.chunks.unshift('static/js/' + entryPrefixer + 'common')
+    }
   } else {
     plugin.chunks = []
   }
