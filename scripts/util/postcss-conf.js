@@ -16,49 +16,56 @@ var pluginList = [
 
 module.exports = function(env) {
   var config = getConfig(env)
+  var postcss = config['postcss'] || {}
 
   var usePlugins = pluginList.filter(function(pluginName) {
-    return config['postcss'][pluginName] === undefined ? true : !!config['postcss'][pluginName]
+    return postcss[pluginName] === undefined ? true : !!postcss[pluginName]
   })
+
+  for (let name in postcss) {
+    if (Object.prototype.toString.call(postcss[name]) !== '[object Object]') {
+      postcss[name] = {}
+    }
+  }
 
   return {
     use: usePlugins,
-    'postcss-easy-import': {
+    'postcss-easy-import': extend(true, {
       prefix: '_'
-    },
-    stylelint: {
+    }, postcss['postcss-easy-import']),
+    stylelint: extend(true, {
       config: {
         extends: 'stylelint-config-standard',
         rules: {}
       }
-    },
-    precss: {
+    }, postcss['stylelint']),
+    precss: extend(true, {
       import: {
         disable: true
       }
-    },
-    'postcss-pxtorem': {
+    }, postcss['precss']),
+    'postcss-pxtorem': extend(true, {
       propWhiteList: [],
       selectorBlackList: [/^html$/, /\.norem/]
-    },
-    'rucksack-css': {
+    }, postcss['postcss-pxtorem']),
+    'rucksack-css': extend(true, {
       fallbacks: true
-    },
-    'postcss-assets': {
+    }, postcss['rucksack-css']),
+    'postcss-assets': extend(true, {
       loadPaths: [path.join(process.cwd(), 'client/static/img')],
       basePath: 'client',
       baseUrl: config.client.publicPath,
       cachebuster: true,
       relative: true
-    },
-    autoprefixer: {
+    }, postcss['postcss-assets']),
+    autoprefixer: extend(true, {
       browsers: ['last 2 versions', '> 5%', 'safari >= 5', 'ie >= 8', 'opera >= 12', 'Firefox ESR', 'iOS >= 6', 'android >= 4']
-    },
-    cssnano: {
+    }, postcss['autoprefixer']),
+    cssnano: extend(true, {
       safe: true
-    },
-    'postcss-reporter': {
+    }, postcss['cssnano']),
+    'postcss-reporter': extend(true, {
       clearMessages: true
-    }
+    }, postcss['postcss-reporter'])
   }
 }
