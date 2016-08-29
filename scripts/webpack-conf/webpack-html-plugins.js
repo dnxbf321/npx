@@ -1,15 +1,15 @@
-var HtmlWebpackPlugin = require('html-webpack-plugin')
-var glob = require('glob')
-var path = require('path')
-var chunks = require('./webpack-entry')
-var getConfig = require('../util/config')
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import glob from 'glob'
+import path from 'path'
+import chunks from './webpack-entry'
+import getConfig from '../util/config'
 
 var projectRoot = path.join(process.cwd(), 'client')
 var entryPrefixer = getConfig().entryPrefixer || ''
 var webpackNoCommon = getConfig().webpack['no-common'] || false
 
 var chunkNames = []
-for (var name in chunks) {
+for (let name in chunks) {
   chunkNames.push(name)
 }
 
@@ -39,9 +39,9 @@ var all = [].concat(htmlsInFolders, htmlsInCurDir)
 
 var plugins = []
 
-all.forEach(function(it) {
+all.forEach((it) => {
   var withoutExt = it.replace(path.extname(it), '')
-  var chunkMatch = chunkNames.find(function(chunk) {
+  var chunkMatch = chunkNames.find((chunk) => {
     return chunk === path.join('static/js', entryPrefixer + withoutExt).replace(/\\/g, '/')
   })
 
@@ -62,4 +62,4 @@ all.forEach(function(it) {
   plugins.push(new HtmlWebpackPlugin(plugin))
 })
 
-module.exports = plugins
+export default plugins

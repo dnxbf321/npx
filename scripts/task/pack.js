@@ -1,13 +1,13 @@
-var archiver = require('archiver')
-var path = require('path')
-var fs = require('fs')
-var mkdirp = require('mkdirp')
-var moment = require('moment')
-var colors = require('colors')
+import archiver from 'archiver'
+import path from 'path'
+import fs from 'fs'
+import mkdirp from 'mkdirp'
+import moment from 'moment'
+import colors from 'colors'
 
 var projectRoot = process.cwd()
 
-module.exports = function() {
+export default () => {
   var packageConfig = require(path.join(projectRoot, 'package.json'))
 
   mkdirp(path.join(projectRoot, 'zip'))
@@ -18,15 +18,15 @@ module.exports = function() {
     var zip = archiver.create('zip')
     var outputFilename = moment().format('YYYY-MM-DD HH-mm-ss') + '_' + packageConfig.name + '-' + zipName
     var output = fs.createWriteStream(path.join(projectRoot, 'zip', outputFilename))
-    output.on('close', function() {
+    output.on('close', () => {
       console.log(colors.bgCyan.bold('[task pack]'), zip.pointer() + ' total bytes')
       console.log(colors.bgCyan.bold('[task pack]'), outputFilename + ' has been finalized and the output file descriptor has closed.')
     })
-    zip.on('error', function(err) {
+    zip.on('error', (err) => {
       throw err;
     })
     zip.pipe(output)
-    patterns.forEach(function(pattern) {
+    patterns.forEach((pattern) => {
       zip.glob(pattern, {
         cwd: ctx,
         ignore: ['*.log*', 'node_modules', 'zip', 'log', 'tmp', '.git']

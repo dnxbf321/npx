@@ -1,10 +1,10 @@
-var getConfig = require('../util/config')
+import getConfig from '../util/config'
 
-module.exports = function(key) {
+export default (key) => {
   var keyChain = key.split('.')
   var v = getConfig()
 
-  for (var i = 0, len = keyChain.length; i < len; i++) {
+  for (let i = 0, len = keyChain.length; i < len; i++) {
     v = v[keyChain[i]]
   }
   return v

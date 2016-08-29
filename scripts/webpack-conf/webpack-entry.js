@@ -1,6 +1,6 @@
-var path = require('path')
-var glob = require('glob')
-var getConfig = require('../util/config')
+import path from 'path'
+import glob from 'glob'
+import getConfig from '../util/config'
 
 var projectRoot = path.join(process.cwd(), 'client')
 var config = getConfig()
@@ -10,7 +10,7 @@ var entries = glob.sync(projectRoot + '/static/**/*.wp.js', {
   cwd: projectRoot
 })
 
-entries.forEach(function(it) {
+entries.forEach((it) => {
   var filePath = path.relative(projectRoot, it)
   var entryName = filePath.slice(0, -6)
   if (config['entryPrefixer']) {
@@ -20,4 +20,4 @@ entries.forEach(function(it) {
   ret[entryName] = './' + filePath
 })
 
-module.exports = ret
+export default ret

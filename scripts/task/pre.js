@@ -1,13 +1,13 @@
-var rimraf = require('rimraf')
-var mkdirp = require('mkdirp')
-var path = require('path')
-var colors = require('colors')
-var touchJsdoc = require('../util/touch-jsdoc')
-var touchEslintrc = require('../util/touch-eslintrc')
+import rimraf from 'rimraf'
+import mkdirp from 'mkdirp'
+import path from 'path'
+import colors from 'colors'
+import touchJsdoc from '../util/touch-jsdoc'
+import touchEslintrc from '../util/touch-eslintrc'
 
 var projectRoot = process.cwd()
 
-module.exports = function() {
+export default () => {
   rimraf.sync(path.join(projectRoot, 'client/dist'))
   rimraf.sync(path.join(projectRoot, 'tmp'))
   rimraf.sync(path.join(projectRoot, 'jsdoc'))

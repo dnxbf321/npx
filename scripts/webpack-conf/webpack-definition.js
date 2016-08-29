@@ -1,9 +1,9 @@
-var getConfig = require('../util/config')
+import getConfig from '../util/config'
 
 function formatDefinitions(obj) {
-  Object.keys(obj).forEach(function(k) {
-    var v = obj[k]
-    var typeV = Object.prototype.toString.call(v)
+  Object.keys(obj).forEach((k) => {
+    let v = obj[k]
+    let typeV = Object.prototype.toString.call(v)
     switch (typeV) {
       case '[object Number]':
       case '[object String]': // define plugin 把 string 当做可执行代码
@@ -18,7 +18,7 @@ function formatDefinitions(obj) {
   return obj
 }
 
-module.exports = function(env) {
+export default (env) => {
   var envConfig = getConfig(env)
   envConfig = formatDefinitions(envConfig)
   return envConfig

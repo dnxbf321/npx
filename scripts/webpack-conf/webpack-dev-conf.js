@@ -1,12 +1,12 @@
-var path = require('path')
-var webpack = require('webpack')
-var merge = require('webpack-merge')
-var getBaseConfig = require('./webpack-base-conf')
+import path from 'path'
+import webpack from 'webpack'
+import merge from 'webpack-merge'
+import getBaseConfig from './webpack-base-conf'
 
-module.exports = function() {
+export default () => {
   var baseConfig = getBaseConfig('development')
 
-  Object.keys(baseConfig.entry).forEach(function(name) {
+  Object.keys(baseConfig.entry).forEach((name) => {
     baseConfig.entry[name] = [path.join(__dirname, 'webpack-dev-client')].concat(baseConfig.entry[name])
   })
 

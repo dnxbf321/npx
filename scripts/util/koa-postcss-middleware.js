@@ -1,11 +1,11 @@
-var path = require('path')
-var url = require('url')
-var fs = require('fs')
-var extend = require('extend')
-var postcss = require('postcss')
-var getPostcssPlugins = require('./postcss-plugins')
+import path from 'path'
+import url from 'url'
+import fs from 'fs'
+import extend from 'extend'
+import postcss from 'postcss'
+import getPostcssPlugins from './postcss-plugins'
 
-function middleware(options) {
+export default (options) => {
   options = extend(true, {
     src: process.cwd,
     publicPath: '',
@@ -40,13 +40,11 @@ function middleware(options) {
         from: fsLocation,
         map: 'inline'
       })
-      .then(function(result) {
+      .then((result) => {
         ctx.res.end(result.css)
       })
-      .catch(function(err) {
+      .catch((err) => {
         console.error(err)
       })
   }
 }
-
-module.exports = middleware

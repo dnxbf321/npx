@@ -1,7 +1,7 @@
-var updateNotifier = require('update-notifier')
-var pkg = require('../../package.json')
+import updateNotifier from 'update-notifier'
+import pkg from '../../package.json'
 
-module.exports = function() {
+export default () => {
   delete process.env.npm_config_username
   delete process.env.npm_package_name
   delete process.env.npm_config_heading

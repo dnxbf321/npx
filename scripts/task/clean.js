@@ -1,9 +1,9 @@
-var rimraf = require('rimraf')
-var path = require('path')
+import rimraf from 'rimraf'
+import path from 'path'
 
 var projectRoot = process.cwd()
 
-module.exports = function() {
+export default () => {
   rimraf.sync(path.join(projectRoot, 'client/dist'))
   rimraf.sync(path.join(projectRoot, 'tmp'))
   rimraf.sync(path.join(projectRoot, 'jsdoc'))

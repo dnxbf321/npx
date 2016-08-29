@@ -1,8 +1,8 @@
-var extend = require('extend')
-var path = require('path')
-var fs = require('fs')
+import extend from 'extend'
+import path from 'path'
+import fs from 'fs'
+import configJson from '../../config.json'
 
-var config = require('../../config.json')
 var projectRoot = process.cwd()
 var projectConf = {}
 
@@ -15,9 +15,9 @@ try {
   console.log('[warn] config.json not found at current path')
 }
 
-config = extend(true, {}, config, projectConf)
+var config = extend(true, {}, configJson, projectConf)
 
-module.exports = function(env) {
+export default (env) => {
   env = env || global.NODE_ENV || process.env.NODE_ENV
   var defaultConfig = config['default']
   var envConfig = extend(true, {}, defaultConfig, config[env || 'production'] || {}, {

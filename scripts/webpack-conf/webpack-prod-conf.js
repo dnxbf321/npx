@@ -1,13 +1,13 @@
-var webpack = require('webpack')
-var merge = require('webpack-merge')
-var path = require('path')
-var JsDocPlugin = require('jsdoc-webpack-plugin')
-var getBaseConfig = require('./webpack-base-conf')
-var getConfig = require('../util/config')
+import webpack from 'webpack'
+import merge from 'webpack-merge'
+import path from 'path'
+import JsDocPlugin from 'jsdoc-webpack-plugin'
+import getBaseConfig from './webpack-base-conf'
+import getConfig from '../util/config'
 
 var SOURCE_MAP = false
 
-module.exports = function(env) {
+export default (env) => {
   var config = getConfig(env)
   return merge(getBaseConfig(env), {
     stats: {

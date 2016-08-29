@@ -1,11 +1,11 @@
-var path = require('path')
-var glob = require('glob')
-var fs = require('fs')
-var mkdirp = require('mkdirp')
-var colors = require('colors')
-var postcss = require('postcss')
-var getPostcssPlugins = require('../util/postcss-plugins')
-var aliasEnv = require('../util/alias-env')
+import path from 'path'
+import glob from 'glob'
+import fs from 'fs'
+import mkdirp from 'mkdirp'
+import colors from 'colors'
+import postcss from 'postcss'
+import getPostcssPlugins from '../util/postcss-plugins'
+import aliasEnv from '../util/alias-env'
 
 var projectRoot = process.cwd()
 
@@ -18,7 +18,7 @@ function writeCss(result) {
   })
 }
 
-module.exports = function(env) {
+export default (env) => {
   env = aliasEnv(env)
   var postcssPlugins = getPostcssPlugins(env)
 
@@ -39,10 +39,10 @@ module.exports = function(env) {
           inline: false
         }
       })
-      .then(function(result) {
+      .then((result) => {
         return writeCss(result)
       })
-      .catch(function(err) {
+      .catch((err) => {
         console.log(colors.bgRed('[task postcss]'), err)
       })
   })

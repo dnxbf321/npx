@@ -1,10 +1,10 @@
-var scp = require('scp2')
-var glob = require('glob')
-var extend = require('extend')
-var colors = require('colors')
-var fs = require('fs')
-var path = require('path')
-var getConfig = require('../util/config')
+import scp from 'scp2'
+import glob from 'glob'
+import extend from 'extend'
+import colors from 'colors'
+import fs from 'fs'
+import path from 'path'
+import getConfig from '../util/config'
 
 var codePath = process.cwd()
 var config = getConfig('development')
@@ -36,10 +36,10 @@ function step() {
     remote = remotePath
   }
 
-  return new Promise(function(resolve, reject) {
+  return new Promise((resolve, reject) => {
     scp.scp(local, extend(options, {
       path: remote
-    }), function(err) {
+    }), (err) => {
       if (err) {
         console.error(err)
         reject()
@@ -53,7 +53,7 @@ function step() {
 
 function run() {
   return step()
-    .then(function() {
+    .then(() => {
       idx += 1
       if (idx < paths.length) {
         return run()
@@ -64,15 +64,15 @@ function run() {
     })
 }
 
-module.exports = function() {
-  patterns.forEach(function(pattern) {
+export default () => {
+  patterns.forEach((pattern) => {
     var _paths = glob.sync(pattern, {
       cwd: codePath,
       ignore: ['.git', '*.log*', 'node_modules', 'zip', 'log', 'tmp']
     })
     paths = paths.concat(_paths)
   })
-  client.mkdir(remotePath, function() {
+  client.mkdir(remotePath, () => {
     if (paths.length) {
       run()
     }

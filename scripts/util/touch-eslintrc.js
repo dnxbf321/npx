@@ -1,12 +1,12 @@
-var path = require('path')
-var fs = require('fs')
-var colors = require('colors')
-var ncp = require('ncp').ncp
+import path from 'path'
+import fs from 'fs'
+import colors from 'colors'
+import { ncp } from 'ncp'
 
 var cliRoot = path.join(__dirname, '../../')
 var projectRoot = process.cwd()
 
-module.exports = function() {
+export default () => {
   try {
     fs.accessSync(path.join(projectRoot, '.eslintrc.js'))
   } catch ( e ) {

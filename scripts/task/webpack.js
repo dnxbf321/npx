@@ -1,10 +1,10 @@
-var webpack = require('webpack')
-var ProgressPlugin = require('webpack/lib/ProgressPlugin')
-var colors = require('colors')
-var getProdConf = require('../webpack-conf/webpack-prod-conf')
-var aliasEnv = require('../util/alias-env')
+import webpack from 'webpack'
+import ProgressPlugin from 'webpack/lib/ProgressPlugin'
+import colors from 'colors'
+import getProdConf from '../webpack-conf/webpack-prod-conf'
+import aliasEnv from '../util/alias-env'
 
-module.exports = function(env) {
+export default (env) => {
   env = aliasEnv(env)
   var conf = getProdConf(env)
   var compiler = webpack(conf)

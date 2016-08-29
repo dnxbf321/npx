@@ -1,5 +1,5 @@
-var fs = require('fs')
-var path = require('path')
+import fs from 'fs'
+import path from 'path'
 
 var cliRoot = path.join(__dirname, '../../')
 
@@ -22,4 +22,4 @@ babelrc.plugins = babelrc.plugins.map((it) => {
   }
 })
 
-module.exports = babelrc
+export default babelrc

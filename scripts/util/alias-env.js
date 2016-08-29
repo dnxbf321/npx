@@ -1,4 +1,4 @@
-module.exports = function(env) {
+export default (env) => {
   switch (env) {
     case 'development':
     case 'dev':

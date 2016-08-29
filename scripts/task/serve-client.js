@@ -1,19 +1,19 @@
-var koa = require('koa')
-var staticServe = require('koa-static')
-var webpack = require('webpack')
-var webpackConnectHistoryApiFallback = require('koa-connect-history-api-fallback')
-var webpackDevMiddleware = require('koa-webpack-dev-middleware')
-var webpackHotMiddleware = require('webpack-hot-middleware')
-var colors = require('colors')
-var path = require('path')
-var aliasEnv = require('../util/alias-env')
-var cssMiddleware = require('../util/koa-postcss-middleware')
-var getWpConfig = require('../webpack-conf/webpack-dev-conf')
-var getConfig = require('../util/config')
+import koa from 'koa'
+import staticServe from 'koa-static'
+import webpack from 'webpack'
+import webpackConnectHistoryApiFallback from 'koa-connect-history-api-fallback'
+import webpackDevMiddleware from 'koa-webpack-dev-middleware'
+import webpackHotMiddleware from 'webpack-hot-middleware'
+import colors from 'colors'
+import path from 'path'
+import aliasEnv from '../util/alias-env'
+import cssMiddleware from '../util/koa-postcss-middleware'
+import getWpConfig from '../webpack-conf/webpack-dev-conf'
+import getConfig from '../util/config'
 
 var codePath = process.cwd()
 
-module.exports = function(env) {
+export default (env) => {
   env = aliasEnv(env)
 
   var wpConfig = getWpConfig(env)
@@ -60,7 +60,7 @@ module.exports = function(env) {
   app.use(staticServe(path.join(codePath, 'client/assets/')))
 
   var PORT = config.client.port
-  app.listen(PORT, function(err) {
+  app.listen(PORT, (err) => {
     if (err) {
       console.log(colors.bgRed('[task serve-client]'), colors.red(err))
       return

@@ -1,6 +1,6 @@
-var extend = require('extend')
-var path = require('path')
-var getConfig = require('./config')
+import extend from 'extend'
+import path from 'path'
+import getConfig from './config'
 
 var pluginList = [
   'postcss-easy-import',
@@ -14,11 +14,11 @@ var pluginList = [
   'postcss-reporter'
 ]
 
-module.exports = function(env) {
+export default (env) => {
   var config = getConfig(env)
   var postcss = config['postcss'] || {}
 
-  var usePlugins = pluginList.filter(function(pluginName) {
+  var usePlugins = pluginList.filter((pluginName) => {
     return postcss[pluginName] === undefined ? true : !!postcss[pluginName]
   })
 

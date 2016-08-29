@@ -1,20 +1,20 @@
-var webpack = require('webpack')
+import webpack from 'webpack'
 
-var path = require('path')
+import path from 'path'
 
-var getDefinition = require('./webpack-definition')
-var entry = require('./webpack-entry')
-var htmlPlugins = require('./webpack-html-plugins')
-var getPostcssPlugins = require('../util/postcss-plugins')
-var getConfig = require('../util/config')
-var babelrc = require('../util/babelrc')
+import getDefinition from './webpack-definition'
+import entry from './webpack-entry'
+import htmlPlugins from './webpack-html-plugins'
+import getPostcssPlugins from '../util/postcss-plugins'
+import getConfig from '../util/config'
+import babelrc from '../util/babelrc'
 
 var projectRoot = process.cwd()
 var contextPath = path.join(projectRoot, 'client')
 var staticRoot = path.join(contextPath, 'static')
 var cliRoot = path.join(__dirname, '../../')
 
-module.exports = function(env) {
+export default (env) => {
   var postcssPlugins = getPostcssPlugins(env)
   var entryPrefixer = getConfig(env).entryPrefixer || ''
   var webpackNoCommon = getConfig(env).webpack['no-common'] || false
