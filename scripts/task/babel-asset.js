@@ -1,4 +1,4 @@
-import babel from 'babel-core'
+import { transformFile } from 'babel-core'
 import mkdirp from 'mkdirp'
 import rimraf from 'rimraf'
 import glob from 'glob'
@@ -36,7 +36,7 @@ export default (env) => {
   })
 
   assets.forEach((js) => {
-    babel.transformFile(path.join(projectRoot, 'client/asset', js), babelrc, (err, result) => {
+    transformFile(path.join(projectRoot, 'client/asset', js), babelrc, (err, result) => {
       if (err) {
         return console.log(colors.bgRed('[task babel-asset]'), err)
       }
