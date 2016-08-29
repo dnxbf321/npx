@@ -62,7 +62,11 @@ export default (env) => {
       browsers: ['last 2 versions', '> 5%', 'safari >= 5', 'ie >= 8', 'opera >= 12', 'Firefox ESR', 'iOS >= 6', 'android >= 4']
     }, postcss['autoprefixer']),
     cssnano: extend(true, {
-      safe: true
+      safe: true,
+      discardComments: {
+        removeAll: true
+      },
+      filterPlugins: false
     }, postcss['cssnano']),
     'postcss-reporter': extend(true, {
       clearMessages: true
