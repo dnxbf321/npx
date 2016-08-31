@@ -29,7 +29,7 @@ export default () => {
     patterns.forEach((pattern) => {
       zip.glob(pattern, {
         cwd: ctx,
-        ignore: ['*.log*', 'node_modules', 'zip', 'log', 'tmp', '.git']
+        ignore: ['*.log*', 'node_modules', 'node_modules/**/*', 'zip', 'zip/**/*', 'log', 'log/**/*', 'tmp', 'tmp/**/*', '.git', '.git/**/*']
       })
     })
     zip.finalize()
@@ -37,5 +37,5 @@ export default () => {
 
   pack('static.zip', 'static/**/*', path.join(projectRoot, 'client/dist'))
   pack('html.zip', ['**/*.html'], path.join(projectRoot, 'client/dist'))
-  pack('source.zip', ['.*', '*', 'client/**/*'], projectRoot)
+  pack('source.zip', ['.*', '*', '*/**/*', 'client/**/*'], projectRoot)
 }
