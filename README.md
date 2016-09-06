@@ -8,6 +8,22 @@ npx 是一个集成 ECMAScript 6、webpack、vue、postcss、koa、scp、handleb
 
 ## change log
 
+### v3.3.0
+- 转换代码，ECMAScript 6 转 5。解决 mac 系统下 import 错误
+
+### v3.2.0
+- 支持 webpack 不产生 common.js
+- 支持 postcss 插件配置
+
+### v3.1.7
+- init 任务自动删除 .git 文件夹
+- 更改 postcss-pxtorem 默认配置：所有的 px 单位都将转换成 rem 单位，除非它包含 .norem 选择器
+- webpack 生成文件进度
+
+### v3.0.1 ~ 3.1.6
+- 修改一些依赖的 bug
+- 优化一些任务
+
 ### v3.0.0
 - 提供 cli
 - 去除 imagemin 特性，因为一些 node 的 bug 问题
