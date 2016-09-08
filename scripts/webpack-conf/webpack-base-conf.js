@@ -49,6 +49,10 @@ export default (env) => {
         exclude: /node_modules/,
         query: babelrc
       }, {
+        test: /\.js$/,
+        loader: 'es3ify',
+        include: /node_modules/
+      }, {
         test: /\.vue$/,
         loader: 'vue'
       }, {
