@@ -24,6 +24,7 @@ export default (env) => {
     entry: entry,
     output: {
       filename: '[name].js?[hash:7]',
+      chunkFilename: '[name].js?[chunkhash:7]',
       path: path.join(projectRoot, 'client/dist'),
       publicPath: path.join(JSON.parse(definition.client.publicPath), '/').replace(/\\/g, '/').replace(/\:\/([^\/])/i, '://$1')
     },
