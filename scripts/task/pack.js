@@ -35,7 +35,6 @@ export default () => {
     zip.finalize()
   }
 
-  pack('static.zip', 'static/**/*', path.join(projectRoot, 'client/dist'))
-  pack('html.zip', ['**/*.html'], path.join(projectRoot, 'client/dist'))
+  pack('static.zip', '**/*', path.join(projectRoot, 'client/dist'))
   pack('source.zip', ['.*', '*', '*/**/*', 'client/**/*'], projectRoot)
 }
