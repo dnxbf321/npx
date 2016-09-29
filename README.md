@@ -8,6 +8,14 @@ npx 是一个集成 ECMAScript 6、webpack、vue、postcss、koa、scp、handleb
 
 ## change log
 
+### v3.3.1 - 3.3.6
+- 提高编译后代码ie下的兼容性
+- 修复 chunkFilename 问题
+- chunk 使用自己的 hash 作版本戳，对缓存更友好
+- 生产的代码移除所有注释，支持配置文件头信息
+- 修改 pack 任务，client/dist 下的文件整体打包成 satic.zip
+- 修复 linux 下不能运行的问题
+
 ### v3.3.0
 - 转换代码，ECMAScript 6 转 5。解决 mac 系统下 import 错误
 
