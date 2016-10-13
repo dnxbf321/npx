@@ -12,8 +12,8 @@ var filePaths = [];
   filePaths = filePaths.concat(paths)
 })
 
+mkdirp.sync(path.join(__dirname, '../../npx-es5'))
 filePaths.forEach(function(source) {
-  mkdirp.sync(path.join('../npx-es5'))
   ncp(source, path.join('../npx-es5', source), function(err) {
     if (err) {
       return console.error(err)
