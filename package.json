@@ -24,9 +24,8 @@
     "npx": "bin/index.js"
   },
   "scripts": {
-    "reset": "rimraf ../npx-es5 && ncp ../npx ../npx-es5 && rimraf ../npx-es5/node_modules",
-    "compile": "npm-run-all clean --parallel es5-bin es5-scripts es5-eslintrc",
-    "clean": "rimraf ../npx-es5/bin && rimraf ../npx-es5/scripts",
+    "reset": "rimraf ../npx-es5 && node bin/copy2es5.js",
+    "compile": "npm-run-all reset --parallel es5-bin es5-scripts es5-eslintrc",
     "es5-bin": "babel bin -d ../npx-es5/bin",
     "es5-scripts": "babel scripts -d ../npx-es5/scripts",
     "es5-eslintrc": "babel .eslintrc.js -o ../npx-es5/.eslintrc.js"
