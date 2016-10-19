@@ -31,7 +31,10 @@ export default (env) => {
     resolve: {
       extensions: ['', '.js'],
       root: [path.join(projectRoot, 'node_modules')],
-      fallback: [path.join(cliRoot, 'node_modules')]
+      fallback: [path.join(cliRoot, 'node_modules')],
+      alias: {
+        vue: 'vue/dist/vue.js' // standalone build, see https://vuejs.org/guide/installation.html#Standalone-vs-Runtime-only-Build
+      }
     },
     resolveLoader: {
       root: [path.join(cliRoot, 'node_modules')],

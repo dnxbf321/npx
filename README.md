@@ -8,6 +8,12 @@ npx 是一个集成 ECMAScript 6、webpack、vue、postcss、koa、scp、handleb
 
 ## change log
 
+### v4.0.0
+- 支持 vue 2.0 。基于 vue 1.x的项目请使用 deng-npx@3.3.7 版本。若需要在 vue 1.x 和 vue 2.x 之间切换工作，vue 1.x 类的项目本地依赖 deng-npx，vue 2.x 类的项目依赖全局 deng-npx。
+
+### v3.3.7
+- 更新依赖以解决本地安装依赖不能执行 webpack 任务的 bug
+
 ### v3.3.1 - 3.3.6
 - 提高编译后代码ie下的兼容性
 - 修复 chunkFilename 问题
