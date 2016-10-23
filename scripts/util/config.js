@@ -12,7 +12,7 @@ try {
   })
   projectConf = JSON.parse(projectConf.toString())
 } catch ( e ) {
-  console.log('[warn] config.json not found at current path')
+  console.log('[npx          warn] config.json not found at current path')
 }
 
 var config = extend(true, {}, configJson, projectConf)

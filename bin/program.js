@@ -15,6 +15,38 @@ import taskPostcss from '../scripts/task/postcss'
 
 pkgUpdate()
 
+function list(val) {
+  return val.split(',')
+}
+
+function keyMapTask(key) {
+  switch (key) {
+    case 'init':
+      return taskInit
+    case 'pre':
+      return taskPre
+    case 'webpack':
+      return taskWebpack
+    case 'clean':
+      return taskClean
+    case 'upload':
+      return taskClean
+    case 'pack':
+      return taskPack
+    case 'asset':
+      return taskAsset
+    case 'image':
+      return taskImage
+    case 'babel-asset':
+      return taskBabelAsset
+    case 'serve-client':
+      return taskServeClient
+    case 'postcss':
+      return taskPostcss
+    default:
+  }
+}
+
 program.version(pkg.version)
 
 // 初始化任务
@@ -113,4 +145,27 @@ program
     taskPostcss(options['node_env'])
   })
 
+program
+  .option('-t, --tasks <items>', 'list tasks to exec', list)
+  .option('-e, --node_env [env]', 'define NODE_ENV, a string should be "development", "dev", "experiment", "exp", "production" or "prod"')
+
 program.parse(process.argv)
+
+if (program.tasks) {
+  let taskChain = program.tasks
+  let env = program['node_env']
+  let idx = 0
+  let exec = () => {
+    return keyMapTask(taskChain[idx])(env)
+      .then(() => {
+        idx += 1
+        if (idx < taskChain.length) {
+          exec()
+        }
+      })
+      .catch((err) => {
+        throw new Error(err)
+      })
+  }
+  exec()
+}

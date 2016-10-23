@@ -1,7 +1,8 @@
 import rimraf from 'rimraf'
 import mkdirp from 'mkdirp'
-import path from 'path'
 import colors from 'colors'
+import leftPad from 'left-pad'
+import path from 'path'
 import touchJsdoc from '../util/touch-jsdoc'
 import touchEslintrc from '../util/touch-eslintrc'
 
@@ -19,5 +20,6 @@ export default () => {
   touchJsdoc()
   touchEslintrc()
 
-  console.log(colors.bgGreen('[task pre]'), 'done')
+  console.log(colors.bgGreen(`[task ${leftPad('pre', 12)}]`), 'done')
+  return Promise.resolve()
 }

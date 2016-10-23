@@ -5,6 +5,7 @@ import webpackConnectHistoryApiFallback from 'koa-connect-history-api-fallback'
 import webpackDevMiddleware from 'koa-webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
 import colors from 'colors'
+import leftPad from 'left-pad'
 import path from 'path'
 import aliasEnv from '../util/alias-env'
 import cssMiddleware from '../util/koa-postcss-middleware'
@@ -60,11 +61,15 @@ export default (env) => {
   app.use(staticServe(path.join(codePath, 'client/assets/')))
 
   var PORT = config.client.port
-  app.listen(PORT, (err) => {
-    if (err) {
-      console.log(colors.bgRed('[task serve-client]'), colors.red(err))
-      return
-    }
-    console.log(colors.bgGreen.bold('[task serve-client]'), 'static files on port: ' + PORT)
+  return new Promise((resolve, reject) => {
+    app.listen(PORT, (err) => {
+      if (err) {
+        console.log(colors.bgRed(`[task ${leftPad('serve-client', 12)}]`), err)
+        reject()
+      } else {
+        console.log(colors.bgGreen(`[task ${leftPad('serve-client', 12)}]`), 'static files on port: ' + PORT)
+        resolve()
+      }
+    })
   })
 }

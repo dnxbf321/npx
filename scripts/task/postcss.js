@@ -1,22 +1,14 @@
-import path from 'path'
 import glob from 'glob'
-import fs from 'fs'
 import mkdirp from 'mkdirp'
 import colors from 'colors'
+import leftPad from 'left-pad'
 import postcss from 'postcss'
+import path from 'path'
+import fs from 'fs'
 import getPostcssPlugins from '../util/postcss-plugins'
 import aliasEnv from '../util/alias-env'
 
 var projectRoot = process.cwd()
-
-function writeCss(result) {
-  return new Promise((resolve, reject) => {
-    mkdirp.sync(path.dirname(result.opts.to))
-    fs.writeFileSync(result.opts.to, result.css)
-    fs.writeFileSync(result.opts.to + '.map', result.map)
-    console.log(colors.bgGreen('[task postcss]'), path.relative(projectRoot, result.opts.to))
-  })
-}
 
 export default (env) => {
   env = aliasEnv(env)
@@ -27,23 +19,34 @@ export default (env) => {
     cwd: path.join(projectRoot, 'client/static')
   })
 
-  csses.forEach((it) => {
-    var fromPath = path.join(projectRoot, 'client/static', it)
-    var toPath = path.join(projectRoot, 'client/dist/static', it)
-    var source = fs.readFileSync(fromPath)
-    postcss(postcssPlugins)
-      .process(source.toString(), {
-        from: fromPath,
-        to: toPath,
-        map: {
-          inline: false
-        }
-      })
-      .then((result) => {
-        return writeCss(result)
-      })
-      .catch((err) => {
-        console.log(colors.bgRed('[task postcss]'), err)
-      })
+  return new Promise((resolve, reject) => {
+    csses.forEach((it, idx) => {
+      var fromPath = path.join(projectRoot, 'client/static', it)
+      var toPath = path.join(projectRoot, 'client/dist/static', it)
+      var source = fs.readFileSync(fromPath)
+      postcss(postcssPlugins)
+        .process(source.toString(), {
+          from: fromPath,
+          to: toPath,
+          map: {
+            inline: false
+          }
+        })
+        .then((result) => {
+          mkdirp.sync(path.dirname(result.opts.to))
+          fs.writeFileSync(result.opts.to, result.css)
+          fs.writeFileSync(result.opts.to + '.map', result.map)
+
+          console.log(colors.bgGreen(`[task ${leftPad('postcss', 12)}]`), path.relative(projectRoot, result.opts.to))
+          if (idx === csses.length - 1) {
+            console.log(colors.bgGreen(`[task ${leftPad('postcss', 12)}]`), 'done')
+            resolve()
+          }
+        })
+        .catch((err) => {
+          console.log(colors.bgRed(`[task ${leftPad('postcss', 12)}]`), err)
+          reject()
+        })
+    })
   })
 }

@@ -2,6 +2,7 @@ import scp from 'scp2'
 import glob from 'glob'
 import extend from 'extend'
 import colors from 'colors'
+import leftPad from 'left-pad'
 import fs from 'fs'
 import path from 'path'
 import getConfig from '../util/config'
@@ -17,10 +18,18 @@ var options = {
 }
 
 var client = new scp.Client(options)
-var paths = []
-var patterns = config.ftp.patterns || ['*', '.*']
 var idx = 0
 var time = Date.now()
+
+var paths = []
+var patterns = config.ftp.patterns || ['*', '.*']
+patterns.forEach((pattern) => {
+  var _paths = glob.sync(pattern, {
+    cwd: codePath,
+    ignore: ['.git', '*.log*', 'node_modules', 'zip', 'log', 'tmp']
+  })
+  paths = paths.concat(_paths)
+})
 
 function step() {
   var local = path.resolve(codePath, paths[idx])
@@ -41,10 +50,10 @@ function step() {
       path: remote
     }), (err) => {
       if (err) {
-        console.error(err)
+        console.log(colors.bgRed(`[task ${leftPad('upload', 12)}]`), err)
         reject()
       } else {
-        console.log(colors.bgCyan.bold('[task upload]'), local + ' => ' + remote)
+        console.log(colors.bgCyan.bold(`[task ${leftPad('upload', 12)}]`), local + ' => ' + remote)
         resolve()
       }
     })
@@ -59,22 +68,23 @@ function run() {
         return run()
       } else {
         client.close()
-        console.log(colors.bgCyan.bold('[task upload]'), 'done in ' + (Date.now() - time) / 1000 + 's')
+        console.log(colors.bgCyan.bold(`[task ${leftPad('upload', 12)}]`), 'done in ' + (Date.now() - time) / 1000 + 's')
       }
     })
 }
 
 export default () => {
-  patterns.forEach((pattern) => {
-    var _paths = glob.sync(pattern, {
-      cwd: codePath,
-      ignore: ['.git', '*.log*', 'node_modules', 'zip', 'log', 'tmp']
+  return new Promise((resolve, reject) => {
+    client.mkdir(remotePath, () => {
+      if (paths.length) {
+        run()
+          .then(() => {
+            resolve()
+          })
+          .catch(() => {
+            reject()
+          })
+      }
     })
-    paths = paths.concat(_paths)
-  })
-  client.mkdir(remotePath, () => {
-    if (paths.length) {
-      run()
-    }
   })
 }
