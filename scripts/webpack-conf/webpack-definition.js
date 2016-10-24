@@ -23,7 +23,7 @@ function formatDefinitions(obj) {
 }
 
 export default (env) => {
-  var envConfig = getConfig(env)
+  var envConfig = getConfig(env, 'isDefinition')
   envConfig = formatDefinitions(envConfig)
   return envConfig
 }

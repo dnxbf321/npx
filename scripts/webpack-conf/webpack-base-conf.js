@@ -16,8 +16,9 @@ var cliRoot = path.join(__dirname, '../../')
 
 export default (env) => {
   var postcssPlugins = getPostcssPlugins(env)
-  var entryPrefixer = getConfig(env).entryPrefixer || ''
-  var webpackNoCommon = getConfig(env).webpack['no-common'] || false
+  var envConfig = getConfig(env)
+  var entryPrefixer = envConfig.entryPrefixer || ''
+  var webpackNoCommon = envConfig.webpack['no-common'] || false
   var definition = getDefinition(env)
   var conf = {
     context: contextPath,
@@ -26,7 +27,7 @@ export default (env) => {
       filename: '[name].js?[hash:7]',
       chunkFilename: '[name].js?[chunkhash:7]',
       path: path.join(projectRoot, 'client/dist'),
-      publicPath: path.join(JSON.parse(definition['client.publicPath']), '/').replace(/\\/g, '/').replace(/\:\/([^\/])/i, '://$1')
+      publicPath: path.join(envConfig.client.publicPath, '/').replace(/\\/g, '/').replace(/\:\/([^\/])/i, '://$1')
     },
     resolve: {
       extensions: ['', '.js'],

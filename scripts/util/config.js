@@ -17,17 +17,21 @@ try {
 
 var config = extend(true, {}, configJson, projectConf)
 
-export default (env) => {
+export default (env, isDefinition) => {
   env = env || global.NODE_ENV || process.env.NODE_ENV
   var defaultConfig = config['default']
   var envConfig = extend(true, {}, defaultConfig, config[env || 'production'] || {}, {
     'process.env': env,
-    ftp: config['ftp'],
-    jsdoc: config['jsdoc'],
-    postcss: config['postcss'],
-    version: Date.now(),
-    entryPrefixer: config['entryPrefixer'],
-    webpack: config['webpack'] || {}
+    version: Date.now()
   })
+  if (!isDefinition) {
+    envConfig = extend(true, {}, envConfig, {
+      ftp: config['ftp'],
+      jsdoc: config['jsdoc'],
+      postcss: config['postcss'],
+      entryPrefixer: config['entryPrefixer'],
+      webpack: config['webpack'] || {}
+    })
+  }
   return envConfig
 }
