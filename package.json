@@ -1,6 +1,6 @@
 {
   "name": "deng-npx",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "description": "Pack static files like html, css, javascript, images and so on. Different environment, different variables.",
   "keywords": [
     "front-end",
@@ -55,19 +55,18 @@
   "dependencies": {
     "archiver": "1.1.0",
     "autoprefixer": "6.5.1",
-    "babel-core": "6.17.0",
+    "babel-core": "6.18.0",
     "babel-loader": "6.2.5",
     "babel-plugin-add-module-exports": "0.2.1",
-    "babel-plugin-transform-define": "1.2.0",
     "babel-plugin-transform-es3-member-expression-literals": "6.8.0",
     "babel-plugin-transform-es3-property-literals": "6.8.0",
     "babel-plugin-transform-runtime": "6.15.0",
-    "babel-preset-es2015": "6.16.0",
-    "babel-preset-stage-2": "6.17.0",
-    "babel-runtime": "6.11.6",
+    "babel-preset-es2015": "6.18.0",
+    "babel-preset-stage-2": "6.18.0",
+    "babel-runtime": "6.18.0",
     "colors": "1.1.2",
     "css-loader": "0.25.0",
-    "cssnano": "3.7.7",
+    "cssnano": "3.8.0",
     "es3ify-loader": "0.2.0",
     "eslint": "3.8.1",
     "eslint-config-standard": "6.2.0",
@@ -91,7 +90,7 @@
     "koa-connect-history-api-fallback": "0.3.0",
     "koa-static": "2.0.0",
     "koa-webpack-dev-middleware": "1.2.2",
-    "left-pad": "^1.1.3",
+    "left-pad": "1.1.3",
     "mkdirp": "0.5.1",
     "moment": "2.15.1",
     "ncp": "2.0.0",
@@ -120,7 +119,7 @@
     "webpack-merge": "0.14.1"
   },
   "devDependencies": {
-    "babel-cli": "^6.16.0",
+    "babel-cli": "^6.18.0",
     "npm-run-all": "^3.1.1"
   }
 }
