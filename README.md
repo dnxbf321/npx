@@ -8,12 +8,19 @@ npx 是一个集成 ECMAScript 6、webpack、vue、postcss、koa、scp、handleb
 
 ## change log
 
+### v4.1.1
+- 更新 babel-asset 任务
+
 ### v4.1.0
 - 添加 tasks 命令，用法请查看使用指南
 - babel-asset、webpack 任务的变量注入保持一致：只能直接使用叶子节点的值
 
 ### v4.0.0
 - 支持 vue 2.0 。基于 vue 1.x的项目请使用 deng-npx@3.3.7 版本。若需要在 vue 1.x 和 vue 2.x 之间切换工作，vue 1.x 类的项目本地依赖 deng-npx，vue 2.x 类的项目依赖全局 deng-npx。
+
+### v3.4.0
+- fork  version>=4.0 的一些特性
+- 修复一些 bug
 
 ### v3.3.7
 - 更新依赖以解决本地安装依赖不能执行 webpack 任务的 bug
