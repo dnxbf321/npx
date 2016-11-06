@@ -31,10 +31,10 @@
     "es5-eslintrc": "babel .eslintrc.js -o ../npx-es5/.eslintrc.js"
   },
   "scripts-example": {
-    "dev": "npm-run-all pre asset image babel-asset-dev --parallel serve-client",
-    "build-dev": "npm-run-all pre asset image webpack-dev postcss-dev babel-asset-dev",
-    "build-exp": "npm-run-all pre asset image webpack-exp postcss-exp babel-asset-exp",
-    "build": "npm-run-all pre asset image webpack postcss babel-asset",
+    "dev": "npx -t pre,asset,babel-asset,image,serve-client -e development",
+    "build-dev": "npx -t pre,asset,babel-asset,image,webpack,postcss -e development",
+    "build-exp": "npx -t pre,asset,babel-asset,image,webpack,postcss -e experiment",
+    "build": "npx -t pre,asset,babel-asset,image,webpack,postcss -e production",
     "serve-client": "npx serve-client -e development",
     "pre": "npx pre",
     "webpack-dev": "npx webpack -e development",
