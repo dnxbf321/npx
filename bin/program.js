@@ -62,9 +62,8 @@ program
 program
   .command('webpack')
   .description('webpack files')
-  .option('-e, --node_env [env]', 'define NODE_ENV, a string should be "development", "dev", "experiment", "exp", "production" or "prod"')
-  .action((options) => {
-    taskWebpack(options['node_env'])
+  .action(() => {
+    taskWebpack(program['node_env'])
   })
 
 // pre 任务
@@ -120,9 +119,8 @@ program
 program
   .command('babel-asset')
   .description('use babel to compile js files those end with .bl.js in asset folder')
-  .option('-e, --node_env [env]', 'define NODE_ENV, a string should be "development", "dev", "experiment", "exp", "production" or "prod"')
-  .action((options) => {
-    taskBabelAsset(options['node_env'])
+  .action(() => {
+    taskBabelAsset(program['node_env'])
   })
 
 // serve-client 任务，启动静态资源服务器
@@ -130,9 +128,8 @@ program
 program
   .command('serve-client')
   .description('serve static files')
-  .option('-e, --node_env [env]', 'define NODE_ENV, a string should be "development", "dev", "experiment", "exp", "production" or "prod"')
-  .action((options) => {
-    taskServeClient(options['node_env'])
+  .action(() => {
+    taskServeClient(program['node_env'])
   })
 
 // postcss 任务
@@ -140,9 +137,8 @@ program
 program
   .command('postcss')
   .description('compile sass-like stylesheet files')
-  .option('-e, --node_env [env]', 'define NODE_ENV, a string should be "development", "dev", "experiment", "exp", "production" or "prod"')
-  .action((options) => {
-    taskPostcss(options['node_env'])
+  .action(() => {
+    taskPostcss(program['node_env'])
   })
 
 program
