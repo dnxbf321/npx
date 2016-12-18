@@ -16,7 +16,7 @@ export default (env) => {
     cache: false,
     devtool: SOURCE_MAP ? '#source-map' : false,
     output: {
-      filename: '[name].js?[chunkhash:7]'
+      filename: '[name].js?[chunkhash]'
     },
     plugins: [
       new webpack.optimize.UglifyJsPlugin({

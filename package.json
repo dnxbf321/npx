@@ -1,6 +1,6 @@
 {
   "name": "deng-npx",
-  "version": "4.1.4",
+  "version": "4.1.6",
   "description": "Pack static files like html, css, javascript, images and so on. Different environment, different variables.",
   "keywords": [
     "front-end",
@@ -65,6 +65,7 @@
     "babel-preset-stage-2": "^6.18.0",
     "babel-runtime": "^6.18.0",
     "colors": "^1.1.2",
+    "commander": "^2.9.0",
     "css-loader": "^0.25.0",
     "cssnano": "^3.8.0",
     "es3ify-loader": "0.2.0",

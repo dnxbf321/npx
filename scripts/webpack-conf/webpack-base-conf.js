@@ -24,8 +24,8 @@ export default (env) => {
     context: contextPath,
     entry: entry,
     output: {
-      filename: '[name].js?[hash:7]',
-      chunkFilename: '[name].js?[chunkhash:7]',
+      filename: '[name].js?[hash]',
+      chunkFilename: '[name].js?[chunkhash]',
       path: path.join(projectRoot, 'client/dist'),
       publicPath: path.join(envConfig.client.publicPath, '/').replace(/\\/g, '/').replace(/\:\/([^\/])/i, '://$1')
     },
@@ -68,7 +68,7 @@ export default (env) => {
         loader: 'url',
         query: {
           limit: 1,
-          name: '[path][name].[ext]?[hash:7]'
+          name: '[path][name].[ext]?[hash]'
         }
       }, {
         test: /\.hbs$/,
