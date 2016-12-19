@@ -37,8 +37,8 @@ export default (env) => {
     devtool: env === 'development' ? '#source-map' : false,
     entry: getEntry(),
     output: {
-      filename: '[name].js?[chunkhash:7]',
-      chunkFilename: '[name].js?[chunkhash:7]',
+      filename: '[name].js?[chunkhash]',
+      chunkFilename: '[name].js?[chunkhash]',
       path: path.join(projectRoot, 'client/dist/static'),
       publicPath: path.join(config.client.publicPath, '/').replace(/\\/g, '/').replace(/\:\/([^\/])/i, '://$1')
     },
