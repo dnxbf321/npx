@@ -2,6 +2,8 @@ import webpack from 'webpack'
 import progressBarWebpackPlugin from 'progress-bar-webpack-plugin'
 
 import path from 'path'
+import colors from 'colors'
+import leftPad from 'left-pad'
 
 import getDefinition from './webpack-definition'
 import entry from './webpack-entry'
@@ -99,7 +101,7 @@ export default (env) => {
       new webpack.DefinePlugin(definition),
       new webpack.optimize.OccurenceOrderPlugin(),
       new progressBarWebpackPlugin({
-        format: colors.bgCyan(`[webpack ${leftPad('build', 11)}]`) + '[:bar] ' + colors.green.bold(':percent') + ' (:elapsed seconds)',
+        format: colors.bgCyan(`[webpack ${leftPad('build', 9)}]`) + '[:bar] ' + colors.green.bold(':percent') + ' (:elapsed seconds)',
         clear: false
       })
     ].concat(htmlPlugins)
