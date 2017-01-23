@@ -1,4 +1,5 @@
 import webpack from 'webpack'
+import progressBarWebpackPlugin from 'progress-bar-webpack-plugin'
 
 import path from 'path'
 
@@ -96,7 +97,11 @@ export default (env) => {
     plugins: [
       new webpack.IgnorePlugin(/vertx/),
       new webpack.DefinePlugin(definition),
-      new webpack.optimize.OccurenceOrderPlugin()
+      new webpack.optimize.OccurenceOrderPlugin(),
+      new progressBarWebpackPlugin({
+        format: colors.bgCyan(`[webpack ${leftPad('build', 11)}]`) + '[:bar] ' + colors.green.bold(':percent') + ' (:elapsed seconds)',
+        clear: false
+      })
     ].concat(htmlPlugins)
   }
   if (!webpackNoCommon) {

@@ -1,6 +1,6 @@
 {
   "name": "deng-npx",
-  "version": "4.1.7",
+  "version": "4.1.8",
   "description": "Pack static files like html, css, javascript, images and so on. Different environment, different variables.",
   "keywords": [
     "front-end",
@@ -102,6 +102,7 @@
     "postcss-pxtorem": "^3.3.1",
     "postcss-reporter": "^1.4.1",
     "precss": "^1.4.0",
+    "progress-bar-webpack-plugin": "^1.9.3",
     "rimraf": "^2.5.4",
     "rucksack-css": "^0.8.6",
     "scp2": "^0.5.0",

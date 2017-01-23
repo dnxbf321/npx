@@ -1,5 +1,4 @@
 import webpack from 'webpack'
-import ProgressPlugin from 'webpack/lib/ProgressPlugin'
 import colors from 'colors'
 import leftPad from 'left-pad'
 import getProdConf from '../webpack-conf/webpack-prod-conf'
@@ -11,9 +10,6 @@ export default (env) => {
 
   return new Promise((resolve, reject) => {
     var compiler = webpack(conf)
-    compiler.apply(new ProgressPlugin((percentage, msg) => {
-      console.log(colors.bgGreen(`[task ${leftPad('webpack', 12)}]`), parseInt(percentage * 100) + '%', msg)
-    }))
     compiler.run((err, stats) => {
       if (err) {
         console.log(colors.bgRed(`[task ${leftPad('webpack', 12)}]`), err)
