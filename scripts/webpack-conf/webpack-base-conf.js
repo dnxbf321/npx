@@ -5,6 +5,8 @@ import path from 'path'
 import colors from 'colors'
 import leftPad from 'left-pad'
 
+import requireUncached from 'require-uncached'
+
 import getDefinition from './webpack-definition'
 import entry from './webpack-entry'
 import htmlPlugins from './webpack-html-plugins'
@@ -147,4 +149,15 @@ export default (env) => {
     }))
   }
   return conf
+}
+
+
+export function getCustomConfig() {
+  var webpackConfJs = path.join(projectRoot, 'webpack.config.js')
+  try {
+    var conf = requireUncached(webpackConfJs)
+    return conf
+  } catch ( e ) {
+    return {}
+  }
 }
