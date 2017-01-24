@@ -29,9 +29,6 @@ export default (env) => {
     configFile: path.join(projectRoot, '.eslintrc.js'),
     formatter: require('eslint-friendly-formatter')
   }
-  var postcssrc = {
-    plugins: postcssPlugins
-  }
   var conf = {
     context: contextPath,
     entry: entry,
@@ -85,19 +82,6 @@ export default (env) => {
             }
           ]
         }, {
-          test: /\.vue$/,
-          use: [
-            {
-              loader: 'vue-loader',
-              options: {
-                loaders: {
-                  js: 'babel-loader?' + JSON.stringify(babelrc) + '!eslint-loader?' + JSON.stringify(eslintrc)
-                },
-                postcss: postcssrc
-              }
-            }
-          ]
-        }, {
           test: /\.(png|jpg|gif|svg|woff2?|eot|ttf)(\?.*)?$/,
           use: [
             {
@@ -120,15 +104,18 @@ export default (env) => {
             }
           ]
         }, {
-          test: /\.css$/,
+          test: /\.vue$/,
           use: [
             {
-              loader: 'style-loader'
-            }, {
-              loader: 'css-loader'
-            }, {
-              loader: 'postcss-loader',
-              options: postcssrc
+              loader: 'vue-loader',
+              options: {
+                loaders: {
+                  js: 'babel-loader?' + JSON.stringify(babelrc) + '!eslint-loader?' + JSON.stringify(eslintrc)
+                },
+                postcss: {
+                  plugins: postcssPlugins
+                }
+              }
             }
           ]
         }
