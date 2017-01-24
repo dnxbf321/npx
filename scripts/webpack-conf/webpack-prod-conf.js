@@ -33,7 +33,8 @@ export default (env) => {
           conf: path.join(process.cwd(), '.jsdoc.json')
         }) : [])
       .concat(config.webpack.banner ?
-        new webpack.BannerPlugin(config.webpack.banner + ' | built at ' + new Date(config.version), {
+        new webpack.BannerPlugin({
+          banner: config.webpack.banner + ' | built at ' + new Date(config.version),
           entryOnly: true
         }) : [])
   })

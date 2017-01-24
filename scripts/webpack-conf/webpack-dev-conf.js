@@ -7,7 +7,7 @@ export default () => {
   var baseConfig = getBaseConfig('development')
 
   Object.keys(baseConfig.entry).forEach((name) => {
-    baseConfig.entry[name] = [path.join(__dirname, 'webpack-dev-client')].concat(baseConfig.entry[name])
+    baseConfig.entry[name] = [path.join(__dirname, 'webpack-dev-client'), baseConfig.entry[name]]
   })
 
   return merge(baseConfig, {
@@ -18,7 +18,7 @@ export default () => {
     },
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
-      new webpack.NoErrorsPlugin()
+      new webpack.NoEmitOnErrorsPlugin()
     ]
   })
 }

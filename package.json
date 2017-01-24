@@ -76,7 +76,7 @@
     "eslint-plugin-html": "^1.5.3",
     "eslint-plugin-promise": "^3.0.0",
     "eslint-plugin-standard": "^2.0.1",
-    "eventsource-polyfill": "0.9.6",
+    "eventsource-polyfill": "^0.9.6",
     "extend": "^3.0.0",
     "file-loader": "^0.9.0",
     "function-bind": "1.1.0",
@@ -117,7 +117,7 @@
     "vue-loader": "^10.0.2",
     "vue-style-loader": "^1.0.0",
     "vue-template-compiler": "^2.1.10",
-    "webpack": "^1.13.2",
+    "webpack": "^2.2.0",
     "webpack-hot-middleware": "^2.13.0",
     "webpack-merge": "^2.4.0"
   },

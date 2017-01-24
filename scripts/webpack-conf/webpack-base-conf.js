@@ -23,6 +23,13 @@ export default (env) => {
   var entryPrefixer = envConfig.entryPrefixer || ''
   var webpackNoCommon = envConfig.webpack['no-common'] || false
   var definition = getDefinition(env)
+  var eslintrc = {
+    configFile: path.join(projectRoot, '.eslintrc.js'),
+    formatter: require('eslint-friendly-formatter')
+  }
+  var postcssrc = {
+    plugins: postcssPlugins
+  }
   var conf = {
     context: contextPath,
     entry: entry,
@@ -33,73 +40,101 @@ export default (env) => {
       publicPath: path.join(envConfig.client.publicPath, '/').replace(/\\/g, '/').replace(/\:\/([^\/])/i, '://$1')
     },
     resolve: {
-      extensions: ['', '.js'],
-      root: [path.join(projectRoot, 'node_modules')],
-      fallback: [path.join(cliRoot, 'node_modules')],
+      modules: [
+        path.join(projectRoot, 'node_modules'),
+        path.join(cliRoot, 'node_modules')
+      ],
       alias: {
         vue: 'vue/dist/vue.js' // standalone build, see https://vuejs.org/guide/installation.html#Standalone-vs-Runtime-only-Build
       }
     },
     resolveLoader: {
-      root: [path.join(cliRoot, 'node_modules')],
-      fallback: [path.join(projectRoot, 'node_modules')]
+      modules: [
+        path.join(projectRoot, 'node_modules'),
+        path.join(cliRoot, 'node_modules')
+      ]
     },
     module: {
-      preLoaders: [{
-        test: /\.(js|vue)$/,
-        loader: 'eslint',
-        include: staticRoot,
-        exclude: /node_modules/
-      }],
-      loaders: [{
-        test: /\.js$/,
-        loader: 'babel',
-        exclude: /node_modules/,
-        query: babelrc
-      }, {
-        test: /\.js$/,
-        loader: 'es3ify',
-        include: /node_modules/
-      }, {
-        test: /\.vue$/,
-        loader: 'vue'
-      }, {
-        test: /\.json$/,
-        loader: 'json'
-      }, {
-        test: /\.(png|jpg|gif|svg|woff2?|eot|ttf)(\?.*)?$/,
-        loader: 'url',
-        query: {
-          limit: 1,
-          name: '[path][name].[ext]?[hash]'
+      rules: [
+        {
+          test: /\.js$/,
+          include: [staticRoot],
+          exclude: /node_modules/,
+          use: [{
+            loader: 'eslint-loader',
+            options: eslintrc
+          }],
+          enforce: 'pre'
+        }, {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          use: [
+            {
+              loader: 'babel-loader',
+              options: babelrc
+            }
+          ]
+        }, {
+          test: /\.js$/,
+          include: /node_modules/,
+          use: [
+            {
+              loader: 'es3ify-loader'
+            }
+          ]
+        }, {
+          test: /\.vue$/,
+          use: [
+            {
+              loader: 'vue-loader',
+              options: {
+                loaders: {
+                  js: 'babel-loader?' + JSON.stringify(babelrc) + '!eslint-loader?' + JSON.stringify(eslintrc)
+                },
+                postcss: postcssrc
+              }
+            }
+          ]
+        }, {
+          test: /\.(png|jpg|gif|svg|woff2?|eot|ttf)(\?.*)?$/,
+          use: [
+            {
+              loader: 'url-loader',
+              options: {
+                limit: 1,
+                name: '[path][name].[ext]?[hash]'
+              }
+            }
+          ]
+        }, {
+          test: /\.hbs$/,
+          use: [
+            {
+              loader: 'handlebars-loader',
+              options: {
+                helperDirs: [path.join(staticRoot, 'js/hbs-helper'), path.join(__dirname, '../helper')],
+                partialDirs: [path.join(staticRoot, 'html/partial')]
+              }
+            }
+          ]
+        }, {
+          test: /\.css$/,
+          use: [
+            {
+              loader: 'style-loader'
+            }, {
+              loader: 'css-loader'
+            }, {
+              loader: 'postcss-loader',
+              options: postcssrc
+            }
+          ]
         }
-      }, {
-        test: /\.hbs$/,
-        loader: 'handlebars',
-        query: {
-          helperDirs: [path.join(staticRoot, 'js/hbs-helper'), path.join(__dirname, '../helper')],
-          partialDirs: [path.join(staticRoot, 'html/partial')]
-        }
-      }, {
-        test: /\.css$/,
-        loader: 'style!css!postcss'
-      }]
+      ]
     },
-    eslint: {
-      configFile: path.join(projectRoot, '.eslintrc.js'),
-      formatter: require('eslint-friendly-formatter')
-    },
-    babel: babelrc,
-    vue: {
-      postcss: {
-        plugins: postcssPlugins
-      }
-    },
-    postcss: postcssPlugins,
     plugins: [
       new webpack.IgnorePlugin(/vertx/),
       new webpack.DefinePlugin(definition),
-      new webpack.optimize.OccurenceOrderPlugin(),
       new progressBarWebpackPlugin({
         format: colors.bgCyan(`[webpack ${leftPad('build', 9)}]`) + '[:bar] ' + colors.green.bold(':percent') + ' (:elapsed seconds)',
         clear: false
