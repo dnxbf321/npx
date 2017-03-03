@@ -1,6 +1,6 @@
 {
   "name": "deng-npx",
-  "version": "4.2.2",
+  "version": "4.3.0",
   "description": "Pack static files like html, css, javascript, images and so on. Different environment, different variables.",
   "keywords": [
     "front-end",
@@ -107,12 +107,6 @@
     "stylelint-config-standard": "^15.0.1",
     "update-notifier": "^1.0.2",
     "url-loader": "^0.5.8",
-    "vue": "^2.2.1",
-    "vue-hot-reload-api": "^2.0.11",
-    "vue-html-loader": "^1.2.4",
-    "vue-loader": "^11.1.4",
-    "vue-style-loader": "^2.0.3",
-    "vue-template-compiler": "^2.2.1",
     "webpack": "^2.2.1",
     "webpack-hot-middleware": "^2.17.1",
     "webpack-merge": "^2.6.1"

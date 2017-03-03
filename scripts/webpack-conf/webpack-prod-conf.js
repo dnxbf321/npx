@@ -10,7 +10,7 @@ var SOURCE_MAP = false
 
 export default (env) => {
   var config = getConfig(env)
-  var customConfig = getCustomConfig()
+  var customConfig = getCustomConfig(env)
   return merge(getBaseConfig(env), {
     stats: {
       children: false

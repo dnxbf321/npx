@@ -6,7 +6,7 @@ import { getCustomConfig } from './webpack-base-conf'
 
 export default () => {
   var baseConfig = getBaseConfig('development')
-  var customConfig = getCustomConfig()
+  var customConfig = getCustomConfig('development')
 
   Object.keys(baseConfig.entry).forEach((name) => {
     baseConfig.entry[name] = [path.join(__dirname, 'webpack-dev-client'), baseConfig.entry[name]]

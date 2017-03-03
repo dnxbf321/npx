@@ -76,14 +76,6 @@ export default (env) => {
               options: babelrc
             }
           ]
-        }, {
-          test: /\.js$/,
-          include: /node_modules/,
-          use: [
-            {
-              loader: 'es3ify-loader'
-            }
-          ]
         }
       ]
     },

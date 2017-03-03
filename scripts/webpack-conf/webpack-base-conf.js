@@ -19,16 +19,18 @@ var contextPath = path.join(projectRoot, 'client')
 var staticRoot = path.join(contextPath, 'static')
 var cliRoot = path.join(__dirname, '../../')
 
+var eslintrc = {
+  configFile: path.join(projectRoot, '.eslintrc.js'),
+  formatter: require('eslint-friendly-formatter')
+}
+
 export default (env) => {
   var postcssPlugins = getPostcssPlugins(env)
   var envConfig = getConfig(env)
   var entryPrefixer = envConfig.entryPrefixer || ''
   var webpackNoCommon = envConfig.webpack['no-common'] || false
   var definition = getDefinition(env)
-  var eslintrc = {
-    configFile: path.join(projectRoot, '.eslintrc.js'),
-    formatter: require('eslint-friendly-formatter')
-  }
+
   var conf = {
     context: contextPath,
     entry: entry,
@@ -95,21 +97,6 @@ export default (env) => {
               }
             }
           ]
-        }, {
-          test: /\.vue$/,
-          use: [
-            {
-              loader: 'vue-loader',
-              options: {
-                loaders: {
-                  js: 'babel-loader?' + JSON.stringify(babelrc) + '!eslint-loader?' + JSON.stringify(eslintrc)
-                },
-                postcss: {
-                  plugins: postcssPlugins
-                }
-              }
-            }
-          ]
         }
       ]
     },
@@ -130,12 +117,15 @@ export default (env) => {
   return conf
 }
 
-
-export function getCustomConfig() {
+export function getCustomConfig(env) {
   var webpackConfJs = path.join(projectRoot, 'webpack.config.js')
   try {
     var conf = requireUncached(webpackConfJs)
-    return conf
+    return conf({
+      babel: babelrc,
+      eslint: eslintrc,
+      postcss: getPostcssPlugins(env)
+    })
   } catch ( e ) {
     return {}
   }
