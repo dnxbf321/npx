@@ -74,14 +74,6 @@ export default (env) => {
             }
           ]
         }, {
-          test: /\.js$/,
-          include: /node_modules/,
-          use: [
-            {
-              loader: 'es3ify-loader'
-            }
-          ]
-        }, {
           test: /\.(png|jpg|gif|svg|woff2?|eot|ttf)(\?.*)?$/,
           use: [
             {
