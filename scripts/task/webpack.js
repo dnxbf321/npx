@@ -6,7 +6,11 @@ import aliasEnv from '../util/alias-env'
 
 export default (env) => {
   env = aliasEnv(env)
+
   var conf = getProdConf(env)
+  if (!conf) {
+    return Promise.resolve()
+  }
 
   return new Promise((resolve, reject) => {
     var compiler = webpack(conf)

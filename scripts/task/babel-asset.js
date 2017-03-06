@@ -18,6 +18,9 @@ export default (env) => {
   // 打包处理 .bl.js 文件
   env = aliasEnv(env)
   var conf = getBabelAssetconf(env)
+  if (!conf) {
+    return Promise.resolve()
+  }
   var compiler = webpack(conf)
   return new Promise((resolve, reject) => {
     compiler.run((err, stats) => {

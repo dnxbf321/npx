@@ -31,6 +31,11 @@ export default (env) => {
   var webpackNoCommon = envConfig.webpack['no-common'] || false
   var definition = getDefinition(env)
 
+  // 无 entry，跳过
+  if (JSON.stringify(entry) === '{}') {
+    return
+  }
+
   var conf = {
     context: contextPath,
     entry: entry,

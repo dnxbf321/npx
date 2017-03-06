@@ -6,6 +6,10 @@ import { getCustomConfig } from './webpack-base-conf'
 
 export default () => {
   var baseConfig = getBaseConfig('development')
+  if (!baseConfig) {
+    return
+  }
+
   var customConfig = getCustomConfig('development')
 
   Object.keys(baseConfig.entry).forEach((name) => {

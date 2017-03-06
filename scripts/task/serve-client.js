@@ -17,29 +17,33 @@ var codePath = process.cwd()
 export default (env) => {
   env = aliasEnv(env)
 
-  var wpConfig = getWpConfig(env)
   var config = getConfig(env)
-  var compiler = webpack(wpConfig)
+
   var app = koa()
 
-  app.use(webpackConnectHistoryApiFallback())
 
-  app.use(webpackDevMiddleware(compiler, {
-    noInfo: false,
-    quiet: false,
-    lazy: false,
-    watchOptions: {
-      aggregateTimeout: 300
-    },
-    publicPath: wpConfig.output.publicPath,
-    stats: 'normal'
-  }))
+  var wpConfig = getWpConfig(env)
+  if (wpConfig) {
+    var compiler = webpack(wpConfig)
+    app.use(webpackConnectHistoryApiFallback())
 
-  var hotMiddleware = webpackHotMiddleware(compiler)
-  app.use(function*(next) {
-    yield hotMiddleware.bind(null, this.req, this.res)
-    yield next
-  })
+    app.use(webpackDevMiddleware(compiler, {
+      noInfo: false,
+      quiet: false,
+      lazy: false,
+      watchOptions: {
+        aggregateTimeout: 300
+      },
+      publicPath: wpConfig.output.publicPath,
+      stats: 'normal'
+    }))
+
+    var hotMiddleware = webpackHotMiddleware(compiler)
+    app.use(function*(next) {
+      yield hotMiddleware.bind(null, this.req, this.res)
+      yield next
+    })
+  }
 
   // use css middleware
   app.use(cssMiddleware({

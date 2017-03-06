@@ -28,6 +28,12 @@ function getEntry() {
 export default (env) => {
   var config = getConfig(env)
   var definition = getDefinition(env)
+  var entries = getEntry()
+
+  if (JSON.stringify(entries) === '{}') {
+    return
+  }
+
   var conf = {
     context: contextPath,
     stats: {
@@ -35,7 +41,7 @@ export default (env) => {
     },
     cache: false,
     devtool: env === 'development' ? '#source-map' : false,
-    entry: getEntry(),
+    entry: entries,
     output: {
       filename: '[name].js?[chunkhash]',
       chunkFilename: '[name].js?[chunkhash]',
