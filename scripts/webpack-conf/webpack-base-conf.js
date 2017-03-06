@@ -102,6 +102,19 @@ export default (env) => {
               }
             }
           ]
+        }, {
+          test: /\.css$/,
+          use: [
+            'css-loader',
+            {
+              loader: 'postcss-loader',
+              options: {
+                plugins: function() {
+                  return postcssPlugins
+                }
+              }
+            }
+          ]
         }
       ]
     },
