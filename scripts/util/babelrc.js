@@ -9,7 +9,14 @@ var babelrc = fs.readFileSync(path.join(cliRoot, '.babelrc'), {
 babelrc = JSON.parse(babelrc.toString())
 
 babelrc.presets = babelrc.presets.map((it) => {
-  return require.resolve('babel-preset-' + it)
+  if (typeof it === 'string') {
+    return require.resolve('babel-preset-' + it)
+  } else {
+    return [
+      require.resolve('babel-preset-' + it[0]),
+      it[1]
+    ]
+  }
 })
 babelrc.plugins = babelrc.plugins.map((it) => {
   if (typeof it === 'string') {

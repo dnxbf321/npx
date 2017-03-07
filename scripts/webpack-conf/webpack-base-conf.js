@@ -1,6 +1,11 @@
 import webpack from 'webpack'
+import progressBarWebpackPlugin from 'progress-bar-webpack-plugin'
 
 import path from 'path'
+import colors from 'colors'
+import leftPad from 'left-pad'
+
+import requireUncached from 'require-uncached'
 
 import getDefinition from './webpack-definition'
 import entry from './webpack-entry'
@@ -14,89 +19,112 @@ var contextPath = path.join(projectRoot, 'client')
 var staticRoot = path.join(contextPath, 'static')
 var cliRoot = path.join(__dirname, '../../')
 
+var eslintrc = {
+  configFile: path.join(projectRoot, '.eslintrc.js'),
+  formatter: require('eslint-friendly-formatter')
+}
+
 export default (env) => {
   var postcssPlugins = getPostcssPlugins(env)
   var envConfig = getConfig(env)
   var entryPrefixer = envConfig.entryPrefixer || ''
   var webpackNoCommon = envConfig.webpack['no-common'] || false
   var definition = getDefinition(env)
+
+  // 无 entry，跳过
+  if (JSON.stringify(entry) === '{}') {
+    return
+  }
+
   var conf = {
     context: contextPath,
     entry: entry,
     output: {
-      filename: '[name].js?[hash:7]',
-      chunkFilename: '[name].js?[chunkhash:7]',
+      filename: '[name].js?[hash]',
+      chunkFilename: '[name].js?[chunkhash]',
       path: path.join(projectRoot, 'client/dist'),
       publicPath: path.join(envConfig.client.publicPath, '/').replace(/\\/g, '/').replace(/\:\/([^\/])/i, '://$1')
     },
     resolve: {
-      extensions: ['', '.js'],
-      root: [path.join(projectRoot, 'node_modules')],
-      fallback: [path.join(cliRoot, 'node_modules')],
+      modules: [
+        path.join(projectRoot, 'node_modules'),
+        path.join(cliRoot, 'node_modules')
+      ],
       alias: {
         vue: 'vue/dist/vue.js' // standalone build, see https://vuejs.org/guide/installation.html#Standalone-vs-Runtime-only-Build
       }
     },
     resolveLoader: {
-      root: [path.join(cliRoot, 'node_modules')],
-      fallback: [path.join(projectRoot, 'node_modules')]
+      modules: [
+        path.join(projectRoot, 'node_modules'),
+        path.join(cliRoot, 'node_modules')
+      ]
     },
     module: {
-      preLoaders: [{
-        test: /\.(js|vue)$/,
-        loader: 'eslint',
-        include: staticRoot,
-        exclude: /node_modules/
-      }],
-      loaders: [{
-        test: /\.js$/,
-        loader: 'babel',
-        exclude: /node_modules/,
-        query: babelrc
-      }, {
-        test: /\.js$/,
-        loader: 'es3ify',
-        include: /node_modules/
-      }, {
-        test: /\.vue$/,
-        loader: 'vue'
-      }, {
-        test: /\.json$/,
-        loader: 'json'
-      }, {
-        test: /\.(png|jpg|gif|svg|woff2?|eot|ttf)(\?.*)?$/,
-        loader: 'url',
-        query: {
-          limit: 1,
-          name: '[path][name].[ext]?[hash:7]'
+      rules: [
+        {
+          test: /\.js$/,
+          include: [staticRoot],
+          exclude: /node_modules/,
+          use: [{
+            loader: 'eslint-loader',
+            options: eslintrc
+          }],
+          enforce: 'pre'
+        }, {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          use: [
+            {
+              loader: 'babel-loader',
+              options: babelrc
+            }
+          ]
+        }, {
+          test: /\.(png|jpg|gif|svg|woff2?|eot|ttf)(\?.*)?$/,
+          use: [
+            {
+              loader: 'url-loader',
+              options: {
+                limit: 1,
+                name: '[path][name].[ext]?[hash]'
+              }
+            }
+          ]
+        }, {
+          test: /\.hbs$/,
+          use: [
+            {
+              loader: 'handlebars-loader',
+              options: {
+                helperDirs: [path.join(staticRoot, 'js/hbs-helper'), path.join(__dirname, '../helper')],
+                partialDirs: [path.join(staticRoot, 'html/partial')]
+              }
+            }
+          ]
+        }, {
+          test: /\.css$/,
+          use: [
+            'css-loader',
+            {
+              loader: 'postcss-loader',
+              options: {
+                plugins: function() {
+                  return postcssPlugins
+                }
+              }
+            }
+          ]
         }
-      }, {
-        test: /\.hbs$/,
-        loader: 'handlebars',
-        query: {
-          helperDirs: [path.join(staticRoot, 'js/hbs-helper'), path.join(__dirname, '../helper')],
-          partialDirs: [path.join(staticRoot, 'html/partial')]
-        }
-      }, {
-        test: /\.css$/,
-        loader: 'style!css!postcss'
-      }]
+      ]
     },
-    eslint: {
-      configFile: path.join(projectRoot, '.eslintrc.js'),
-      formatter: require('eslint-friendly-formatter')
-    },
-    babel: babelrc,
-    vue: {
-      postcss: {
-        plugins: postcssPlugins
-      }
-    },
-    postcss: postcssPlugins,
     plugins: [
       new webpack.IgnorePlugin(/vertx/),
       new webpack.DefinePlugin(definition),
-      new webpack.optimize.OccurenceOrderPlugin()
+      new progressBarWebpackPlugin({
+        format: colors.bgCyan(`[webpack ${leftPad('build', 9)}]`) + '[:bar] ' + colors.green.bold(':percent') + ' (:elapsed seconds)',
+        clear: false
+      })
     ].concat(htmlPlugins)
   }
   if (!webpackNoCommon) {
@@ -105,4 +133,18 @@ export default (env) => {
     }))
   }
   return conf
+}
+
+export function getCustomConfig(env) {
+  var webpackConfJs = path.join(projectRoot, 'webpack.config.js')
+  try {
+    var conf = requireUncached(webpackConfJs)
+    return conf({
+      babel: babelrc,
+      eslint: eslintrc,
+      postcss: getPostcssPlugins(env)
+    })
+  } catch ( e ) {
+    return {}
+  }
 }

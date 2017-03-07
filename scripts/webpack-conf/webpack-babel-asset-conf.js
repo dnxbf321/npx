@@ -28,6 +28,12 @@ function getEntry() {
 export default (env) => {
   var config = getConfig(env)
   var definition = getDefinition(env)
+  var entries = getEntry()
+
+  if (JSON.stringify(entries) === '{}') {
+    return
+  }
+
   var conf = {
     context: contextPath,
     stats: {
@@ -35,59 +41,61 @@ export default (env) => {
     },
     cache: false,
     devtool: env === 'development' ? '#source-map' : false,
-    entry: getEntry(),
+    entry: entries,
     output: {
-      filename: '[name].js?[chunkhash:7]',
-      chunkFilename: '[name].js?[chunkhash:7]',
+      filename: '[name].js?[chunkhash]',
+      chunkFilename: '[name].js?[chunkhash]',
       path: path.join(projectRoot, 'client/dist/static'),
       publicPath: path.join(config.client.publicPath, '/').replace(/\\/g, '/').replace(/\:\/([^\/])/i, '://$1')
     },
     resolve: {
-      extensions: ['', '.js'],
-      root: [path.join(projectRoot, 'node_modules')],
-      fallback: [path.join(cliRoot, 'node_modules')]
+      modules: [
+        path.join(projectRoot, 'node_modules')
+      ]
     },
     resolveLoader: {
-      root: [path.join(cliRoot, 'node_modules')],
-      fallback: [path.join(projectRoot, 'node_modules')]
+      modules: [
+        path.join(projectRoot, 'node_modules'),
+        path.join(cliRoot, 'node_modules')
+      ]
     },
     module: {
-      preLoaders: [{
-        test: /\.(js|vue)$/,
-        loader: 'eslint',
-        include: assetRoot,
-        exclude: /node_modules/
-      }],
-      loaders: [{
-        test: /\.js$/,
-        loader: 'babel',
-        exclude: /node_modules/,
-        query: babelrc
-      }, {
-        test: /\.js$/,
-        loader: 'es3ify',
-        include: /node_modules/
-      }]
+      rules: [
+        {
+          test: /\.js$/,
+          include: [path.join(projectRoot, 'client')],
+          exclude: /node_modules/,
+          use: [{
+            loader: 'eslint-loader',
+            options: {
+              configFile: path.join(projectRoot, '.eslintrc.js'),
+              formatter: require('eslint-friendly-formatter')
+            }
+          }],
+          enforce: 'pre'
+        }, {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          use: [
+            {
+              loader: 'babel-loader',
+              options: babelrc
+            }
+          ]
+        }
+      ]
     },
-    eslint: {
-      configFile: path.join(projectRoot, '.eslintrc.js'),
-      formatter: require('eslint-friendly-formatter')
-    },
-    babel: babelrc,
     plugins: [
       new webpack.IgnorePlugin(/vertx/),
       new webpack.DefinePlugin(definition),
-      new webpack.optimize.OccurenceOrderPlugin(),
       new webpack.optimize.UglifyJsPlugin({
-        compress: {
-          warnings: false
-        },
         output: {
           comments: false
         }
       })
     ].concat(config.webpack.banner ?
-      new webpack.BannerPlugin(config.webpack.banner + ' | built at ' + new Date(config.version), {
+      new webpack.BannerPlugin({
+        banner: config.webpack.banner + ' | built at ' + new Date(config.version),
         entryOnly: true
       }) : [])
   }

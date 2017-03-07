@@ -2,12 +2,18 @@ import path from 'path'
 import webpack from 'webpack'
 import merge from 'webpack-merge'
 import getBaseConfig from './webpack-base-conf'
+import { getCustomConfig } from './webpack-base-conf'
 
 export default () => {
   var baseConfig = getBaseConfig('development')
+  if (!baseConfig) {
+    return
+  }
+
+  var customConfig = getCustomConfig('development')
 
   Object.keys(baseConfig.entry).forEach((name) => {
-    baseConfig.entry[name] = [path.join(__dirname, 'webpack-dev-client')].concat(baseConfig.entry[name])
+    baseConfig.entry[name] = [path.join(__dirname, 'webpack-dev-client'), baseConfig.entry[name]]
   })
 
   return merge(baseConfig, {
@@ -18,7 +24,7 @@ export default () => {
     },
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
-      new webpack.NoErrorsPlugin()
+      new webpack.NoEmitOnErrorsPlugin()
     ]
-  })
+  }, customConfig)
 }
