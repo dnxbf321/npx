@@ -36,6 +36,10 @@ export default (env) => {
     return
   }
 
+  var publicPath = envConfig.client.publicPath.replace(/\\/g, '/')
+  if (!/\/+$/.test(publicPath)) {
+    publicPath += '/'
+  }
   var conf = {
     context: contextPath,
     entry: entry,
@@ -43,7 +47,7 @@ export default (env) => {
       filename: '[name].js?[hash]',
       chunkFilename: '[name].js?[chunkhash]',
       path: path.join(projectRoot, 'client/dist'),
-      publicPath: path.join(envConfig.client.publicPath, '/').replace(/\\/g, '/').replace(/\:\/([^\/])/i, '://$1')
+      publicPath: publicPath
     },
     resolve: {
       modules: [
