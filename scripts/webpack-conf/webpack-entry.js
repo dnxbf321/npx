@@ -3,21 +3,38 @@ import glob from 'glob'
 import getConfig from '../util/config'
 
 var projectRoot = path.join(process.cwd(), 'client')
-var config = getConfig()
 
-var ret = {}
-var entries = glob.sync(projectRoot + '/static/**/*.wp.js', {
-  cwd: projectRoot
-})
+export default (env, filter) => {
+  var config = getConfig(env)
 
-entries.forEach((it) => {
-  var filePath = path.relative(projectRoot, it)
-  var entryName = filePath.slice(0, -6)
-  if (config['entryPrefixer']) {
-    entryName = path.dirname(entryName) + '/' + config['entryPrefixer'] + path.basename(entryName)
+  var ret = {}
+  var entries = glob.sync(projectRoot + '/static/**/*.wp.js', {
+    cwd: projectRoot
+  })
+
+  if (filter) {
+    let filterRegExps = filter.split(',').map((it) => {
+      let fixStr = it.replace('.wp.js', '')
+        .replace(/[\/]/g, '\\\/')
+      return new RegExp(fixStr, 'gi')
+    })
+
+    entries = entries.filter((name) => {
+      return filterRegExps.some((re) => {
+        return re.test(name)
+      })
+    })
   }
-  entryName = entryName.replace(/\\/g, '/')
-  ret[entryName] = './' + filePath
-})
 
-export default ret
+  for (let it of entries) {
+    let filePath = path.relative(projectRoot, it)
+    let entryName = filePath.slice(0, -6)
+    if (config['entryPrefixer']) {
+      entryName = path.dirname(entryName) + '/' + config['entryPrefixer'] + path.basename(entryName)
+    }
+    entryName = entryName.replace(/\\/g, '/')
+    ret[entryName] = './' + filePath
+  }
+
+  return ret
+}

@@ -14,7 +14,7 @@ import getConfig from '../util/config'
 
 var codePath = process.cwd()
 
-export default (env) => {
+export default (env, entry) => {
   env = aliasEnv(env)
 
   var config = getConfig(env)
@@ -22,7 +22,7 @@ export default (env) => {
   var app = koa()
 
 
-  var wpConfig = getWpConfig(env)
+  var wpConfig = getWpConfig(env, entry)
   if (wpConfig) {
     var compiler = webpack(wpConfig)
     app.use(webpackConnectHistoryApiFallback())

@@ -144,15 +144,17 @@ program
 program
   .option('-t, --tasks <items>', 'list tasks to exec', list)
   .option('-e, --node_env [env]', 'define NODE_ENV, a string should be "development", "dev", "experiment", "exp", "production" or "prod"')
+  .option('--filter [filter]', 'filter webpack entry, an array of path string those files end with *.wp.js')
 
 program.parse(process.argv)
 
 if (program.tasks) {
   let taskChain = program.tasks
   let env = program['node_env']
+  let filter = program['filter']
   let idx = 0
   let exec = () => {
-    return keyMapTask(taskChain[idx])(env)
+    return keyMapTask(taskChain[idx])(env, filter)
       .then(() => {
         idx += 1
         if (idx < taskChain.length) {

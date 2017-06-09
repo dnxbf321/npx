@@ -8,8 +8,8 @@ import leftPad from 'left-pad'
 import requireUncached from 'require-uncached'
 
 import getDefinition from './webpack-definition'
-import entry from './webpack-entry'
-import htmlPlugins from './webpack-html-plugins'
+import getEntry from './webpack-entry'
+import getHtmlPlugins from './webpack-html-plugins'
 import getPostcssPlugins from '../util/postcss-plugins'
 import getConfig from '../util/config'
 import babelrc from '../util/babelrc'
@@ -24,12 +24,15 @@ var eslintrc = {
   formatter: require('eslint-friendly-formatter')
 }
 
-export default (env) => {
+export default (env, filter) => {
   var postcssPlugins = getPostcssPlugins(env)
   var envConfig = getConfig(env)
+  var entry = getEntry(env, filter)
+  var htmlPlugins = getHtmlPlugins(env, filter)
+  var definition = getDefinition(env)
+
   var entryPrefixer = envConfig.entryPrefixer || ''
   var webpackNoCommon = envConfig.webpack['no-common'] || false
-  var definition = getDefinition(env)
 
   // 无 entry，跳过
   if (JSON.stringify(entry) === '{}') {

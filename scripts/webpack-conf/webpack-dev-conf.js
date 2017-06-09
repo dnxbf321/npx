@@ -4,8 +4,8 @@ import merge from 'webpack-merge'
 import getBaseConfig from './webpack-base-conf'
 import { getCustomConfig } from './webpack-base-conf'
 
-export default () => {
-  var baseConfig = getBaseConfig('development')
+export default (env, filter) => {
+  var baseConfig = getBaseConfig('development', filter)
   if (!baseConfig) {
     return
   }

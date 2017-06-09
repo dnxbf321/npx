@@ -1,17 +1,10 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import glob from 'glob'
 import path from 'path'
-import chunks from './webpack-entry'
+import getEntry from './webpack-entry'
 import getConfig from '../util/config'
 
 var projectRoot = path.join(process.cwd(), 'client')
-var entryPrefixer = getConfig().entryPrefixer || ''
-var webpackNoCommon = getConfig().webpack['no-common'] || false
-
-var chunkNames = []
-for (let name in chunks) {
-  chunkNames.push(name)
-}
 
 var minify = {
   // 行内元素内容至多保留一个空格
@@ -37,29 +30,56 @@ var htmlsInCurDir = glob.sync('*.@(html|hbs)', {
 })
 var all = [].concat(htmlsInFolders, htmlsInCurDir)
 
-var plugins = []
+export default (env, filter) => {
+  var config = getConfig(env)
+  var chunks = getEntry(env, filter)
 
-all.forEach((it) => {
-  var withoutExt = it.replace(path.extname(it), '')
-  var chunkMatch = chunkNames.find((chunk) => {
-    return chunk === path.join('static/js', entryPrefixer + withoutExt).replace(/\\/g, '/')
-  })
+  var entryPrefixer = config.entryPrefixer || ''
+  var webpackNoCommon = config.webpack['no-common'] || false
 
-  var plugin = {}
-  plugin.filename = withoutExt + '.html'
-  plugin.template = 'static/html/' + it
-  plugin.inject = true
-  plugin.minify = minify
-  if (chunkMatch) {
-    plugin.chunks = [chunkMatch]
-    if (!webpackNoCommon) {
-      plugin.chunks.unshift('static/js/' + entryPrefixer + 'common')
-    }
-  } else {
-    plugin.chunks = []
+  var chunkNames = []
+  for (let name in chunks) {
+    chunkNames.push(name)
   }
 
-  plugins.push(new HtmlWebpackPlugin(plugin))
-})
+  if (filter) {
+    let filterRegExps = filter.split(',').map((it) => {
+      let fixStr = it.replace('.wp.js', '')
+        .replace(/[\/]/g, '\\\/')
+      return new RegExp(fixStr, 'gi')
+    })
 
-export default plugins
+    all = all.filter((name) => {
+      return filterRegExps.some((re) => {
+        return re.test(name)
+      })
+    })
+  }
+
+  var plugins = []
+
+  all.forEach((it) => {
+    let withoutExt = it.replace(path.extname(it), '')
+    let chunkMatch = chunkNames.find((chunk) => {
+      return chunk === path.join('static/js', entryPrefixer + withoutExt).replace(/\\/g, '/')
+    })
+
+    let plugin = {}
+    plugin.filename = withoutExt + '.html'
+    plugin.template = 'static/html/' + it
+    plugin.inject = true
+    plugin.minify = minify
+    if (chunkMatch) {
+      plugin.chunks = [chunkMatch]
+      if (!webpackNoCommon) {
+        plugin.chunks.unshift('static/js/' + entryPrefixer + 'common')
+      }
+    } else {
+      plugin.chunks = []
+    }
+
+    plugins.push(new HtmlWebpackPlugin(plugin))
+  })
+
+  return plugins
+}
