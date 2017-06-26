@@ -46,7 +46,7 @@ export default (env, filter) => {
     let filterRegExps = filter.split(',').map((it) => {
       let fixStr = it.replace('.wp.js', '')
         .replace(/[\/]/g, '\\\/')
-      return new RegExp(fixStr, 'gi')
+      return new RegExp(fixStr, 'i')
     })
 
     all = all.filter((name) => {
