@@ -36,6 +36,7 @@ export default (env, filter) => {
 
   var entryPrefixer = config.entryPrefixer || ''
   var webpackNoCommon = config.webpack['no-common'] || false
+  var webpackNoHtmlInject = config.webpack['no-html-inject'] || false
 
   var chunkNames = []
   for (let name in chunks) {
@@ -67,7 +68,7 @@ export default (env, filter) => {
     let plugin = {}
     plugin.filename = withoutExt + '.html'
     plugin.template = 'static/html/' + it
-    plugin.inject = true
+    plugin.inject = !webpackNoHtmlInject
     plugin.minify = minify
     if (chunkMatch) {
       plugin.chunks = [chunkMatch]
