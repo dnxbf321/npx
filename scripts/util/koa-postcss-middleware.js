@@ -15,11 +15,10 @@ export default (options) => {
   let postcssPlugins = getPostcssPlugins(options.env)
 
   return async function(ctx, next) {
-    if (ctx.req.method !== 'GET' && ctx.req.method !== 'HEAD') {
-      return await next()
-    }
-    if (!/\.css/.test(ctx.req.url)) {
-      return await next()
+    await next()
+
+    if (ctx.req.method !== 'GET' && ctx.req.method !== 'HEAD' || !/\.css/.test(ctx.req.url)) {
+      return
     }
 
     ctx.res.writeHead(200, {
@@ -43,7 +42,5 @@ export default (options) => {
     } catch ( err ) {
       console.error(err)
     }
-
-    await next()
   }
 }

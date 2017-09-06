@@ -46,11 +46,11 @@ async function setup(env, config, wpConfig) {
 
   // serve pure static assets
   app.use(async (ctx, next) => {
-    await next()
     let isStaticFile = /\.(js|css|png|jpg|gif|ico|woff|ttf|svg|eot)/.test(path.extname(ctx.req.url))
     if (isStaticFile) {
       ctx.res.setHeader('Access-Control-Allow-Origin', '*')
     }
+    await next()
   })
   app.use(staticServe(path.join(codePath, 'client/dist/')))
   app.use(staticServe(path.join(codePath, 'client/dist/static/')))
