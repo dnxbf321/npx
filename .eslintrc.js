@@ -1,9 +1,12 @@
-export default {
+module.exports = {
   root: true,
-  extends: 'standard',
-  plugins: [
-    'html'
-  ],
+  parserOptions: {
+    ecmaVersion: 8,
+    sourceType: 'module',
+    ecmaFeatures: {
+      experimentalObjectRestSpread: true
+    }
+  },
   rules: {
     'arrow-parens': 0,
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,

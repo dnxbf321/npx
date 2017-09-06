@@ -112,6 +112,7 @@ export default (env, filter) => {
         }, {
           test: /\.css$/,
           use: [
+            'style-loader',
             'css-loader',
             {
               loader: 'postcss-loader',
@@ -128,6 +129,7 @@ export default (env, filter) => {
     plugins: [
       new webpack.IgnorePlugin(/vertx/),
       new webpack.DefinePlugin(definition),
+      new webpack.optimize.ModuleConcatenationPlugin(),
       new progressBarWebpackPlugin({
         format: colors.bgCyan(`[webpack ${leftPad('build', 9)}]`) + '[:bar] ' + colors.green.bold(':percent') + ' (:elapsed seconds)',
         clear: false

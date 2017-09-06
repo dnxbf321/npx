@@ -6,27 +6,27 @@ import moment from 'moment'
 import path from 'path'
 import fs from 'fs'
 
-var projectRoot = process.cwd()
+let projectRoot = process.cwd()
 
-export default () => {
-  var packageConfig = require(path.join(projectRoot, 'package.json'))
+export default async () => {
+  let packageConfig = require(path.join(projectRoot, 'package.json'))
 
   mkdirp(path.join(projectRoot, 'zip'))
 
-  function pack(zipName, patterns, ctx) {
+  let pack = (zipName, patterns, ctx) => {
     return new Promise((resolve, reject) => {
       patterns = [].concat(patterns)
 
-      var zip = archiver.create('zip')
-      var outputFilename = moment().format('YYYY-MM-DD HH-mm-ss') + '_' + packageConfig.name + '-' + zipName
-      var output = fs.createWriteStream(path.join(projectRoot, 'zip', outputFilename))
+      let zip = archiver.create('zip')
+      let outputFilename = moment().format('YYYY-MM-DD HH-mm-ss') + '_' + packageConfig.name + '-' + zipName
+      let output = fs.createWriteStream(path.join(projectRoot, 'zip', outputFilename))
       output.on('close', () => {
         console.log(colors.bgGreen(`[task ${leftPad('pack', 12)}]`), outputFilename + ' has been finalized. ' + zip.pointer() + ' total bytes')
         resolve()
       })
       zip.on('error', (err) => {
         console.log(colors.bgRed(`[task ${leftPad('pack', 12)}]`), err)
-        reject()
+        reject(err)
       })
       zip.pipe(output)
       patterns.forEach((pattern) => {
@@ -39,7 +39,10 @@ export default () => {
     })
   }
 
-  var pack1 = pack('static.zip', '**/*', path.join(projectRoot, 'client/dist'))
-  var pack2 = pack('source.zip', ['.*', '*', '*/**/*', 'client/**/*'], projectRoot)
-  return Promise.all([pack1, pack2])
+  try {
+    await pack('static.zip', '**/*', path.join(projectRoot, 'client/dist'))
+    await pack('source.zip', ['.*', '*', '*/**/*', 'client/**/*'], projectRoot)
+  } catch ( err ) {
+    return Promise.reject(err)
+  }
 }

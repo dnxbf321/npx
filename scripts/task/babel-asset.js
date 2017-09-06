@@ -9,7 +9,7 @@ import aliasEnv from '../util/alias-env'
 
 export default (env) => {
   // 删除 dist 下的 .bl.js 文件
-  var files = glob.sync(path.join(process.cwd(), 'client/dist/static/**/*.bl.js'))
+  let files = glob.sync(path.join(process.cwd(), 'client/dist/static/**/*.bl.js'))
   files.forEach((it) => {
     rimraf(it, {}, () => {
     })
@@ -17,18 +17,23 @@ export default (env) => {
 
   // 打包处理 .bl.js 文件
   env = aliasEnv(env)
-  var conf = getBabelAssetconf(env)
+  let conf = getBabelAssetconf(env)
   if (!conf) {
     return Promise.resolve()
   }
-  var compiler = webpack(conf)
+
+  let compiler = webpack(conf)
   return new Promise((resolve, reject) => {
     compiler.run((err, stats) => {
       if (err) {
         console.log(colors.bgRed(`[task ${leftPad('babel-asset', 12)}]`), err)
-        reject()
+        reject(err)
       } else {
-        console.log(colors.bgGreen(`[task ${leftPad('babel-asset', 12)}]`), stats.toString('normal'))
+        console.log(colors.bgGreen(`[task ${leftPad('babel-asset', 12)}]`), stats.toString({
+          children: false,
+          colors: true,
+          modules: false
+        }))
         resolve()
       }
     })

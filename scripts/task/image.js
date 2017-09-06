@@ -12,7 +12,7 @@ export default () => {
     ncp(path.join(projectRoot, 'client/static/img'), path.join(projectRoot, 'client/dist/static/img'), (err) => {
       if (err) {
         console.log(colors.bgRed(`[task ${leftPad('image', 12)}]`), err)
-        reject()
+        reject(err)
       } else {
         console.log(colors.bgGreen(`[task ${leftPad('image', 12)}]`), 'done')
         resolve()

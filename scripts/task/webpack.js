@@ -7,19 +7,23 @@ import aliasEnv from '../util/alias-env'
 export default (env) => {
   env = aliasEnv(env)
 
-  var conf = getProdConf(env)
+  let conf = getProdConf(env)
   if (!conf) {
     return Promise.resolve()
   }
 
+  let compiler = webpack(conf)
   return new Promise((resolve, reject) => {
-    var compiler = webpack(conf)
     compiler.run((err, stats) => {
       if (err) {
         console.log(colors.bgRed(`[task ${leftPad('webpack', 12)}]`), err)
         reject()
       } else {
-        console.log(colors.bgGreen(`[task ${leftPad('webpack', 12)}]`), stats.toString('normal'))
+        console.log(colors.bgGreen(`[task ${leftPad('webpack', 12)}]`), stats.toString({
+          children: false,
+          colors: true,
+          modules: false
+        }))
         resolve()
       }
     })

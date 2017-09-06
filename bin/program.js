@@ -153,17 +153,16 @@ if (program.tasks) {
   let env = program['node_env']
   let filter = program['filter']
   let idx = 0
-  let exec = () => {
-    return keyMapTask(taskChain[idx])(env, filter)
-      .then(() => {
-        idx += 1
-        if (idx < taskChain.length) {
-          exec()
-        }
-      })
-      .catch((err) => {
-        throw new Error(err)
-      })
+  let exec = async () => {
+    try {
+      await keyMapTask(taskChain[idx])(env, filter)
+      idx += 1
+      if (idx < taskChain.length) {
+        exec()
+      }
+    } catch ( err ) {
+      throw new Error(err)
+    }
   }
   exec()
 }

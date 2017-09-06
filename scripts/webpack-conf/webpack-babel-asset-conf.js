@@ -88,6 +88,7 @@ export default (env) => {
     plugins: [
       new webpack.IgnorePlugin(/vertx/),
       new webpack.DefinePlugin(definition),
+      new webpack.optimize.ModuleConcatenationPlugin(),
       new webpack.optimize.UglifyJsPlugin({
         output: {
           comments: false

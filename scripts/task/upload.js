@@ -51,7 +51,7 @@ function step() {
     }), (err) => {
       if (err) {
         console.log(colors.bgRed(`[task ${leftPad('upload', 12)}]`), err)
-        reject()
+        reject(err)
       } else {
         console.log(colors.bgCyan.bold(`[task ${leftPad('upload', 12)}]`), local + ' => ' + remote)
         resolve()
@@ -60,31 +60,12 @@ function step() {
   })
 }
 
-function run() {
-  return step()
-    .then(() => {
-      idx += 1
-      if (idx < paths.length) {
-        return run()
-      } else {
-        client.close()
-        console.log(colors.bgCyan.bold(`[task ${leftPad('upload', 12)}]`), 'done in ' + (Date.now() - time) / 1000 + 's')
-      }
-    })
-}
-
-export default () => {
-  return new Promise((resolve, reject) => {
-    client.mkdir(remotePath, () => {
-      if (paths.length) {
-        run()
-          .then(() => {
-            resolve()
-          })
-          .catch(() => {
-            reject()
-          })
-      }
-    })
-  })
+export default async () => {
+  await client.mkdir(remotePath)
+  while (idx < paths.length) {
+    await step()
+    idx += 1
+  }
+  client.close()
+  console.log(colors.bgCyan.bold(`[task ${leftPad('upload', 12)}]`), 'done in ' + (Date.now() - time) / 1000 + 's')
 }

@@ -1,9 +1,8 @@
-import koa from 'koa'
+import Koa from 'koa'
 import staticServe from 'koa-static'
 import webpack from 'webpack'
-import webpackConnectHistoryApiFallback from 'koa-connect-history-api-fallback'
-import webpackDevMiddleware from 'koa-webpack-dev-middleware'
-import webpackHotMiddleware from 'webpack-hot-middleware'
+import historyApiFallback from 'koa2-history-api-fallback'
+import { devMiddleware, hotMiddleware } from 'koa-webpack-middleware'
 import colors from 'colors'
 import leftPad from 'left-pad'
 import path from 'path'
@@ -12,22 +11,14 @@ import cssMiddleware from '../util/koa-postcss-middleware'
 import getWpConfig from '../webpack-conf/webpack-dev-conf'
 import getConfig from '../util/config'
 
-var codePath = process.cwd()
+let codePath = process.cwd()
 
-export default (env, entry) => {
-  env = aliasEnv(env)
+async function setup(env, config, wpConfig) {
+  let app = new Koa()
 
-  var config = getConfig(env)
-
-  var app = koa()
-
-
-  var wpConfig = getWpConfig(env, entry)
   if (wpConfig) {
-    var compiler = webpack(wpConfig)
-    app.use(webpackConnectHistoryApiFallback())
-
-    app.use(webpackDevMiddleware(compiler, {
+    let compiler = webpack(wpConfig)
+    app.use(devMiddleware(compiler, {
       noInfo: false,
       quiet: false,
       lazy: false,
@@ -35,15 +26,16 @@ export default (env, entry) => {
         aggregateTimeout: 300
       },
       publicPath: wpConfig.output.publicPath,
-      stats: 'normal'
+      stats: {
+        children: false,
+        colors: true,
+        modules: false
+      }
     }))
-
-    var hotMiddleware = webpackHotMiddleware(compiler)
-    app.use(function*(next) {
-      yield hotMiddleware.bind(null, this.req, this.res)
-      yield next
-    })
+    app.use(hotMiddleware(compiler))
   }
+
+  app.use(historyApiFallback())
 
   // use css middleware
   app.use(cssMiddleware({
@@ -53,23 +45,34 @@ export default (env, entry) => {
   }))
 
   // serve pure static assets
-  app.use(function*(next) {
-    var isStaticFile = /\.(js|css|png|jpg|gif|ico|woff|ttf|svg|eot)/.test(path.extname(this.req.url))
+  app.use(async (ctx, next) => {
+    await next()
+    let isStaticFile = /\.(js|css|png|jpg|gif|ico|woff|ttf|svg|eot)/.test(path.extname(ctx.req.url))
     if (isStaticFile) {
-      this.res.setHeader('Access-Control-Allow-Origin', '*')
+      ctx.res.setHeader('Access-Control-Allow-Origin', '*')
     }
-    yield next
   })
   app.use(staticServe(path.join(codePath, 'client/dist/')))
   app.use(staticServe(path.join(codePath, 'client/dist/static/')))
   app.use(staticServe(path.join(codePath, 'client/assets/')))
 
-  var PORT = config.client.port
+  return app
+}
+
+export default async (env, entry) => {
+  env = aliasEnv(env)
+
+  let config = getConfig(env)
+  let wpConfig = getWpConfig(env, entry)
+
+  let app = await setup(env, config, wpConfig)
+
+  let PORT = config.client.port
   return new Promise((resolve, reject) => {
     app.listen(PORT, (err) => {
       if (err) {
         console.log(colors.bgRed(`[task ${leftPad('serve-client', 12)}]`), err)
-        reject()
+        reject(err)
       } else {
         console.log(colors.bgGreen(`[task ${leftPad('serve-client', 12)}]`), 'static files on port: ' + PORT)
         resolve()

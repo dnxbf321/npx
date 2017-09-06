@@ -4,7 +4,6 @@ import getConfig from './config'
 
 var pluginList = [
   'postcss-easy-import',
-  'stylelint',
   'precss',
   'postcss-pxtorem',
   'rucksack-css',
@@ -33,12 +32,6 @@ export default (env) => {
     'postcss-easy-import': extend(true, {
       prefix: '_'
     }, postcss['postcss-easy-import']),
-    stylelint: extend(true, {
-      config: {
-        extends: 'stylelint-config-standard',
-        rules: {}
-      }
-    }, postcss['stylelint']),
     precss: extend(true, {
       import: {
         disable: true
