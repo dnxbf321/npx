@@ -70,16 +70,19 @@ export default (env, filter) => {
     module: {
       rules: [
         {
-          test: /\.js$/,
+          test: /\.jsx$/,
           include: [staticRoot],
           exclude: /node_modules/,
-          use: [{
-            loader: 'eslint-loader',
-            options: eslintrc
-          }],
+          use: [
+            {
+              loader: 'eslint-loader',
+              options: eslintrc
+            }
+          ],
           enforce: 'pre'
-        }, {
-          test: /\.js$/,
+        },
+        {
+          test: /\.jsx$/,
           exclude: /node_modules/,
           use: [
             {
@@ -87,7 +90,8 @@ export default (env, filter) => {
               options: babelrc
             }
           ]
-        }, {
+        },
+        {
           test: /\.(png|jpg|gif|svg|woff2?|eot|ttf)(\?.*)?$/,
           use: [
             {
@@ -98,18 +102,23 @@ export default (env, filter) => {
               }
             }
           ]
-        }, {
+        },
+        {
           test: /\.hbs$/,
           use: [
             {
               loader: 'handlebars-loader',
               options: {
-                helperDirs: [path.join(staticRoot, 'js/hbs-helper'), path.join(__dirname, '../helper')],
+                helperDirs: [
+                  path.join(staticRoot, 'js/hbs-helper'),
+                  path.join(__dirname, '../helper')
+                ],
                 partialDirs: [path.join(staticRoot, 'html/partial')]
               }
             }
           ]
-        }, {
+        },
+        {
           test: /\.css$/,
           use: [
             'style-loader',
@@ -131,15 +140,21 @@ export default (env, filter) => {
       new webpack.DefinePlugin(definition),
       new webpack.optimize.ModuleConcatenationPlugin(),
       new progressBarWebpackPlugin({
-        format: colors.bgCyan(`[webpack ${leftPad('build', 9)}]`) + '[:bar] ' + colors.green.bold(':percent') + ' (:elapsed seconds)',
+        format:
+          colors.bgCyan(`[webpack ${leftPad('build', 9)}]`) +
+          '[:bar] ' +
+          colors.green.bold(':percent') +
+          ' (:elapsed seconds)',
         clear: false
       })
     ].concat(htmlPlugins)
   }
   if (!webpackNoCommon) {
-    conf.plugins.push(new webpack.optimize.CommonsChunkPlugin({
-      name: 'static/js/' + entryPrefixer + 'common'
-    }))
+    conf.plugins.push(
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'static/js/' + entryPrefixer + 'common'
+      })
+    )
   }
   return conf
 }
@@ -153,7 +168,7 @@ export function getCustomConfig(env) {
       eslint: eslintrc,
       postcss: getPostcssPlugins(env)
     })
-  } catch ( e ) {
+  } catch (e) {
     return {}
   }
 }

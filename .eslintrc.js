@@ -4,7 +4,8 @@ module.exports = {
     ecmaVersion: 8,
     sourceType: 'module',
     ecmaFeatures: {
-      experimentalObjectRestSpread: true
+      experimentalObjectRestSpread: true,
+      jsx: true
     }
   },
   rules: {
@@ -17,6 +18,6 @@ module.exports = {
     'no-undef': 0
   },
   globals: {
-    '$': true
+    $: true
   }
 }
