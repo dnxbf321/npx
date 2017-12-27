@@ -1,30 +1,37 @@
-import path from 'path'
-import webpack from 'webpack'
-import merge from 'webpack-merge'
-import getBaseConfig from './webpack-base-conf'
-import { getCustomConfig } from './webpack-base-conf'
+const path = require('path')
+const webpack = require('webpack')
+const merge = require('webpack-merge')
+const { getBaseConf, getCustomConf } = require('./webpack-base-conf')
 
-export default (env, filter) => {
-  var baseConfig = getBaseConfig('development', filter)
+module.exports = (env, filter) => {
+  let baseConfig = getBaseConf('development', filter)
   if (!baseConfig) {
     return
   }
 
-  var customConfig = getCustomConfig('development')
+  let customConfig = getCustomConf('development')
 
-  Object.keys(baseConfig.entry).forEach((name) => {
-    baseConfig.entry[name] = [path.join(__dirname, 'webpack-dev-client'), baseConfig.entry[name]]
+  Object.keys(baseConfig.entry).forEach(name => {
+    baseConfig.entry[name] = [
+      'react-hot-loader/patch',
+      path.join(__dirname, 'webpack-dev-client'),
+      baseConfig.entry[name]
+    ]
   })
 
-  return merge(baseConfig, {
-    cache: true,
-    devtool: '#eval-source-map',
-    output: {
-      publicPath: '/'
+  return merge(
+    baseConfig,
+    {
+      cache: true,
+      devtool: '#eval-source-map',
+      output: {
+        publicPath: '/'
+      },
+      plugins: [
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoEmitOnErrorsPlugin()
+      ]
     },
-    plugins: [
-      new webpack.HotModuleReplacementPlugin(),
-      new webpack.NoEmitOnErrorsPlugin()
-    ]
-  }, customConfig)
+    customConfig
+  )
 }

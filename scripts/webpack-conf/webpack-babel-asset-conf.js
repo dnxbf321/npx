@@ -1,40 +1,40 @@
-import webpack from 'webpack'
+const webpack = require('webpack')
 
-import path from 'path'
-import glob from 'glob'
+const path = require('path')
+const glob = require('glob')
 
-import getDefinition from './webpack-definition'
-import getConfig from '../util/config'
-import babelrc from '../util/babelrc'
+const getDefinition = require('./webpack-definition')
+const getConfig = require('../util/config')
+const babelrc = require('../util/babelrc')
 
-var projectRoot = process.cwd()
-var contextPath = path.join(projectRoot, 'client')
-var assetRoot = path.join(contextPath, 'asset')
-var cliRoot = path.join(__dirname, '../../')
+const projectRoot = process.cwd()
+const contextPath = path.join(projectRoot, 'client')
+const assetRoot = path.join(contextPath, 'asset')
+const cliRoot = path.join(__dirname, '../../')
 
 function getEntry() {
-  var ret = {}
-  var entries = glob.sync(assetRoot + '/**/*.bl.js', {
+  let ret = {}
+  let entries = glob.sync(assetRoot + '/**/*.bl.js', {
     cwd: assetRoot
   })
-  entries.forEach((it) => {
-    var filePath = path.relative(assetRoot, it)
-    var entryName = filePath.slice(0, -6).replace(/\\/g, '/')
+  entries.forEach(it => {
+    let filePath = path.relative(assetRoot, it)
+    let entryName = filePath.slice(0, -6).replace(/\\/g, '/')
     ret[entryName] = './asset/' + filePath
   })
   return ret
 }
 
-export default (env) => {
-  var config = getConfig(env)
-  var definition = getDefinition(env)
-  var entries = getEntry()
+module.exports = env => {
+  let config = getConfig(env)
+  let definition = getDefinition(env)
+  let entries = getEntry()
 
   if (JSON.stringify(entries) === '{}') {
     return
   }
 
-  var conf = {
+  let conf = {
     context: contextPath,
     stats: {
       children: false
@@ -46,12 +46,13 @@ export default (env) => {
       filename: '[name].js?[chunkhash]',
       chunkFilename: '[name].js?[chunkhash]',
       path: path.join(projectRoot, 'client/dist/static'),
-      publicPath: path.join(config.client.publicPath, '/').replace(/\\/g, '/').replace(/\:\/([^\/])/i, '://$1')
+      publicPath: path
+        .join(config.client.publicPath, '/')
+        .replace(/\\/g, '/')
+        .replace(/\:\/([^\/])/i, '://$1')
     },
     resolve: {
-      modules: [
-        path.join(projectRoot, 'node_modules')
-      ]
+      modules: [path.join(projectRoot, 'node_modules')]
     },
     resolveLoader: {
       modules: [
@@ -65,15 +66,18 @@ export default (env) => {
           test: /\.js$/,
           include: [path.join(projectRoot, 'client')],
           exclude: /node_modules/,
-          use: [{
-            loader: 'eslint-loader',
-            options: {
-              configFile: path.join(projectRoot, '.eslintrc.js'),
-              formatter: require('eslint-friendly-formatter')
+          use: [
+            {
+              loader: 'eslint-loader',
+              options: {
+                configFile: path.join(projectRoot, '.eslintrc.js'),
+                formatter: require('eslint-friendly-formatter')
+              }
             }
-          }],
+          ],
           enforce: 'pre'
-        }, {
+        },
+        {
           test: /\.js$/,
           exclude: /node_modules/,
           use: [
@@ -94,11 +98,15 @@ export default (env) => {
           comments: false
         }
       })
-    ].concat(config.webpack.banner ?
-      new webpack.BannerPlugin({
-        banner: config.webpack.banner + ' | built at ' + new Date(config.version),
-        entryOnly: true
-      }) : [])
+    ].concat(
+      config.webpack.banner
+        ? new webpack.BannerPlugin({
+            banner:
+              config.webpack.banner + ' | built at ' + new Date(config.version),
+            entryOnly: true
+          })
+        : []
+    )
   }
   return conf
 }

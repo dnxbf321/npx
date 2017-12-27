@@ -1,49 +1,49 @@
-import webpack from 'webpack'
-import progressBarWebpackPlugin from 'progress-bar-webpack-plugin'
+const webpack = require('webpack')
+const progressBarWebpackPlugin = require('progress-bar-webpack-plugin')
 
-import path from 'path'
-import colors from 'colors'
-import leftPad from 'left-pad'
+const path = require('path')
+const colors = require('colors')
+const leftPad = require('left-pad')
 
-import requireUncached from 'require-uncached'
+const requireUncached = require('require-uncached')
 
-import getDefinition from './webpack-definition'
-import getEntry from './webpack-entry'
-import getHtmlPlugins from './webpack-html-plugins'
-import getPostcssPlugins from '../util/postcss-plugins'
-import getConfig from '../util/config'
-import babelrc from '../util/babelrc'
+const getDefinition = require('./webpack-definition')
+const getEntry = require('./webpack-entry')
+const getHtmlPlugins = require('./webpack-html-plugins')
+const getPostcssPlugins = require('../util/postcss-plugins')
+const getConfig = require('../util/config')
+const babelrc = require('../util/babelrc')
 
-var projectRoot = process.cwd()
-var contextPath = path.join(projectRoot, 'client')
-var staticRoot = path.join(contextPath, 'static')
-var cliRoot = path.join(__dirname, '../../')
+const projectRoot = process.cwd()
+const contextPath = path.join(projectRoot, 'client')
+const staticRoot = path.join(contextPath, 'static')
+const cliRoot = path.join(__dirname, '../../')
 
-var eslintrc = {
+const eslintrc = {
   configFile: path.join(projectRoot, '.eslintrc.js'),
   formatter: require('eslint-friendly-formatter')
 }
 
-export default (env, filter) => {
-  var postcssPlugins = getPostcssPlugins(env)
-  var envConfig = getConfig(env)
-  var entry = getEntry(env, filter)
-  var htmlPlugins = getHtmlPlugins(env, filter)
-  var definition = getDefinition(env)
+function getBaseConf(env, filter) {
+  let postcssPlugins = getPostcssPlugins(env)
+  let envConfig = getConfig(env)
+  let entry = getEntry(env, filter)
+  let htmlPlugins = getHtmlPlugins(env, filter)
+  let definition = getDefinition(env)
 
-  var entryPrefixer = envConfig.entryPrefixer || ''
-  var webpackNoCommon = envConfig.webpack['no-common'] || false
+  let entryPrefixer = envConfig.entryPrefixer || ''
+  let webpackNoCommon = envConfig.webpack['no-common'] || false
 
   // 无 entry，跳过
   if (JSON.stringify(entry) === '{}') {
     return
   }
 
-  var publicPath = envConfig.client.publicPath.replace(/\\/g, '/')
+  let publicPath = envConfig.client.publicPath.replace(/\\/g, '/')
   if (!/\/+$/.test(publicPath)) {
     publicPath += '/'
   }
-  var conf = {
+  let conf = {
     context: contextPath,
     entry: entry,
     output: {
@@ -70,7 +70,7 @@ export default (env, filter) => {
     module: {
       rules: [
         {
-          test: /\.jsx$/,
+          test: /\.jsx?$/,
           include: [staticRoot],
           exclude: /node_modules/,
           use: [
@@ -82,7 +82,7 @@ export default (env, filter) => {
           enforce: 'pre'
         },
         {
-          test: /\.jsx$/,
+          test: /\.jsx?$/,
           exclude: /node_modules/,
           use: [
             {
@@ -159,10 +159,10 @@ export default (env, filter) => {
   return conf
 }
 
-export function getCustomConfig(env) {
-  var webpackConfJs = path.join(projectRoot, 'webpack.config.js')
+function getCustomConf(env) {
+  let webpackConfJs = path.join(projectRoot, 'webpack.config.js')
   try {
-    var conf = requireUncached(webpackConfJs)
+    let conf = requireUncached(webpackConfJs)
     return conf({
       babel: babelrc,
       eslint: eslintrc,
@@ -171,4 +171,9 @@ export function getCustomConfig(env) {
   } catch (e) {
     return {}
   }
+}
+
+module.exports = {
+  getBaseConf,
+  getCustomConf
 }

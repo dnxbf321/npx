@@ -1,14 +1,13 @@
-import rimraf from 'rimraf'
-import mkdirp from 'mkdirp'
-import colors from 'colors'
-import leftPad from 'left-pad'
-import path from 'path'
-import touchJsdoc from '../util/touch-jsdoc'
-import touchEslintrc from '../util/touch-eslintrc'
+const rimraf = require('rimraf')
+const mkdirp = require('mkdirp')
+const colors = require('colors')
+const leftPad = require('left-pad')
+const path = require('path')
+const touchJsdoc = require('../util/touch-jsdoc')
+const touchEslintrc = require('../util/touch-eslintrc')
 
-var projectRoot = process.cwd()
-
-export default () => {
+const projectRoot = process.cwd()
+module.exports = () => {
   rimraf.sync(path.join(projectRoot, 'client/dist'))
   rimraf.sync(path.join(projectRoot, 'tmp'))
   rimraf.sync(path.join(projectRoot, 'jsdoc'))

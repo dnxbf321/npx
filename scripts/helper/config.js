@@ -1,6 +1,6 @@
-import getConfig from '../util/config'
+const getConfig = require('../util/config')
 
-export default (key) => {
+module.exports = key => {
   var keyChain = key.split('.')
   var v = getConfig()
 

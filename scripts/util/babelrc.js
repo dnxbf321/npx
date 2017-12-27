@@ -1,32 +1,28 @@
-import fs from 'fs'
-import path from 'path'
+const fs = require('fs')
+const path = require('path')
 
-var cliRoot = path.join(__dirname, '../../')
+const cliRoot = path.join(__dirname, '../../')
 
-var babelrc = fs.readFileSync(path.join(cliRoot, '.babelrc'), {
+let babelrc = fs.readFileSync(path.join(cliRoot, '.babelrc'), {
   encoding: 'utf8'
 })
 babelrc = JSON.parse(babelrc.toString())
 
-babelrc.presets = babelrc.presets.map((it) => {
+babelrc.presets = babelrc.presets.map(it => {
   if (typeof it === 'string') {
     return require.resolve('babel-preset-' + it)
   } else {
-    return [
-      require.resolve('babel-preset-' + it[0]),
-      it[1]
-    ]
+    return [require.resolve('babel-preset-' + it[0]), it[1]]
   }
 })
-babelrc.plugins = babelrc.plugins.map((it) => {
+babelrc.plugins = babelrc.plugins.map(it => {
   if (typeof it === 'string') {
-    return require.resolve('babel-plugin-' + it)
+    return it.indexOf('react-hot-loader') > -1
+      ? require.resolve(it)
+      : require.resolve('babel-plugin-' + it)
   } else {
-    return [
-      require.resolve('babel-plugin-' + it[0]),
-      it[1]
-    ]
+    return [require.resolve('babel-plugin-' + it[0]), it[1]]
   }
 })
 
-export default babelrc
+module.exports = babelrc

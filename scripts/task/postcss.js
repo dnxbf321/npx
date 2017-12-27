@@ -1,16 +1,15 @@
-import glob from 'glob'
-import mkdirp from 'mkdirp'
-import colors from 'colors'
-import leftPad from 'left-pad'
-import postcss from 'postcss'
-import path from 'path'
-import fs from 'fs'
-import getPostcssPlugins from '../util/postcss-plugins'
-import aliasEnv from '../util/alias-env'
+const glob = require('glob')
+const mkdirp = require('mkdirp')
+const colors = require('colors')
+const leftPad = require('left-pad')
+const postcss = require('postcss')
+const path = require('path')
+const fs = require('fs')
+const getPostcssPlugins = require('../util/postcss-plugins')
+const aliasEnv = require('../util/alias-env')
 
-var projectRoot = process.cwd()
-
-export default async (env) => {
+const projectRoot = process.cwd()
+module.exports = async env => {
   env = aliasEnv(env)
   let postcssPlugins = getPostcssPlugins(env)
 
@@ -37,8 +36,11 @@ export default async (env) => {
       fs.writeFileSync(result.opts.to, result.css)
       fs.writeFileSync(result.opts.to + '.map', result.map)
 
-      console.log(colors.bgGreen(`[task ${leftPad('postcss', 12)}]`), path.relative(projectRoot, result.opts.to))
-    } catch ( err ) {
+      console.log(
+        colors.bgGreen(`[task ${leftPad('postcss', 12)}]`),
+        path.relative(projectRoot, result.opts.to)
+      )
+    } catch (err) {
       console.log(colors.bgRed(`[task ${leftPad('postcss', 12)}]`), err)
       return Promise.reject(err)
     }

@@ -1,4 +1,4 @@
-import getConfig from '../util/config'
+const getConfig = require('../util/config')
 
 function formatDefinitions(obj) {
   const dealKV = (vObj, comb) => {
@@ -15,7 +15,7 @@ function formatDefinitions(obj) {
   return obj
 }
 
-export default env => {
+module.exports = env => {
   var envConfig = getConfig(env, 'isDefinition')
   envConfig = formatDefinitions(envConfig)
   return envConfig

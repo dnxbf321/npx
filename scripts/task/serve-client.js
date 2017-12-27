@@ -1,52 +1,58 @@
-import Koa from 'koa'
-import staticServe from 'koa-static'
-import webpack from 'webpack'
-import historyApiFallback from 'koa2-history-api-fallback'
-import { devMiddleware, hotMiddleware } from 'koa-webpack-middleware'
-import colors from 'colors'
-import leftPad from 'left-pad'
-import path from 'path'
-import aliasEnv from '../util/alias-env'
-import cssMiddleware from '../util/koa-postcss-middleware'
-import getWpConfig from '../webpack-conf/webpack-dev-conf'
-import getConfig from '../util/config'
+const Koa = require('koa')
+const staticServe = require('koa-static')
+const webpack = require('webpack')
+const historyApiFallback = require('koa2-history-api-fallback')
+const { devMiddleware, hotMiddleware } = require('koa-webpack-middleware')
+const colors = require('colors')
+const leftPad = require('left-pad')
+const path = require('path')
+const aliasEnv = require('../util/alias-env')
+const cssMiddleware = require('../util/koa-postcss-middleware')
+const getWpConfig = require('../webpack-conf/webpack-dev-conf')
+const getConfig = require('../util/config')
 
-let codePath = process.cwd()
+const codePath = process.cwd()
 
 async function setup(env, config, wpConfig) {
   let app = new Koa()
 
   if (wpConfig) {
     let compiler = webpack(wpConfig)
-    app.use(devMiddleware(compiler, {
-      noInfo: false,
-      quiet: false,
-      lazy: false,
-      watchOptions: {
-        aggregateTimeout: 300
-      },
-      publicPath: wpConfig.output.publicPath,
-      stats: {
-        children: false,
-        colors: true,
-        modules: false
-      }
-    }))
+    app.use(
+      devMiddleware(compiler, {
+        noInfo: false,
+        quiet: false,
+        lazy: false,
+        watchOptions: {
+          aggregateTimeout: 300
+        },
+        publicPath: wpConfig.output.publicPath,
+        stats: {
+          children: false,
+          colors: true,
+          modules: false
+        }
+      })
+    )
     app.use(hotMiddleware(compiler))
   }
 
   app.use(historyApiFallback())
 
   // use css middleware
-  app.use(cssMiddleware({
-    src: path.join(codePath, 'client'),
-    publicPath: wpConfig.output.publicPath,
-    env: env
-  }))
+  app.use(
+    cssMiddleware({
+      src: path.join(codePath, 'client'),
+      publicPath: wpConfig.output.publicPath,
+      env: env
+    })
+  )
 
   // serve pure static assets
   app.use(async (ctx, next) => {
-    let isStaticFile = /\.(js|css|png|jpg|gif|ico|woff|ttf|svg|eot)/.test(path.extname(ctx.req.url))
+    let isStaticFile = /\.(js|css|png|jpg|gif|ico|woff|ttf|svg|eot)/.test(
+      path.extname(ctx.req.url)
+    )
     if (isStaticFile) {
       ctx.res.setHeader('Access-Control-Allow-Origin', '*')
     }
@@ -59,7 +65,7 @@ async function setup(env, config, wpConfig) {
   return app
 }
 
-export default async (env, entry) => {
+module.exports = async (env, entry) => {
   env = aliasEnv(env)
 
   let config = getConfig(env)
@@ -69,12 +75,15 @@ export default async (env, entry) => {
 
   let PORT = config.client.port
   return new Promise((resolve, reject) => {
-    app.listen(PORT, (err) => {
+    app.listen(PORT, err => {
       if (err) {
         console.log(colors.bgRed(`[task ${leftPad('serve-client', 12)}]`), err)
         reject(err)
       } else {
-        console.log(colors.bgGreen(`[task ${leftPad('serve-client', 12)}]`), 'static files on port: ' + PORT)
+        console.log(
+          colors.bgGreen(`[task ${leftPad('serve-client', 12)}]`),
+          'static files on port: ' + PORT
+        )
         resolve()
       }
     })

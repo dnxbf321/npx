@@ -1,8 +1,8 @@
-import updateNotifier from 'update-notifier'
-import pkg from '../../package.json'
+const updateNotifier = require('update-notifier')
+const pkg = require('../../package.json')
 
-export default () => {
-  var notifier = updateNotifier({
+module.exports = () => {
+  let notifier = updateNotifier({
     pkg: pkg,
     updateCheckInterval: 2 * 1000
   })

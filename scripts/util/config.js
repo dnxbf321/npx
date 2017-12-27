@@ -1,29 +1,35 @@
-import extend from 'extend'
-import path from 'path'
-import fs from 'fs'
-import configJson from '../../config.json'
+const extend = require('extend')
+const path = require('path')
+const fs = require('fs')
+const configJson = require('../../config.json')
 
-var projectRoot = process.cwd()
-var projectConf = {}
+const projectRoot = process.cwd()
+let projectConf = {}
 
 try {
   projectConf = fs.readFileSync('config.json', {
     encoding: 'utf8'
   })
   projectConf = JSON.parse(projectConf.toString())
-} catch ( e ) {
+} catch (e) {
   console.log('[npx          warn] config.json not found at current path')
 }
 
-var config = extend(true, {}, configJson, projectConf)
+let config = extend(true, {}, configJson, projectConf)
 
-export default (env, isDefinition) => {
+module.exports = (env, isDefinition) => {
   env = env || global.NODE_ENV || process.env.NODE_ENV
-  var defaultConfig = config['default']
-  var envConfig = extend(true, {}, defaultConfig, config[env || 'production'] || {}, {
-    'process.env': env,
-    version: Date.now()
-  })
+  let defaultConfig = config['default']
+  let envConfig = extend(
+    true,
+    {},
+    defaultConfig,
+    config[env || 'production'] || {},
+    {
+      'process.env': env,
+      version: Date.now()
+    }
+  )
   if (!isDefinition) {
     envConfig = extend(true, {}, envConfig, {
       ftp: config['ftp'],

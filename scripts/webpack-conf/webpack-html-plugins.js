@@ -1,12 +1,12 @@
-import HtmlWebpackPlugin from 'html-webpack-plugin'
-import glob from 'glob'
-import path from 'path'
-import getEntry from './webpack-entry'
-import getConfig from '../util/config'
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const glob = require('glob')
+const path = require('path')
+const getEntry = require('./webpack-entry')
+const getConfig = require('../util/config')
 
-var projectRoot = path.join(process.cwd(), 'client')
+const projectRoot = path.join(process.cwd(), 'client')
 
-var minify = {
+const minify = {
   // 行内元素内容至多保留一个空格
   collapseBooleanAttributes: true, // disabled="disabled" => disabled
   collapseInlineTagWhitespace: true, // display:inline element collapseWhitespace=true
@@ -22,47 +22,49 @@ var minify = {
   useShortDoctype: true // html5 doctype
 }
 
-var htmlsInFolders = glob.sync('!(partial)/**/*', {
+let htmlsInFolders = glob.sync('!(partial)/**/*', {
   cwd: projectRoot + '/static/html'
 })
-var htmlsInCurDir = glob.sync('*.@(html|hbs)', {
+let htmlsInCurDir = glob.sync('*.@(html|hbs)', {
   cwd: projectRoot + '/static/html'
 })
-var all = [].concat(htmlsInFolders, htmlsInCurDir)
+let all = [].concat(htmlsInFolders, htmlsInCurDir)
 
-export default (env, filter) => {
-  var config = getConfig(env)
-  var chunks = getEntry(env, filter)
+module.exports = (env, filter) => {
+  let config = getConfig(env)
+  let chunks = getEntry(env, filter)
 
-  var entryPrefixer = config.entryPrefixer || ''
-  var webpackNoCommon = config.webpack['no-common'] || false
-  var webpackNoHtmlInject = config.webpack['no-html-inject'] || false
+  let entryPrefixer = config.entryPrefixer || ''
+  let webpackNoCommon = config.webpack['no-common'] || false
+  let webpackNoHtmlInject = config.webpack['no-html-inject'] || false
 
-  var chunkNames = []
+  let chunkNames = []
   for (let name in chunks) {
     chunkNames.push(name)
   }
 
   if (filter) {
-    let filterRegExps = filter.split(',').map((it) => {
-      let fixStr = it.replace('.wp.js', '')
-        .replace(/[\/]/g, '\\\/')
+    let filterRegExps = filter.split(',').map(it => {
+      let fixStr = it.replace('.wp.js', '').replace(/[\/]/g, '\\/')
       return new RegExp(fixStr, 'i')
     })
 
-    all = all.filter((name) => {
-      return filterRegExps.some((re) => {
+    all = all.filter(name => {
+      return filterRegExps.some(re => {
         return re.test(name)
       })
     })
   }
 
-  var plugins = []
+  let plugins = []
 
-  all.forEach((it) => {
+  all.forEach(it => {
     let withoutExt = it.replace(path.extname(it), '')
-    let chunkMatch = chunkNames.find((chunk) => {
-      return chunk === path.join('static/js', entryPrefixer + withoutExt).replace(/\\/g, '/')
+    let chunkMatch = chunkNames.find(chunk => {
+      return (
+        chunk ===
+        path.join('static/js', entryPrefixer + withoutExt).replace(/\\/g, '/')
+      )
     })
 
     let plugin = {}

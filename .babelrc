@@ -1,7 +1,7 @@
 {
   "presets": [["es2015", {
     "module": false
-  }], "stage-2"],
-  "plugins": ["transform-runtime", "add-module-exports"],
+  }], "stage-2", "react"],
+  "plugins": ["transform-runtime", "add-module-exports", "react-hot-loader/babel"],
   "comments": false
 }

@@ -1,23 +1,30 @@
-import path from 'path'
-import url from 'url'
-import fs from 'fs'
-import extend from 'extend'
-import postcss from 'postcss'
-import getPostcssPlugins from './postcss-plugins'
+const path = require('path')
+const url = require('url')
+const fs = require('fs')
+const extend = require('extend')
+const postcss = require('postcss')
+const getPostcssPlugins = require('./postcss-plugins')
 
-export default (options) => {
-  options = extend(true, {
-    src: process.cwd,
-    publicPath: '',
-    env: 'production'
-  }, options)
+module.exports = options => {
+  options = extend(
+    true,
+    {
+      src: process.cwd,
+      publicPath: '',
+      env: 'production'
+    },
+    options
+  )
 
   let postcssPlugins = getPostcssPlugins(options.env)
 
   return async function(ctx, next) {
     await next()
 
-    if (ctx.req.method !== 'GET' && ctx.req.method !== 'HEAD' || !/\.css/.test(ctx.req.url)) {
+    if (
+      (ctx.req.method !== 'GET' && ctx.req.method !== 'HEAD') ||
+      !/\.css/.test(ctx.req.url)
+    ) {
       return
     }
 
@@ -39,7 +46,7 @@ export default (options) => {
         map: 'inline'
       })
       ctx.res.end(result.css)
-    } catch ( err ) {
+    } catch (err) {
       console.error(err)
     }
   }

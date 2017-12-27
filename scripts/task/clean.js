@@ -1,11 +1,10 @@
-import rimraf from 'rimraf'
-import colors from 'colors'
-import leftPad from 'left-pad'
-import path from 'path'
+const rimraf = require('rimraf')
+const colors = require('colors')
+const leftPad = require('left-pad')
+const path = require('path')
 
-var projectRoot = process.cwd()
-
-export default () => {
+const projectRoot = process.cwd()
+module.exports = () => {
   rimraf.sync(path.join(projectRoot, 'client/dist'))
   rimraf.sync(path.join(projectRoot, 'tmp'))
   rimraf.sync(path.join(projectRoot, 'jsdoc'))
