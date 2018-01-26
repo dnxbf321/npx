@@ -15,33 +15,28 @@ module.exports = async () => {
 
   let pack = (zipName, patterns, ctx) => {
     return new Promise((resolve, reject) => {
-      patterns = [].concat(patterns)
+      let zip = archiver('zip', {
+        level: 9
+      })
 
-      let zip = archiver.create('zip')
       let outputFilename =
-        moment().format('YYYY-MM-DD HH-mm-ss') +
-        '_' +
-        packageConfig.name +
-        '-' +
-        zipName
-      let output = fs.createWriteStream(
-        path.join(projectRoot, 'zip', outputFilename)
-      )
+        moment().format('YYYYMMDDTHHmmss') + '_' + packageConfig.name + '-' + zipName
+      let output = fs.createWriteStream(path.join(projectRoot, 'zip', outputFilename))
       output.on('close', () => {
         console.log(
           colors.bgGreen(`[task ${leftPad('pack', 12)}]`),
-          outputFilename +
-            ' has been finalized. ' +
-            zip.pointer() +
-            ' total bytes'
+          outputFilename + ' has been finalized. ' + zip.pointer() + ' total bytes'
         )
         resolve()
       })
+
       zip.on('error', err => {
         console.log(colors.bgRed(`[task ${leftPad('pack', 12)}]`), err)
         reject(err)
       })
       zip.pipe(output)
+
+      patterns = [].concat(patterns)
       patterns.forEach(pattern => {
         zip.glob(pattern, {
           cwd: ctx,
