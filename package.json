@@ -1,8 +1,7 @@
 {
     "name": "deng-npx",
     "version": "5.1.1",
-    "description":
-        "Pack static files like html, css, javascript, images and so on. Different environment, different variables.",
+    "description": "Pack static files like html, css, javascript, images and so on. Different environment, different variables.",
     "keywords": [
         "front-end",
         "pack static files",
@@ -66,7 +65,7 @@
         "eslint-loader": "^1.9.0",
         "eventsource-polyfill": "^0.9.6",
         "extend": "^3.0.0",
-        "file-loader": "^0.11.2",
+        "file-loader": "^1.1.6",
         "function-bind": "^1.1.1",
         "git-clone": "0.1.0",
         "glob": "^7.1.1",
@@ -84,7 +83,7 @@
         "ncp": "^2.0.0",
         "postcss": "^6.0.16",
         "postcss-assets": "^5.0.0",
-        "postcss-easy-import": "^2.0.0",
+        "postcss-easy-import": "^3.0.0",
         "postcss-loader": "^2.0.10",
         "postcss-pxtorem": "^4.0.0",
         "postcss-reporter": "^5.0.0",
@@ -96,9 +95,9 @@
         "rimraf": "^2.6.1",
         "rucksack-css": "^1.0.2",
         "scp2": "^0.5.0",
-        "style-loader": "^0.18.2",
+        "style-loader": "^0.19.1",
         "update-notifier": "^2.2.0",
-        "url-loader": "^0.5.9",
+        "url-loader": "^0.6.2",
         "webpack": "^3.5.5",
         "webpack-hot-middleware": "^2.21.0",
         "webpack-merge": "^4.1.0"

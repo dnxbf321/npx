@@ -53,19 +53,13 @@ function getBaseConf(env, filter) {
       publicPath: publicPath
     },
     resolve: {
-      modules: [
-        path.join(projectRoot, 'node_modules'),
-        path.join(cliRoot, 'node_modules')
-      ],
+      modules: [path.join(projectRoot, 'node_modules'), path.join(cliRoot, 'node_modules')],
       alias: {
         vue: 'vue/dist/vue.js' // standalone build, see https://vuejs.org/guide/installation.html#Standalone-vs-Runtime-only-Build
       }
     },
     resolveLoader: {
-      modules: [
-        path.join(projectRoot, 'node_modules'),
-        path.join(cliRoot, 'node_modules')
-      ]
+      modules: [path.join(projectRoot, 'node_modules'), path.join(cliRoot, 'node_modules')]
     },
     module: {
       rules: [
