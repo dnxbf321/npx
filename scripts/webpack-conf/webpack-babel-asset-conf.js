@@ -1,3 +1,9 @@
+/*
+* @Author: dengjiayao
+* @Date:   2017-12-27 13:17:46
+* @Last Modified by:   dengjiayao
+* @Last Modified time: 2018-02-08 17:45:26
+*/
 const webpack = require('webpack')
 
 const path = require('path')
@@ -55,10 +61,7 @@ module.exports = env => {
       modules: [path.join(projectRoot, 'node_modules')]
     },
     resolveLoader: {
-      modules: [
-        path.join(projectRoot, 'node_modules'),
-        path.join(cliRoot, 'node_modules')
-      ]
+      modules: [path.join(projectRoot, 'node_modules'), path.join(cliRoot, 'node_modules')]
     },
     module: {
       rules: [
@@ -101,8 +104,7 @@ module.exports = env => {
     ].concat(
       config.webpack.banner
         ? new webpack.BannerPlugin({
-            banner:
-              config.webpack.banner + ' | built at ' + new Date(config.version),
+            banner: config.webpack.banner + ' | built at ' + new Date(config.version),
             entryOnly: true
           })
         : []

@@ -1,3 +1,9 @@
+/*
+* @Author: dengjiayao
+* @Date:   2018-01-26 15:42:48
+* @Last Modified by:   dengjiayao
+* @Last Modified time: 2018-02-08 17:43:37
+*/
 const webpack = require('webpack')
 const progressBarWebpackPlugin = require('progress-bar-webpack-plugin')
 

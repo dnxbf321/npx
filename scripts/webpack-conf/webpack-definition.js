@@ -1,3 +1,9 @@
+/*
+* @Author: dengjiayao
+* @Date:   2017-12-27 13:21:25
+* @Last Modified by:   dengjiayao
+* @Last Modified time: 2018-02-08 17:45:33
+*/
 const getConfig = require('../util/config')
 
 function formatDefinitions(obj) {

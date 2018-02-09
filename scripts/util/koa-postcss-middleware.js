@@ -1,3 +1,9 @@
+/*
+* @Author: dengjiayao
+* @Date:   2017-12-27 13:13:40
+* @Last Modified by:   dengjiayao
+* @Last Modified time: 2018-02-08 17:44:58
+*/
 const path = require('path')
 const url = require('url')
 const fs = require('fs')
@@ -21,10 +27,7 @@ module.exports = options => {
   return async function(ctx, next) {
     await next()
 
-    if (
-      (ctx.req.method !== 'GET' && ctx.req.method !== 'HEAD') ||
-      !/\.css/.test(ctx.req.url)
-    ) {
+    if ((ctx.req.method !== 'GET' && ctx.req.method !== 'HEAD') || !/\.css/.test(ctx.req.url)) {
       return
     }
 

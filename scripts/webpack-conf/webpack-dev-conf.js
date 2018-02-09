@@ -1,3 +1,9 @@
+/*
+* @Author: dengjiayao
+* @Date:   2017-12-27 13:21:05
+* @Last Modified by:   dengjiayao
+* @Last Modified time: 2018-02-08 17:45:41
+*/
 const path = require('path')
 const webpack = require('webpack')
 const merge = require('webpack-merge')
@@ -27,10 +33,7 @@ module.exports = (env, filter) => {
       output: {
         publicPath: '/'
       },
-      plugins: [
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoEmitOnErrorsPlugin()
-      ]
+      plugins: [new webpack.HotModuleReplacementPlugin(), new webpack.NoEmitOnErrorsPlugin()]
     },
     customConfig
   )

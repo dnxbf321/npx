@@ -1,3 +1,9 @@
+/*
+* @Author: dengjiayao
+* @Date:   2017-12-27 13:04:04
+* @Last Modified by:   dengjiayao
+* @Last Modified time: 2018-02-08 17:43:55
+*/
 const webpack = require('webpack')
 const colors = require('colors')
 const leftPad = require('left-pad')
@@ -9,9 +15,7 @@ const aliasEnv = require('../util/alias-env')
 
 module.exports = env => {
   // 删除 dist 下的 .bl.js 文件
-  let files = glob.sync(
-    path.join(process.cwd(), 'client/dist/static/**/*.bl.js')
-  )
+  let files = glob.sync(path.join(process.cwd(), 'client/dist/static/**/*.bl.js'))
   files.forEach(it => {
     rimraf(it, {}, () => {})
   })

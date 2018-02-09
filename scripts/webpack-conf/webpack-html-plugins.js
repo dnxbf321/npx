@@ -1,3 +1,9 @@
+/*
+* @Author: dengjiayao
+* @Date:   2018-02-08 17:43:09
+* @Last Modified by:   dengjiayao
+* @Last Modified time: 2018-02-08 17:43:19
+*/
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const glob = require('glob')
 const path = require('path')
@@ -61,10 +67,7 @@ module.exports = (env, filter) => {
   all.forEach(it => {
     let withoutExt = it.replace(path.extname(it), '')
     let chunkMatch = chunkNames.find(chunk => {
-      return (
-        chunk ===
-        path.join('static/js', entryPrefixer + withoutExt).replace(/\\/g, '/')
-      )
+      return chunk === path.join('static/js', entryPrefixer + withoutExt).replace(/\\/g, '/')
     })
 
     let plugin = {}

@@ -1,3 +1,9 @@
+/*
+* @Author: dengjiayao
+* @Date:   2017-12-27 13:14:56
+* @Last Modified by:   dengjiayao
+* @Last Modified time: 2018-02-08 17:45:06
+*/
 const extend = require('extend')
 const path = require('path')
 const getConfig = require('./config')

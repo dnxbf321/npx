@@ -1,3 +1,9 @@
+/*
+* @Author: dengjiayao
+* @Date:   2017-12-27 13:09:09
+* @Last Modified by:   dengjiayao
+* @Last Modified time: 2018-02-08 17:44:31
+*/
 const Koa = require('koa')
 const staticServe = require('koa-static')
 const webpack = require('webpack')
@@ -50,9 +56,7 @@ async function setup(env, config, wpConfig) {
 
   // serve pure static assets
   app.use(async (ctx, next) => {
-    let isStaticFile = /\.(js|css|png|jpg|gif|ico|woff|ttf|svg|eot)/.test(
-      path.extname(ctx.req.url)
-    )
+    let isStaticFile = /\.(js|css|png|jpg|gif|ico|woff|ttf|svg|eot)/.test(path.extname(ctx.req.url))
     if (isStaticFile) {
       ctx.res.setHeader('Access-Control-Allow-Origin', '*')
     }
