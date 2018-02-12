@@ -1,7 +1,8 @@
 {
     "name": "deng-npx",
-    "version": "5.1.1",
-    "description": "Pack static files like html, css, javascript, images and so on. Different environment, different variables.",
+    "version": "5.2.0",
+    "description":
+        "Pack static files like html, css, javascript, images and so on. Different environment, different variables.",
     "keywords": [
         "front-end",
         "pack static files",
@@ -81,6 +82,7 @@
         "mkdirp": "^0.5.1",
         "moment": "^2.20.1",
         "ncp": "^2.0.0",
+        "npx-handlebars-inject-loader": "^1.0.0",
         "postcss": "^6.0.16",
         "postcss-assets": "^5.0.0",
         "postcss-easy-import": "^3.0.0",

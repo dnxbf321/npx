@@ -2,7 +2,7 @@
 * @Author: dengjiayao
 * @Date:   2018-01-26 15:42:48
 * @Last Modified by:   dengjiayao
-* @Last Modified time: 2018-02-08 17:43:37
+* @Last Modified time: 2018-02-12 11:34:19
 */
 const webpack = require('webpack')
 const progressBarWebpackPlugin = require('progress-bar-webpack-plugin')
@@ -33,6 +33,7 @@ const eslintrc = {
 function getBaseConf(env, filter) {
   let postcssPlugins = getPostcssPlugins(env)
   let envConfig = getConfig(env)
+  let definitionConfig = getConfig(env, true)
   let entry = getEntry(env, filter)
   let htmlPlugins = getHtmlPlugins(env, filter)
   let definition = getDefinition(env)
@@ -114,6 +115,12 @@ function getBaseConf(env, filter) {
                   path.join(__dirname, '../helper')
                 ],
                 partialDirs: [path.join(staticRoot, 'html/partial')]
+              }
+            },
+            {
+              loader: 'npx-handlebars-inject-loader',
+              options: {
+                data: definitionConfig
               }
             }
           ]
