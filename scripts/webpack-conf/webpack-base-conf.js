@@ -2,7 +2,7 @@
 * @Author: dengjiayao
 * @Date:   2018-01-26 15:42:48
 * @Last Modified by:   dengjiayao
-* @Last Modified time: 2018-04-23 15:02:14
+* @Last Modified time: 2018-04-23 19:28:29
 */
 const webpack = require('webpack')
 const progressBarWebpackPlugin = require('progress-bar-webpack-plugin')
@@ -17,6 +17,7 @@ const getDefinition = require('./webpack-definition')
 const getEntry = require('./webpack-entry')
 const getHtmlPlugins = require('./webpack-html-plugins')
 const getConfig = require('../util/config')
+const getPostcssrc = require('../util/postcssrc')
 const babelrc = require('../util/babelrc')
 
 const projectRoot = process.cwd()
@@ -30,7 +31,7 @@ const eslintrc = {
 }
 
 function getBaseConf(env, filter) {
-  let postcssPlugins = requireUncached(path.join(projectRoot, '.postcssrc.js'))(env).plugins
+  let postcssPlugins = getPostcssrc(env).plugins
   let envConfig = getConfig(env)
   let definitionConfig = getConfig(env, true)
   let entry = getEntry(env, filter)
@@ -41,7 +42,7 @@ function getBaseConf(env, filter) {
   let webpackNoCommon = envConfig.webpack['no-common'] || false
 
   // 无 entry，跳过
-  if (JSON.stringify(entry) === '{}') {
+  if (Object.keys(entry).length === 0) {
     return
   }
 
@@ -166,11 +167,10 @@ function getCustomConf(env) {
   let webpackConfJs = path.join(projectRoot, 'webpack.config.js')
   try {
     let conf = requireUncached(webpackConfJs)
-    let postcssConf = requireUncached(path.join(projectRoot, '.postcssrc.js'))
     return conf({
       babel: babelrc,
       eslint: eslintrc,
-      postcss: postcssConf(env)
+      postcss: getPostcssrc(env)
     })
   } catch (e) {
     return {}

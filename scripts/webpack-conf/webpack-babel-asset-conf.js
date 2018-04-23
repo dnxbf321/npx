@@ -2,7 +2,7 @@
 * @Author: dengjiayao
 * @Date:   2017-12-27 13:17:46
 * @Last Modified by:   dengjiayao
-* @Last Modified time: 2018-02-08 17:45:26
+* @Last Modified time: 2018-04-23 17:57:55
 */
 const webpack = require('webpack')
 
@@ -36,7 +36,7 @@ module.exports = env => {
   let definition = getDefinition(env)
   let entries = getEntry()
 
-  if (JSON.stringify(entries) === '{}') {
+  if (Object.keys(entries).length === 0) {
     return
   }
 

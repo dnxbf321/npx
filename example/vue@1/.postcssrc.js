@@ -1,3 +1,8 @@
+/**
+ * fix postcss not work in
+ * vue@1.x
+ * vue-loader->postcss-loader
+ */
 var path = require('path')
 var postcssEasyImport = require('postcss-easy-import')
 var precss = require('precss')

@@ -10,6 +10,7 @@
   },
   "entryPrefixer": "",
   "jsdoc": false,
+  "postcss": {},
   "default": {
     "debug": false,
     "array1": ["arr1", "arr2"],

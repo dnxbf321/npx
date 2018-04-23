@@ -2,7 +2,7 @@
 * @Author: dengjiayao
 * @Date:   2017-12-27 13:13:12
 * @Last Modified by:   dengjiayao
-* @Last Modified time: 2018-04-23 15:06:42
+* @Last Modified time: 2018-04-23 19:51:01
 */
 const extend = require('extend')
 const path = require('path')
@@ -13,7 +13,7 @@ const projectRoot = process.cwd()
 let projectConf = {}
 
 try {
-  projectConf = requireUncached(projectRoot, 'npx.json')
+  projectConf = requireUncached(path.join(projectRoot, 'npx.json'))
 } catch (e) {
   projectConf = {}
 }
@@ -33,6 +33,7 @@ module.exports = (env, isDefinition) => {
     envConfig = extend(true, {}, envConfig, {
       ftp: config['ftp'],
       jsdoc: config['jsdoc'],
+      postcss: config['postcss'],
       entryPrefixer: config['entryPrefixer'],
       webpack: config['webpack'] || {}
     })
