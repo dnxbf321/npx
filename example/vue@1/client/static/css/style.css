@@ -1,0 +1,26 @@
+@import 'base/common';
+.app {
+  font-size: 20px;
+
+  position: fixed;
+  top: 0;
+  left: 50%;
+
+  display: flex;
+  flex-direction: column;
+
+  width: 375PX;
+  height: 100%;
+
+  transform: translate(-50%, 0);
+
+  background: resolve(cover.png);
+
+  align-items: center;
+  justify-content: center;
+
+  #vue {
+    width: 100%;
+    margin: 20px 0;
+  }
+}

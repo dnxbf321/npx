@@ -1,0 +1,28 @@
+{
+  "name": "vue_2",
+  "version": "6.0.0",
+  "description": "official template for npx",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx -t pre,asset,image,babel-asset,serve-client -e development",
+    "build-dev": "npx -t pre,asset,image,webpack,postcss,babel-asset -e development",
+    "build-exp": "npx -t pre,asset,image,webpack,postcss,babel-asset -e experiment",
+    "build": "npx -t pre,asset,image,webpack,postcss,babel-asset -e production",
+    "pack": "npx pack",
+    "upload": "npx upload",
+    "clean": "npx clean"
+  },
+  "author": "Jason Deng",
+  "license": "MIT",
+  "dependencies": {
+    "vue": "^2.4.2"
+  },
+  "devDependencies": {
+    "css-loader": "^0.28.7",
+    "vue-hot-reload-api": "^2.0.11",
+    "vue-html-loader": "^1.2.4",
+    "vue-loader": "^13.0.4",
+    "vue-style-loader": "^3.0.1",
+    "vue-template-compiler": "^2.4.2"
+  }
+}

@@ -2,7 +2,7 @@
 * @Author: dengjiayao
 * @Date:   2018-01-26 15:42:48
 * @Last Modified by:   dengjiayao
-* @Last Modified time: 2018-02-12 11:34:19
+* @Last Modified time: 2018-04-23 15:02:14
 */
 const webpack = require('webpack')
 const progressBarWebpackPlugin = require('progress-bar-webpack-plugin')
@@ -16,7 +16,6 @@ const requireUncached = require('require-uncached')
 const getDefinition = require('./webpack-definition')
 const getEntry = require('./webpack-entry')
 const getHtmlPlugins = require('./webpack-html-plugins')
-const getPostcssPlugins = require('../util/postcss-plugins')
 const getConfig = require('../util/config')
 const babelrc = require('../util/babelrc')
 
@@ -31,7 +30,7 @@ const eslintrc = {
 }
 
 function getBaseConf(env, filter) {
-  let postcssPlugins = getPostcssPlugins(env)
+  let postcssPlugins = requireUncached(path.join(projectRoot, '.postcssrc.js'))(env).plugins
   let envConfig = getConfig(env)
   let definitionConfig = getConfig(env, true)
   let entry = getEntry(env, filter)
@@ -110,10 +109,7 @@ function getBaseConf(env, filter) {
             {
               loader: 'handlebars-loader',
               options: {
-                helperDirs: [
-                  path.join(staticRoot, 'js/hbs-helper'),
-                  path.join(__dirname, '../helper')
-                ],
+                helperDirs: [path.join(staticRoot, 'js/hbs-helper')],
                 partialDirs: [path.join(staticRoot, 'html/partial')]
               }
             },
@@ -170,10 +166,11 @@ function getCustomConf(env) {
   let webpackConfJs = path.join(projectRoot, 'webpack.config.js')
   try {
     let conf = requireUncached(webpackConfJs)
+    let postcssConf = requireUncached(path.join(projectRoot, '.postcssrc.js'))
     return conf({
       babel: babelrc,
       eslint: eslintrc,
-      postcss: getPostcssPlugins(env)
+      postcss: postcssConf(env)
     })
   } catch (e) {
     return {}

@@ -1,0 +1,33 @@
+{
+  "ftp": {
+    "host": "10.0.0.10",
+    "port": 22,
+    "username": "root",
+    "password": "password",
+    "remotePath": "/home/frontend/workspace/npx-template",
+    "patterns": ["client/dist"],
+    "keepFinder": false
+  },
+  "entryPrefixer": "",
+  "jsdoc": false,
+  "default": {
+    "debug": false,
+    "array1": ["arr1", "arr2"],
+    "client": {
+      "port": 9003,
+      "publicPath": "http://127.0.0.1:9003"
+    }
+  },
+  "experiment": {
+    "client": {
+      "publicPath": "http://exp.website.com"
+    }
+  },
+  "production": {
+    "debug": true,
+    "array1": ["arr3"],
+    "client": {
+      "publicPath": "http://prod.website.com"
+    }
+  }
+}

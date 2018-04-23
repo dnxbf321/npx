@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+{{> head title="page example" }}
+<body>
+  <div class="app">
+  	<p>static path defined in config.json: {{ client.publicPath }}</p>
+    <div id="vue">
+      <app></app>
+    </div>
+  </div>
+  <script src="{{ client.publicPath }}/static/lib.js"></script>
+</body>
+</html>

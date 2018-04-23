@@ -2,14 +2,14 @@
 * @Author: dengjiayao
 * @Date:   2017-12-27 13:13:40
 * @Last Modified by:   dengjiayao
-* @Last Modified time: 2018-02-08 17:44:58
+* @Last Modified time: 2018-04-23 15:00:47
 */
 const path = require('path')
 const url = require('url')
 const fs = require('fs')
 const extend = require('extend')
 const postcss = require('postcss')
-const getPostcssPlugins = require('./postcss-plugins')
+const requireUncached = require('require-uncached')
 
 module.exports = options => {
   options = extend(
@@ -22,7 +22,8 @@ module.exports = options => {
     options
   )
 
-  let postcssPlugins = getPostcssPlugins(options.env)
+  let postcssPlugins = requireUncached(path.join(process.cwd(), '.postcssrc.js'))(options.env)
+    .plugins
 
   return async function(ctx, next) {
     await next()

@@ -2,23 +2,20 @@
 * @Author: dengjiayao
 * @Date:   2017-12-27 13:13:12
 * @Last Modified by:   dengjiayao
-* @Last Modified time: 2018-02-24 17:46:13
+* @Last Modified time: 2018-04-23 15:06:42
 */
 const extend = require('extend')
 const path = require('path')
-const fs = require('fs')
-const configJson = require('../../config.json')
+const requireUncached = require('require-uncached')
+const configJson = require('../../npx.json')
 
 const projectRoot = process.cwd()
 let projectConf = {}
 
 try {
-  projectConf = fs.readFileSync('config.json', {
-    encoding: 'utf8'
-  })
-  projectConf = JSON.parse(projectConf.toString())
+  projectConf = requireUncached(projectRoot, 'npx.json')
 } catch (e) {
-  console.log('[npx          warn] config.json not found at current path')
+  projectConf = {}
 }
 
 let config = extend(true, {}, configJson, projectConf)
@@ -36,7 +33,6 @@ module.exports = (env, isDefinition) => {
     envConfig = extend(true, {}, envConfig, {
       ftp: config['ftp'],
       jsdoc: config['jsdoc'],
-      postcss: config['postcss'],
       entryPrefixer: config['entryPrefixer'],
       webpack: config['webpack'] || {}
     })

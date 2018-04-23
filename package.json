@@ -1,8 +1,7 @@
 {
     "name": "deng-npx",
-    "version": "5.2.0",
-    "description":
-        "Pack static files like html, css, javascript, images and so on. Different environment, different variables.",
+    "version": "6.0.0",
+    "description": "Pack static files like html, css, javascript, images and so on. Different environment, different variables.",
     "keywords": [
         "front-end",
         "pack static files",
@@ -23,6 +22,9 @@
     "license": "MIT",
     "bin": {
         "npx": "bin/program.js"
+    },
+    "scripts": {
+        "compress": "node compress-template.js"
     },
     "scripts-example": {
         "dev": "npx -t pre,asset,babel-asset,image,serve-client -e development",
@@ -61,6 +63,7 @@
         "commander": "^2.13.0",
         "css-loader": "^0.28.9",
         "cssnano": "^3.8.0",
+        "decompress-zip": "^0.3.1",
         "eslint": "^4.16.0",
         "eslint-friendly-formatter": "^3.0.0",
         "eslint-loader": "^1.9.0",
@@ -68,11 +71,11 @@
         "extend": "^3.0.0",
         "file-loader": "^1.1.6",
         "function-bind": "^1.1.1",
-        "git-clone": "0.1.0",
         "glob": "^7.1.1",
         "handlebars": "^4.0.5",
         "handlebars-loader": "^1.6.0",
         "html-webpack-plugin": "^2.30.1",
+        "inquirer": "^5.2.0",
         "jsdoc-webpack-plugin": "0.0.2",
         "koa": "^2.3.0",
         "koa-static": "^4.0.1",

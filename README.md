@@ -22,4 +22,6 @@
 
 ## [使用指南 Document](https://dnxbf321.gitbooks.io/npx/content/)
 
+## [examples](https://github.com/dnxbf321/npx/tree/master/example)
+
 ## [change log](https://dnxbf321.gitbooks.io/npx/content/changelog.html)

@@ -2,7 +2,7 @@
 * @Author: dengjiayao
 * @Date:   2017-12-27 13:07:28
 * @Last Modified by:   dengjiayao
-* @Last Modified time: 2018-02-08 17:44:22
+* @Last Modified time: 2018-04-23 15:00:12
 */
 const glob = require('glob')
 const mkdirp = require('mkdirp')
@@ -11,13 +11,15 @@ const leftPad = require('left-pad')
 const postcss = require('postcss')
 const path = require('path')
 const fs = require('fs')
-const getPostcssPlugins = require('../util/postcss-plugins')
+const requireUncached = require('require-uncached')
 const aliasEnv = require('../util/alias-env')
 
 const projectRoot = process.cwd()
+
 module.exports = async env => {
   env = aliasEnv(env)
-  let postcssPlugins = getPostcssPlugins(env)
+
+  let postcssPlugins = requireUncached(path.join(projectRoot, '.postcssrc.js'))(env).plugins
 
   let csses = glob.sync('css/**/[!_]*.css', {
     nodir: true,
