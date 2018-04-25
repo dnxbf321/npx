@@ -15,8 +15,8 @@
     "debug": false,
     "array1": ["arr1", "arr2"],
     "client": {
-      "port": 9003,
-      "publicPath": "http://127.0.0.1:9003"
+      "port": 9002,
+      "publicPath": "http://127.0.0.1:9002"
     }
   },
   "experiment": {
