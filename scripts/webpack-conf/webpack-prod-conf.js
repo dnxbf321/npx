@@ -2,12 +2,13 @@
 * @Author: dengjiayao
 * @Date:   2017-12-27 13:31:07
 * @Last Modified by:   dengjiayao
-* @Last Modified time: 2018-02-08 17:45:52
+* @Last Modified time: 2018-04-25 17:47:16
 */
 const webpack = require('webpack')
 const merge = require('webpack-merge')
-const path = require('path')
 const JsDocPlugin = require('jsdoc-webpack-plugin')
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
+const path = require('path')
 const { getBaseConf, getCustomConf } = require('./webpack-base-conf')
 const getConfig = require('../util/config')
 
@@ -19,42 +20,49 @@ module.exports = env => {
   }
 
   let customConfig = getCustomConf(env)
+
+  let publicPath = config.client.publicPath.replace(/\\/g, '/')
+  if (!/\/+$/.test(publicPath)) {
+    publicPath += '/'
+  }
+
+  let plugins = []
+  if (config.jsdoc) {
+    plugins.push(
+      new JsDocPlugin({
+        conf: path.join(process.cwd(), '.jsdoc.json')
+      })
+    )
+  }
+  if (config.webpack.banner) {
+    plugins.push(
+      new webpack.BannerPlugin({
+        banner: config.webpack.banner + ' | built at ' + new Date(config.version) + '\n',
+        entryOnly: true
+      })
+    )
+  }
+
   return merge(
     getBaseConf(env),
     {
-      stats: {
-        children: false
-      },
       cache: false,
       devtool: SOURCE_MAP ? '#source-map' : false,
       output: {
-        filename: '[name].js?[chunkhash]'
+        filename: '[name].js?[chunkhash]',
+        chunkFilename: '[name].js?[chunkhash]',
+        publicPath
       },
-      plugins: [
-        new webpack.optimize.UglifyJsPlugin({
-          compress: {
-            warnings: false
-          },
-          output: {
-            comments: false
-          }
-        })
-      ]
-        .concat(
-          config.jsdoc
-            ? new JsDocPlugin({
-                conf: path.join(process.cwd(), '.jsdoc.json')
-              })
-            : []
-        )
-        .concat(
-          config.webpack.banner
-            ? new webpack.BannerPlugin({
-                banner: config.webpack.banner + ' | built at ' + new Date(config.version),
-                entryOnly: true
-              })
-            : []
-        )
+      plugins,
+      optimization: {
+        minimizer: [
+          new UglifyJSPlugin({
+            cache: true,
+            exclude: /node_modules/,
+            parallel: true
+          })
+        ]
+      }
     },
     customConfig
   )

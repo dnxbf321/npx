@@ -1,93 +1,78 @@
 /*
 * @Author: dengjiayao
-* @Date:   2017-12-27 13:09:09
+* @Date:   2018-04-25 16:18:40
 * @Last Modified by:   dengjiayao
-* @Last Modified time: 2018-02-08 17:44:31
+* @Last Modified time: 2018-04-25 17:50:12
 */
-const Koa = require('koa')
-const staticServe = require('koa-static')
 const webpack = require('webpack')
-const historyApiFallback = require('koa2-history-api-fallback')
-const { devMiddleware, hotMiddleware } = require('koa-webpack-middleware')
+const DevServer = require('webpack-dev-server')
 const colors = require('colors')
 const leftPad = require('left-pad')
 const path = require('path')
 const aliasEnv = require('../util/alias-env')
-const cssMiddleware = require('../util/koa-postcss-middleware')
+const cssMiddleware = require('../util/express-postcss-middleware')
 const getWpConfig = require('../webpack-conf/webpack-dev-conf')
-const getConfig = require('../util/config')
+const getNpxConfig = require('../util/config')
 
-const codePath = process.cwd()
+const projectRoot = process.cwd()
 
-async function setup(env, config, wpConfig) {
-  let app = new Koa()
-
-  if (wpConfig) {
-    let compiler = webpack(wpConfig)
-    app.use(
-      devMiddleware(compiler, {
-        noInfo: false,
-        quiet: false,
-        lazy: false,
-        watchOptions: {
-          aggregateTimeout: 300
-        },
-        publicPath: wpConfig.output.publicPath,
-        stats: {
-          children: false,
-          colors: true,
-          modules: false
-        }
-      })
-    )
-    app.use(hotMiddleware(compiler))
+async function setup(env, npxConf, wpConf) {
+  const options = {
+    contentBase: [
+      path.join(projectRoot, 'client/dist/'),
+      path.join(projectRoot, 'client/dist/static/'),
+      path.join(projectRoot, 'client/assets/')
+    ],
+    hot: true,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Cache-Control': 'public, max-age=0'
+    },
+    host: '127.0.0.1',
+    port: npxConf.client.port,
+    publicPath: wpConf.output.publicPath,
+    watchOptions: {
+      pool: true
+    },
+    stats: {
+      children: false,
+      colors: true,
+      entrypoints: false,
+      modules: false
+    }
   }
 
-  app.use(historyApiFallback())
+  DevServer.addDevServerEntrypoints(wpConf, options)
+  let compiler = webpack(wpConf)
 
-  // use css middleware
-  app.use(
+  let server = new DevServer(compiler, options)
+  server.use(
     cssMiddleware({
-      src: path.join(codePath, 'client'),
-      publicPath: wpConfig.output.publicPath,
-      env: env
+      src: path.join(projectRoot, 'client'),
+      publicPath: wpConf.output.publicPath,
+      env
     })
   )
 
-  // serve pure static assets
-  app.use(async (ctx, next) => {
-    let isStaticFile = /\.(js|css|png|jpg|gif|ico|woff|ttf|svg|eot)/.test(path.extname(ctx.req.url))
-    if (isStaticFile) {
-      ctx.res.setHeader('Access-Control-Allow-Origin', '*')
-    }
-    await next()
-  })
-  app.use(staticServe(path.join(codePath, 'client/dist/')))
-  app.use(staticServe(path.join(codePath, 'client/dist/static/')))
-  app.use(staticServe(path.join(codePath, 'client/assets/')))
-
-  return app
+  return server
 }
 
-module.exports = async (env, entry) => {
+module.exports = async (env, filter) => {
   env = aliasEnv(env)
 
-  let config = getConfig(env)
-  let wpConfig = getWpConfig(env, entry)
+  let npxConf = getNpxConfig(env)
+  let wpConf = getWpConfig(env, filter)
 
-  let app = await setup(env, config, wpConfig)
+  let app = await setup(env, npxConf, wpConf)
 
-  let PORT = config.client.port
+  let PORT = npxConf.client.port
   return new Promise((resolve, reject) => {
-    app.listen(PORT, err => {
+    app.listen(PORT, 'localhost', err => {
       if (err) {
-        console.log(colors.bgRed(`[task ${leftPad('serve-client', 12)}]`), err)
+        console.log(colors.bgRed(`[task ${leftPad('dev-server', 12)}]`), err)
         reject(err)
       } else {
-        console.log(
-          colors.bgGreen(`[task ${leftPad('serve-client', 12)}]`),
-          'static files on port: ' + PORT
-        )
+        console.log(colors.bgGreen(`[task ${leftPad('dev-server', 12)}]`), 'files on port: ' + PORT)
         resolve()
       }
     })

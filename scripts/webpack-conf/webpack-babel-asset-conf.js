@@ -2,7 +2,7 @@
 * @Author: dengjiayao
 * @Date:   2017-12-27 13:17:46
 * @Last Modified by:   dengjiayao
-* @Last Modified time: 2018-04-23 17:57:55
+* @Last Modified time: 2018-04-25 17:32:13
 */
 const webpack = require('webpack')
 
@@ -41,12 +41,10 @@ module.exports = env => {
   }
 
   let conf = {
-    context: contextPath,
-    stats: {
-      children: false
-    },
+    mode: env === 'development' ? 'development' : 'production',
     cache: false,
     devtool: env === 'development' ? '#source-map' : false,
+    context: contextPath,
     entry: entries,
     output: {
       filename: '[name].js?[chunkhash]',
@@ -92,23 +90,18 @@ module.exports = env => {
         }
       ]
     },
-    plugins: [
-      new webpack.IgnorePlugin(/vertx/),
-      new webpack.DefinePlugin(definition),
-      new webpack.optimize.ModuleConcatenationPlugin(),
-      new webpack.optimize.UglifyJsPlugin({
-        output: {
-          comments: false
-        }
-      })
-    ].concat(
+    plugins: [new webpack.IgnorePlugin(/vertx/), new webpack.DefinePlugin(definition)].concat(
       config.webpack.banner
         ? new webpack.BannerPlugin({
-            banner: config.webpack.banner + ' | built at ' + new Date(config.version),
+            banner: config.webpack.banner + ' | built at ' + new Date(config.version) + '\n',
             entryOnly: true
           })
         : []
-    )
+    ),
+    optimization: {
+      noEmitOnErrors: true,
+      splitChunks: false
+    }
   }
   return conf
 }

@@ -2,7 +2,7 @@
 * @Author: dengjiayao
 * @Date:   2017-12-27 13:12:16
 * @Last Modified by:   dengjiayao
-* @Last Modified time: 2018-02-08 17:44:50
+* @Last Modified time: 2018-04-24 19:40:06
 */
 const fs = require('fs')
 const path = require('path')
@@ -30,5 +30,6 @@ babelrc.plugins = babelrc.plugins.map(it => {
     return [require.resolve('babel-plugin-' + it[0]), it[1]]
   }
 })
+babelrc.cacheDirectory = true
 
 module.exports = babelrc

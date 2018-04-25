@@ -2,17 +2,29 @@
 * @Author: dengjiayao
 * @Date:   2018-01-26 15:56:28
 * @Last Modified by:   dengjiayao
-* @Last Modified time: 2018-02-08 17:44:17
+* @Last Modified time: 2018-04-24 10:36:35
 */
 const archiver = require('archiver')
 const mkdirp = require('mkdirp')
 const colors = require('colors')
 const leftPad = require('left-pad')
-const moment = require('moment')
 const path = require('path')
 const fs = require('fs')
 
 const projectRoot = process.cwd()
+
+function getNow() {
+  const now = new Date()
+  return (
+    now.getFullYear() +
+    ('0' + (now.getMonth() + 1)).slice(-2) +
+    ('0' + now.getDate()).slice(-2) +
+    'T' +
+    ('0' + now.getHours()).slice(-2) +
+    ('0' + now.getMinutes()).slice(-2) +
+    ('0' + now.getSeconds()).slice(-2)
+  )
+}
 
 module.exports = async () => {
   let packageConfig = require(path.join(projectRoot, 'package.json'))
@@ -25,8 +37,7 @@ module.exports = async () => {
         level: 9
       })
 
-      let outputFilename =
-        moment().format('YYYYMMDDTHHmmss') + '_' + packageConfig.name + '-' + zipName
+      let outputFilename = getNow() + '_' + packageConfig.name + '-' + zipName
       let output = fs.createWriteStream(path.join(projectRoot, 'zip', outputFilename))
       output.on('close', () => {
         console.log(

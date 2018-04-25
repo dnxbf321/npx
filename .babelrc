@@ -12,6 +12,6 @@
       ]
     }
   }], "react", "stage-2"],
-  "plugins": ["transform-runtime", "add-module-exports", "react-hot-loader/babel"],
+  "plugins": ["transform-runtime", "react-hot-loader/babel"],
   "comments": false
 }

@@ -2,7 +2,7 @@
 * @Author: dengjiayao
 * @Date:   2018-01-26 15:42:48
 * @Last Modified by:   dengjiayao
-* @Last Modified time: 2018-04-23 19:28:29
+* @Last Modified time: 2018-04-25 17:46:45
 */
 const webpack = require('webpack')
 const progressBarWebpackPlugin = require('progress-bar-webpack-plugin')
@@ -26,6 +26,7 @@ const staticRoot = path.join(contextPath, 'static')
 const cliRoot = path.join(__dirname, '../../')
 
 const eslintrc = {
+  cache: true,
   configFile: path.join(projectRoot, '.eslintrc.js'),
   formatter: require('eslint-friendly-formatter')
 }
@@ -46,23 +47,19 @@ function getBaseConf(env, filter) {
     return
   }
 
-  let publicPath = envConfig.client.publicPath.replace(/\\/g, '/')
-  if (!/\/+$/.test(publicPath)) {
-    publicPath += '/'
-  }
   let conf = {
+    mode: env === 'development' ? 'development' : 'production',
     context: contextPath,
     entry: entry,
     output: {
-      filename: '[name].js?[hash]',
-      chunkFilename: '[name].js?[chunkhash]',
-      path: path.join(projectRoot, 'client/dist'),
-      publicPath: publicPath
+      path: path.join(projectRoot, 'client/dist')
     },
     resolve: {
       modules: [path.join(projectRoot, 'node_modules'), path.join(cliRoot, 'node_modules')],
       alias: {
-        vue: 'vue/dist/vue.js' // standalone build, see https://vuejs.org/guide/installation.html#Standalone-vs-Runtime-only-Build
+        // see https://vuejs.org/guide/installation.html#Standalone-vs-Runtime-only-Build
+        // https://vuejs.org/v2/guide/installation.html#Explanation-of-Different-Builds
+        vue: env === 'development' ? 'vue/dist/vue.js' : 'vue/dist/vue.min.js'
       }
     },
     resolveLoader: {
@@ -142,7 +139,6 @@ function getBaseConf(env, filter) {
     plugins: [
       new webpack.IgnorePlugin(/vertx/),
       new webpack.DefinePlugin(definition),
-      new webpack.optimize.ModuleConcatenationPlugin(),
       new progressBarWebpackPlugin({
         format:
           colors.bgCyan(`[webpack ${leftPad('build', 9)}]`) +
@@ -151,14 +147,16 @@ function getBaseConf(env, filter) {
           ' (:elapsed seconds)',
         clear: false
       })
-    ].concat(htmlPlugins)
+    ].concat(htmlPlugins),
+    optimization: {
+      noEmitOnErrors: true
+    }
   }
   if (!webpackNoCommon) {
-    conf.plugins.push(
-      new webpack.optimize.CommonsChunkPlugin({
-        name: 'static/js/' + entryPrefixer + 'common'
-      })
-    )
+    conf.optimization.splitChunks = {
+      name: 'static/js/' + entryPrefixer + 'common',
+      minChunks: 2
+    }
   }
   return conf
 }

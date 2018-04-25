@@ -2,7 +2,7 @@
 * @Author: dengjiayao
 * @Date:   2018-02-08 17:43:09
 * @Last Modified by:   dengjiayao
-* @Last Modified time: 2018-02-08 17:43:19
+* @Last Modified time: 2018-04-24 14:18:08
 */
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const glob = require('glob')
@@ -75,6 +75,7 @@ module.exports = (env, filter) => {
     plugin.template = 'static/html/' + it
     plugin.inject = !webpackNoHtmlInject
     plugin.minify = minify
+    plugin.cache = true
     if (chunkMatch) {
       plugin.chunks = [chunkMatch]
       if (!webpackNoCommon) {

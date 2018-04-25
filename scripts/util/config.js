@@ -2,7 +2,7 @@
 * @Author: dengjiayao
 * @Date:   2017-12-27 13:13:12
 * @Last Modified by:   dengjiayao
-* @Last Modified time: 2018-04-23 19:51:01
+* @Last Modified time: 2018-04-24 11:00:39
 */
 const extend = require('extend')
 const path = require('path')
@@ -24,9 +24,6 @@ module.exports = (env, isDefinition) => {
   env = env || global.NODE_ENV || process.env.NODE_ENV
   let defaultConfig = config['default']
   let envConfig = extend(true, {}, defaultConfig, config[env || 'production'] || {}, {
-    'process.env': {
-      NODE_ENV: env
-    },
     version: Date.now()
   })
   if (!isDefinition) {

@@ -1,8 +1,8 @@
 /*
 * @Author: dengjiayao
-* @Date:   2017-12-27 13:13:40
+* @Date:   2018-04-25 17:01:40
 * @Last Modified by:   dengjiayao
-* @Last Modified time: 2018-04-23 19:27:01
+* @Last Modified time: 2018-04-25 17:52:05
 */
 const path = require('path')
 const url = require('url')
@@ -24,20 +24,19 @@ module.exports = options => {
 
   let postcssPlugins = getPostcssrc(options.env).plugins
 
-  return async function(ctx, next) {
+  return async function(req, res, next) {
     await next()
-
-    if ((ctx.req.method !== 'GET' && ctx.req.method !== 'HEAD') || !/\.css/.test(ctx.req.url)) {
+    if ((req.method !== 'GET' && req.method !== 'HEAD') || !/\.css/.test(req.url)) {
       return
     }
 
-    ctx.res.writeHead(200, {
+    res.writeHead(200, {
       'Content-Type': 'text/css',
-      'Cache-Control': 'max-age=0',
+      'Cache-Control': 'public, max-age=0',
       'Access-Control-Allow-Origin': '*'
     })
 
-    let reqUrl = url.parse(ctx.req.url, true, true)
+    let reqUrl = url.parse(req.url, true, true)
     let relativePath = path.relative(options.publicPath, reqUrl.pathname)
     let fsLocation = path.join(options.src, relativePath)
 
@@ -48,7 +47,7 @@ module.exports = options => {
         from: fsLocation,
         map: 'inline'
       })
-      ctx.res.end(result.css)
+      res.end(result.css)
     } catch (err) {
       console.error(err)
     }

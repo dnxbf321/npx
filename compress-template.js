@@ -56,5 +56,4 @@ function compress(tplName) {
 rimraf.sync(tplFolder)
 mkdirp.sync(tplFolder)
 compress('normal(react)')
-compress('vue@1')
 compress('vue@2')

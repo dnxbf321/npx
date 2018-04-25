@@ -2,7 +2,7 @@
 * @Author: dengjiayao
 * @Date:   2017-12-27 13:06:03
 * @Last Modified by:   dengjiayao
-* @Last Modified time: 2018-04-23 17:33:38
+* @Last Modified time: 2018-04-24 15:45:28
 */
 const colors = require('colors')
 const leftPad = require('left-pad')
@@ -40,7 +40,7 @@ module.exports = () => {
         type: 'list',
         name: 'tpl',
         message: '选择项目模板：',
-        choices: ['normal(react)', 'vue@1', 'vue@2']
+        choices: ['normal(react)', 'vue@2']
       }
     ])
     .then(answers => {

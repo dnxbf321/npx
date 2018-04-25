@@ -2,7 +2,7 @@
 * @Author: dengjiayao
 * @Date:   2017-12-27 13:04:04
 * @Last Modified by:   dengjiayao
-* @Last Modified time: 2018-02-08 17:43:55
+* @Last Modified time: 2018-04-25 17:32:00
 */
 const webpack = require('webpack')
 const colors = require('colors')
@@ -39,6 +39,7 @@ module.exports = env => {
           stats.toString({
             children: false,
             colors: true,
+            entrypoints: false,
             modules: false
           })
         )
