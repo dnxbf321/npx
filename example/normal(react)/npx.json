@@ -6,7 +6,7 @@
     "password": "password",
     "remotePath": "/home/frontend/workspace/npx-template",
     "patterns": ["client/dist"],
-    "keepFinder": false
+    "keepWrapFolder": false
   },
   "entryPrefixer": "",
   "jsdoc": false,

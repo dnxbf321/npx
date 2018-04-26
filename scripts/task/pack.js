@@ -2,7 +2,7 @@
 * @Author: dengjiayao
 * @Date:   2018-01-26 15:56:28
 * @Last Modified by:   dengjiayao
-* @Last Modified time: 2018-04-24 10:36:35
+* @Last Modified time: 2018-04-26 15:49:58
 */
 const archiver = require('archiver')
 const mkdirp = require('mkdirp')
@@ -68,7 +68,8 @@ module.exports = async () => {
             'tmp',
             'tmp/**/*',
             '.git',
-            '.git/**/*'
+            '.git/**/*',
+            '.DS_Store'
           ]
         })
       })

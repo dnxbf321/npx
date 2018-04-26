@@ -3,15 +3,7 @@
   "version": "1.0.0",
   "description": "description goes here",
   "main": "index.js",
-  "scripts": {
-    "dev": "npx -t pre,asset,image,babel-asset,serve-client -e development",
-    "build-dev": "npx -t pre,asset,image,webpack,postcss,babel-asset -e development",
-    "build-exp": "npx -t pre,asset,image,webpack,postcss,babel-asset -e experiment",
-    "build": "npx -t pre,asset,image,webpack,postcss,babel-asset -e production",
-    "pack": "npx pack",
-    "upload": "npx upload",
-    "clean": "npx clean"
-  },
+  "scripts": {},
   "author": "Jason Deng",
   "license": "MIT",
   "dependencies": {

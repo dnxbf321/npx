@@ -5,7 +5,7 @@
     "username": "root",
     "password": "password",
     "remotePath": "/home/frontend/workspace",
-    "keepFinder": true
+    "keepWrapFolder": true
   },
   "jsdoc": true,
   "postcss": {},

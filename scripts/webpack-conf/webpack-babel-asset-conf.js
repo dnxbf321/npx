@@ -2,7 +2,7 @@
 * @Author: dengjiayao
 * @Date:   2017-12-27 13:17:46
 * @Last Modified by:   dengjiayao
-* @Last Modified time: 2018-04-26 10:17:15
+* @Last Modified time: 2018-04-26 15:59:42
 */
 const webpack = require('webpack')
 
@@ -40,15 +40,25 @@ module.exports = env => {
     return
   }
 
+  let plugins = [new webpack.IgnorePlugin(/vertx/), new webpack.DefinePlugin(definition)]
+  if (config.webpack.banner) {
+    plugins.push(
+      new webpack.BannerPlugin({
+        banner: config.webpack.banner + ' | built at ' + new Date(config.version) + '\n',
+        entryOnly: true
+      })
+    )
+  }
+
   let conf = {
     mode: env === 'development' ? 'development' : 'production',
     cache: false,
-    devtool: env === 'development' ? '#source-map' : false,
+    devtool: env === 'development' ? '#eval-source-map' : false,
     context: contextPath,
     entry: entries,
     output: {
-      filename: '[name].js?[chunkhash]',
-      chunkFilename: '[name].js?[chunkhash]',
+      filename: env === 'development' ? '[name].js' : '[name].js?[chunkhash]',
+      chunkFilename: env === 'development' ? '[name].js' : '[name].js?[chunkhash]',
       path: path.join(projectRoot, 'client/dist/static'),
       publicPath: path
         .join(config.client.publicPath, '/')
@@ -90,14 +100,7 @@ module.exports = env => {
         }
       ]
     },
-    plugins: [new webpack.IgnorePlugin(/vertx/), new webpack.DefinePlugin(definition)].concat(
-      config.webpack.banner
-        ? new webpack.BannerPlugin({
-            banner: config.webpack.banner + ' | built at ' + new Date(config.version) + '\n',
-            entryOnly: true
-          })
-        : []
-    ),
+    plugins,
     optimization: {
       noEmitOnErrors: true,
       splitChunks: false

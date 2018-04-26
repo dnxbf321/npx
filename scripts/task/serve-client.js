@@ -2,7 +2,7 @@
 * @Author: dengjiayao
 * @Date:   2018-04-25 16:18:40
 * @Last Modified by:   dengjiayao
-* @Last Modified time: 2018-04-25 17:50:12
+* @Last Modified time: 2018-04-26 15:53:49
 */
 const webpack = require('webpack')
 const DevServer = require('webpack-dev-server')
@@ -69,10 +69,10 @@ module.exports = async (env, filter) => {
   return new Promise((resolve, reject) => {
     app.listen(PORT, 'localhost', err => {
       if (err) {
-        console.log(colors.bgRed(`[task ${leftPad('dev-server', 12)}]`), err)
+        console.log(colors.bgRed(`\n[task ${leftPad('dev-server', 12)}]`), err)
         reject(err)
       } else {
-        console.log(colors.bgGreen(`[task ${leftPad('dev-server', 12)}]`), 'files on port: ' + PORT)
+        console.log(colors.bgGreen(`\n[task ${leftPad('dev-server', 12)}] files on port: ${PORT}`))
         resolve()
       }
     })

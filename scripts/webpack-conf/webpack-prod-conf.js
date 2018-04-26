@@ -2,7 +2,7 @@
 * @Author: dengjiayao
 * @Date:   2017-12-27 13:31:07
 * @Last Modified by:   dengjiayao
-* @Last Modified time: 2018-04-25 17:47:16
+* @Last Modified time: 2018-04-26 14:10:01
 */
 const webpack = require('webpack')
 const merge = require('webpack-merge')
@@ -12,7 +12,6 @@ const path = require('path')
 const { getBaseConf, getCustomConf } = require('./webpack-base-conf')
 const getConfig = require('../util/config')
 
-let SOURCE_MAP = false
 module.exports = env => {
   let config = getConfig(env)
   if (!config) {
@@ -47,7 +46,7 @@ module.exports = env => {
     getBaseConf(env),
     {
       cache: false,
-      devtool: SOURCE_MAP ? '#source-map' : false,
+      devtool: false,
       output: {
         filename: '[name].js?[chunkhash]',
         chunkFilename: '[name].js?[chunkhash]',
