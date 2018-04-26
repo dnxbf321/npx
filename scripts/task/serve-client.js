@@ -2,7 +2,7 @@
 * @Author: dengjiayao
 * @Date:   2018-04-25 16:18:40
 * @Last Modified by:   dengjiayao
-* @Last Modified time: 2018-04-26 15:53:49
+* @Last Modified time: 2018-04-26 16:16:49
 */
 const webpack = require('webpack')
 const DevServer = require('webpack-dev-server')
@@ -57,11 +57,11 @@ async function setup(env, npxConf, wpConf) {
   return server
 }
 
-module.exports = async (env, filter) => {
+module.exports = async env => {
   env = aliasEnv(env)
 
   let npxConf = getNpxConfig(env)
-  let wpConf = getWpConfig(env, filter)
+  let wpConf = getWpConfig(env)
 
   let app = await setup(env, npxConf, wpConf)
 

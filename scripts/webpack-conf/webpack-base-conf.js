@@ -2,7 +2,7 @@
 * @Author: dengjiayao
 * @Date:   2018-01-26 15:42:48
 * @Last Modified by:   dengjiayao
-* @Last Modified time: 2018-04-26 10:17:14
+* @Last Modified time: 2018-04-26 16:17:16
 */
 const webpack = require('webpack')
 const progressBarWebpackPlugin = require('progress-bar-webpack-plugin')
@@ -31,15 +31,15 @@ const eslintrc = {
   formatter: require('eslint-friendly-formatter')
 }
 
-function getBaseConf(env, filter) {
+function getBaseConf(env) {
   let postcssPlugins = getPostcssrc(env).plugins
   let envConfig = getConfig(env)
   let definitionConfig = getConfig(env, true)
-  let entry = getEntry(env, filter)
-  let htmlPlugins = getHtmlPlugins(env, filter)
+  let entry = getEntry(env)
+  let htmlPlugins = getHtmlPlugins(env)
   let definition = getDefinition(env)
 
-  let entryPrefixer = envConfig.entryPrefixer || ''
+  let entryPrefixer = envConfig.webpack['entry-prefixer'] || ''
   let webpackNoCommon = envConfig.webpack['no-common'] || false
 
   // 无 entry，跳过

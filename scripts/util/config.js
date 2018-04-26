@@ -2,7 +2,7 @@
 * @Author: dengjiayao
 * @Date:   2017-12-27 13:13:12
 * @Last Modified by:   dengjiayao
-* @Last Modified time: 2018-04-24 11:00:39
+* @Last Modified time: 2018-04-26 16:12:47
 */
 const extend = require('extend')
 const path = require('path')
@@ -31,7 +31,6 @@ module.exports = (env, isDefinition) => {
       ftp: config['ftp'],
       jsdoc: config['jsdoc'],
       postcss: config['postcss'],
-      entryPrefixer: config['entryPrefixer'],
       webpack: config['webpack'] || {}
     })
   }

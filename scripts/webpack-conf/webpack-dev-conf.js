@@ -2,15 +2,15 @@
 * @Author: dengjiayao
 * @Date:   2017-12-27 13:21:05
 * @Last Modified by:   dengjiayao
-* @Last Modified time: 2018-04-25 18:07:52
+* @Last Modified time: 2018-04-26 16:17:33
 */
 const path = require('path')
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 const { getBaseConf, getCustomConf } = require('./webpack-base-conf')
 
-module.exports = (env, filter) => {
-  let baseConfig = getBaseConf('development', filter)
+module.exports = env => {
+  let baseConfig = getBaseConf('development')
   if (!baseConfig) {
     return
   }

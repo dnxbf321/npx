@@ -12,7 +12,9 @@
   "webpack": {
     "banner": "@copyright ",
     "no-common": false,
-    "no-html-inject": false
+    "no-html-inject": false,
+    "entry-prefixer": "",
+    "entry-filter": []
   },
   "default": {
     "client": {

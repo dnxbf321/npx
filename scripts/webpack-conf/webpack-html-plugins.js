@@ -2,7 +2,7 @@
 * @Author: dengjiayao
 * @Date:   2018-02-08 17:43:09
 * @Last Modified by:   dengjiayao
-* @Last Modified time: 2018-04-24 14:18:08
+* @Last Modified time: 2018-04-26 17:06:00
 */
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const glob = require('glob')
@@ -28,47 +28,45 @@ const minify = {
   useShortDoctype: true // html5 doctype
 }
 
-let htmlsInFolders = glob.sync('!(partial)/**/*', {
-  cwd: projectRoot + '/static/html'
-})
-let htmlsInCurDir = glob.sync('*.@(html|hbs)', {
-  cwd: projectRoot + '/static/html'
-})
-let all = [].concat(htmlsInFolders, htmlsInCurDir)
+function collectHtmls(filters) {
+  let htmlsInFolders = glob.sync('!(partial)/**/*', {
+    cwd: projectRoot + '/static/html'
+  })
+  let htmlsInCurDir = glob.sync('*.@(html|hbs)', {
+    cwd: projectRoot + '/static/html'
+  })
+  let htmls = [].concat(htmlsInFolders, htmlsInCurDir)
 
-module.exports = (env, filter) => {
+  let ret = []
+  if (filters.length) {
+    while (filters.length) {
+      let filter = filters.shift()
+      let reg = new RegExp(filter, 'i')
+      ret = ret.concat(
+        htmls.filter(name => {
+          return reg.test(name)
+        })
+      )
+    }
+  } else {
+    ret = htmls
+  }
+
+  return ret
+}
+
+module.exports = env => {
   let config = getConfig(env)
-  let chunks = getEntry(env, filter)
-
-  let entryPrefixer = config.entryPrefixer || ''
+  let entryPrefixer = config.webpack['entry-prefixer'] || ''
+  let entryFilter = config.webpack['entry-filter'] || []
   let webpackNoCommon = config.webpack['no-common'] || false
   let webpackNoHtmlInject = config.webpack['no-html-inject'] || false
 
-  let chunkNames = []
-  for (let name in chunks) {
-    chunkNames.push(name)
-  }
+  let chunks = getEntry(env)
+  let htmls = collectHtmls(entryFilter)
 
-  if (filter) {
-    let filterRegExps = filter.split(',').map(it => {
-      let fixStr = it.replace('.wp.js', '').replace(/[\/]/g, '\\/')
-      return new RegExp(fixStr, 'i')
-    })
-
-    all = all.filter(name => {
-      return filterRegExps.some(re => {
-        return re.test(name)
-      })
-    })
-  }
-
-  let plugins = []
-
-  all.forEach(it => {
+  let plugins = htmls.map(it => {
     let withoutExt = it.replace(path.extname(it), '')
-    let chunkMatch = chunkNames.find(chunk => {
-      return chunk === path.join('static/js', entryPrefixer + withoutExt).replace(/\\/g, '/')
-    })
 
     let plugin = {}
     plugin.filename = withoutExt + '.html'
@@ -76,16 +74,23 @@ module.exports = (env, filter) => {
     plugin.inject = !webpackNoHtmlInject
     plugin.minify = minify
     plugin.cache = true
-    if (chunkMatch) {
-      plugin.chunks = [chunkMatch]
-      if (!webpackNoCommon) {
-        plugin.chunks.unshift('static/js/' + entryPrefixer + 'common')
+    if (plugin.inject) {
+      let chunkMatch = Object.keys(chunks).find(chunk => {
+        return chunk === path.join('static/js', entryPrefixer + withoutExt).replace(/\\/g, '/')
+      })
+      if (chunkMatch) {
+        plugin.chunks = [chunkMatch]
+        if (!webpackNoCommon) {
+          plugin.chunks.unshift('static/js/' + entryPrefixer + 'common')
+        }
+      } else {
+        plugin.chunks = []
       }
     } else {
       plugin.chunks = []
     }
 
-    plugins.push(new HtmlWebpackPlugin(plugin))
+    return new HtmlWebpackPlugin(plugin)
   })
 
   return plugins
