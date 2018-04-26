@@ -2,7 +2,7 @@
 * @Author: dengjiayao
 * @Date:   2017-12-27 13:21:05
 * @Last Modified by:   dengjiayao
-* @Last Modified time: 2018-04-25 17:47:32
+* @Last Modified time: 2018-04-25 18:07:52
 */
 const path = require('path')
 const webpack = require('webpack')
@@ -17,11 +17,7 @@ module.exports = (env, filter) => {
 
   Object.keys(baseConfig.entry).forEach(name => {
     let entry = baseConfig.entry[name]
-    baseConfig.entry[name] = [
-      'react-hot-loader/patch',
-      // 'webpack-hot-middleware/client?path=/__webpack_hmr&reload=true',
-      entry
-    ]
+    baseConfig.entry[name] = ['react-hot-loader/patch', entry]
   })
 
   let customConfig = getCustomConf('development')

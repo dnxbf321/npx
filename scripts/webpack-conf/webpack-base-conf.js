@@ -2,7 +2,7 @@
 * @Author: dengjiayao
 * @Date:   2018-01-26 15:42:48
 * @Last Modified by:   dengjiayao
-* @Last Modified time: 2018-04-25 17:46:45
+* @Last Modified time: 2018-04-26 10:17:14
 */
 const webpack = require('webpack')
 const progressBarWebpackPlugin = require('progress-bar-webpack-plugin')
@@ -23,7 +23,7 @@ const babelrc = require('../util/babelrc')
 const projectRoot = process.cwd()
 const contextPath = path.join(projectRoot, 'client')
 const staticRoot = path.join(contextPath, 'static')
-const cliRoot = path.join(__dirname, '../../')
+const npxRoot = path.join(__dirname, '../../')
 
 const eslintrc = {
   cache: true,
@@ -55,7 +55,7 @@ function getBaseConf(env, filter) {
       path: path.join(projectRoot, 'client/dist')
     },
     resolve: {
-      modules: [path.join(projectRoot, 'node_modules'), path.join(cliRoot, 'node_modules')],
+      modules: [path.join(projectRoot, 'node_modules'), path.join(npxRoot, 'node_modules')],
       alias: {
         // see https://vuejs.org/guide/installation.html#Standalone-vs-Runtime-only-Build
         // https://vuejs.org/v2/guide/installation.html#Explanation-of-Different-Builds
@@ -63,7 +63,7 @@ function getBaseConf(env, filter) {
       }
     },
     resolveLoader: {
-      modules: [path.join(projectRoot, 'node_modules'), path.join(cliRoot, 'node_modules')]
+      modules: [path.join(projectRoot, 'node_modules'), path.join(npxRoot, 'node_modules')]
     },
     module: {
       rules: [

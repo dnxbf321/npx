@@ -2,7 +2,7 @@
 * @Author: dengjiayao
 * @Date:   2017-12-27 13:17:46
 * @Last Modified by:   dengjiayao
-* @Last Modified time: 2018-04-25 17:32:13
+* @Last Modified time: 2018-04-26 10:17:15
 */
 const webpack = require('webpack')
 
@@ -16,7 +16,7 @@ const babelrc = require('../util/babelrc')
 const projectRoot = process.cwd()
 const contextPath = path.join(projectRoot, 'client')
 const assetRoot = path.join(contextPath, 'asset')
-const cliRoot = path.join(__dirname, '../../')
+const npxRoot = path.join(__dirname, '../../')
 
 function getEntry() {
   let ret = {}
@@ -59,7 +59,7 @@ module.exports = env => {
       modules: [path.join(projectRoot, 'node_modules')]
     },
     resolveLoader: {
-      modules: [path.join(projectRoot, 'node_modules'), path.join(cliRoot, 'node_modules')]
+      modules: [path.join(projectRoot, 'node_modules'), path.join(npxRoot, 'node_modules')]
     },
     module: {
       rules: [

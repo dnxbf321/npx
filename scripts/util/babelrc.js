@@ -2,14 +2,14 @@
 * @Author: dengjiayao
 * @Date:   2017-12-27 13:12:16
 * @Last Modified by:   dengjiayao
-* @Last Modified time: 2018-04-24 19:40:06
+* @Last Modified time: 2018-04-26 10:17:21
 */
 const fs = require('fs')
 const path = require('path')
 
-const cliRoot = path.join(__dirname, '../../')
+const npxRoot = path.join(__dirname, '../../')
 
-let babelrc = fs.readFileSync(path.join(cliRoot, '.babelrc'), {
+let babelrc = fs.readFileSync(path.join(npxRoot, '.babelrc'), {
   encoding: 'utf8'
 })
 babelrc = JSON.parse(babelrc.toString())

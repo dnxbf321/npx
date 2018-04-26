@@ -3,7 +3,7 @@
 const program = require('commander')
 const pkg = require('../package.json')
 const pkgUpdate = require('../scripts/util/pkg-update')
-const taskInit = require('../scripts/task/init')
+const taskCreate = require('../scripts/task/create')
 const taskWebpack = require('../scripts/task/webpack')
 const taskPre = require('../scripts/task/pre')
 const taskClean = require('../scripts/task/clean')
@@ -23,8 +23,8 @@ function list(val) {
 
 function keyMapTask(key) {
   switch (key) {
-    case 'init':
-      return taskInit
+    case 'create':
+      return taskCreate
     case 'pre':
       return taskPre
     case 'webpack':
@@ -51,10 +51,10 @@ function keyMapTask(key) {
 
 program.version(pkg.version)
 
-// 初始化任务
-// 将官方模板下载到本目录
-program.command('init').action(() => {
-  taskInit()
+// 新建项目
+// 项目命名，生成模板文件
+program.command('create').action(() => {
+  taskCreate()
 })
 
 // webpack 任务
@@ -118,9 +118,7 @@ program
 // 根据环境定义取不同的 config 值
 program
   .command('babel-asset')
-  .description(
-    'use babel to compile js files those end with .bl.js in asset folder'
-  )
+  .description('use babel to compile js files those end with .bl.js in asset folder')
   .action(() => {
     taskBabelAsset(program['node_env'])
   })

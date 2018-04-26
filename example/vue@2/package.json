@@ -1,7 +1,7 @@
 {
   "name": "vue_2",
-  "version": "6.0.0",
-  "description": "official template for npx",
+  "version": "1.0.0",
+  "description": "description goes here",
   "main": "index.js",
   "scripts": {
     "dev": "npx -t pre,asset,image,babel-asset,serve-client -e development",
