@@ -2,7 +2,7 @@
 * @Author: dengjiayao
 * @Date:   2018-04-26 14:15:51
 * @Last Modified by:   dengjiayao
-* @Last Modified time: 2018-04-26 15:31:06
+* @Last Modified time: 2018-04-27 14:31:47
 */
 const inquirer = require('inquirer')
 const taskWebpack = require('./webpack')
@@ -72,7 +72,7 @@ module.exports = () => {
             exec([taskPack])
             break
           case 5:
-            exec([taskUpload])
+            exec([taskDeploy])
             break
           case 6:
             exec([taskClean])
