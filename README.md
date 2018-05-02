@@ -1,3 +1,5 @@
+# 版本 6（含）后已迁移到 [krau](https://github.com/dnxbf321/krau)，以避免与其他 npm package 混淆
+
 # npx
 
 安装
@@ -21,6 +23,6 @@ npx flow
 
 deng-npx < 6: see [https://dnxbf321.gitbooks.io/npx/content/](https://dnxbf321.gitbooks.io/npx/content/)
 
-deng-npx@6: see [https://npx.gitbook.io/project/](https://npx.gitbook.io/project/)
+deng-npx@6: see [https://krau.gitbook.io/project/](https://krau.gitbook.io/project/)
 
 ### [examples](https://github.com/dnxbf321/npx/tree/master/example)
