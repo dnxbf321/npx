@@ -8,6 +8,13 @@ const taskClean = require('../scripts/task/clean')
 const taskPack = require('../scripts/task/pack')
 const taskDeploy = require('../scripts/task/deploy')
 const taskFlow = require('../scripts/task/flow')
+const colors = require('colors')
+
+console.log(
+  colors.bgYellow.bold(
+    '\n\ndeng-npx 已转移至 krau，后续更新将只发生在 krau（https://www.npmjs.com/package/krau）\n'
+  )
+)
 
 pkgUpdate()
 

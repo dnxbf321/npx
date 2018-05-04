@@ -1,8 +1,7 @@
 {
     "name": "deng-npx",
-    "version": "6.0.0",
-    "description":
-        "Pack static files like html, css, javascript, images and so on. Different environment, different variables.",
+    "version": "6.0.1",
+    "description": "Pack static files like html, css, javascript, images and so on. Different environment, different variables.",
     "keywords": [
         "front-end",
         "pack static files",
@@ -30,7 +29,7 @@
     "dependencies": {
         "archiver": "^2.1.1",
         "autoprefixer": "^8.3.0",
-        "babel-core": "^6.26.0",
+        "babel-core": "^6.26.2",
         "babel-loader": "^7.1.4",
         "babel-plugin-transform-runtime": "^6.23.0",
         "babel-preset-env": "^1.6.1",
@@ -68,7 +67,7 @@
         "precss": "^3.1.2",
         "progress-bar-webpack-plugin": "^1.11.0",
         "react": "^16.3.2",
-        "react-hot-loader": "^4.1.1",
+        "react-hot-loader": "^4.1.2",
         "require-uncached": "^1.0.3",
         "rimraf": "^2.6.1",
         "rucksack-css": "^1.0.2",
