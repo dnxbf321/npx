@@ -1,11 +1,14 @@
-import updateNotifier from 'update-notifier'
-import pkg from '../../package.json'
+/*
+* @Author: dengjiayao
+* @Date:   2017-12-27 13:14:12
+* @Last Modified by:   dengjiayao
+* @Last Modified time: 2018-02-08 17:45:03
+*/
+const updateNotifier = require('update-notifier')
+const pkg = require('../../package.json')
 
-export default () => {
-  delete process.env.npm_config_username
-  delete process.env.npm_package_name
-  delete process.env.npm_config_heading
-  var notifier = updateNotifier({
+module.exports = () => {
+  let notifier = updateNotifier({
     pkg: pkg,
     updateCheckInterval: 2 * 1000
   })

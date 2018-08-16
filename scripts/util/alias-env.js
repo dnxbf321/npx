@@ -1,4 +1,10 @@
-export default (env) => {
+/*
+* @Author: dengjiayao
+* @Date:   2017-12-27 13:10:55
+* @Last Modified by:   dengjiayao
+* @Last Modified time: 2018-02-08 17:44:46
+*/
+module.exports = env => {
   switch (env) {
     case 'development':
     case 'dev':

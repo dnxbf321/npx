@@ -1,19 +1,18 @@
-import HtmlWebpackPlugin from 'html-webpack-plugin'
-import glob from 'glob'
-import path from 'path'
-import chunks from './webpack-entry'
-import getConfig from '../util/config'
+/*
+* @Author: dengjiayao
+* @Date:   2018-02-08 17:43:09
+* @Last Modified by:   dengjiayao
+* @Last Modified time: 2018-02-08 17:43:19
+*/
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const glob = require('glob')
+const path = require('path')
+const getEntry = require('./webpack-entry')
+const getConfig = require('../util/config')
 
-var projectRoot = path.join(process.cwd(), 'client')
-var entryPrefixer = getConfig().entryPrefixer || ''
-var webpackNoCommon = getConfig().webpack['no-common'] || false
+const projectRoot = path.join(process.cwd(), 'client')
 
-var chunkNames = []
-for (let name in chunks) {
-  chunkNames.push(name)
-}
-
-var minify = {
+const minify = {
   // 行内元素内容至多保留一个空格
   collapseBooleanAttributes: true, // disabled="disabled" => disabled
   collapseInlineTagWhitespace: true, // display:inline element collapseWhitespace=true
@@ -29,37 +28,64 @@ var minify = {
   useShortDoctype: true // html5 doctype
 }
 
-var htmlsInFolders = glob.sync('!(partial)/**/*', {
+let htmlsInFolders = glob.sync('!(partial)/**/*', {
   cwd: projectRoot + '/static/html'
 })
-var htmlsInCurDir = glob.sync('*.@(html|hbs)', {
+let htmlsInCurDir = glob.sync('*.@(html|hbs)', {
   cwd: projectRoot + '/static/html'
 })
-var all = [].concat(htmlsInFolders, htmlsInCurDir)
+let all = [].concat(htmlsInFolders, htmlsInCurDir)
 
-var plugins = []
+module.exports = (env, filter) => {
+  let config = getConfig(env)
+  let chunks = getEntry(env, filter)
 
-all.forEach((it) => {
-  var withoutExt = it.replace(path.extname(it), '')
-  var chunkMatch = chunkNames.find((chunk) => {
-    return chunk === path.join('static/js', entryPrefixer + withoutExt).replace(/\\/g, '/')
-  })
+  let entryPrefixer = config.entryPrefixer || ''
+  let webpackNoCommon = config.webpack['no-common'] || false
+  let webpackNoHtmlInject = config.webpack['no-html-inject'] || false
 
-  var plugin = {}
-  plugin.filename = withoutExt + '.html'
-  plugin.template = 'static/html/' + it
-  plugin.inject = true
-  plugin.minify = minify
-  if (chunkMatch) {
-    plugin.chunks = [chunkMatch]
-    if (!webpackNoCommon) {
-      plugin.chunks.unshift('static/js/' + entryPrefixer + 'common')
-    }
-  } else {
-    plugin.chunks = []
+  let chunkNames = []
+  for (let name in chunks) {
+    chunkNames.push(name)
   }
 
-  plugins.push(new HtmlWebpackPlugin(plugin))
-})
+  if (filter) {
+    let filterRegExps = filter.split(',').map(it => {
+      let fixStr = it.replace('.wp.js', '').replace(/[\/]/g, '\\/')
+      return new RegExp(fixStr, 'i')
+    })
 
-export default plugins
+    all = all.filter(name => {
+      return filterRegExps.some(re => {
+        return re.test(name)
+      })
+    })
+  }
+
+  let plugins = []
+
+  all.forEach(it => {
+    let withoutExt = it.replace(path.extname(it), '')
+    let chunkMatch = chunkNames.find(chunk => {
+      return chunk === path.join('static/js', entryPrefixer + withoutExt).replace(/\\/g, '/')
+    })
+
+    let plugin = {}
+    plugin.filename = withoutExt + '.html'
+    plugin.template = 'static/html/' + it
+    plugin.inject = !webpackNoHtmlInject
+    plugin.minify = minify
+    if (chunkMatch) {
+      plugin.chunks = [chunkMatch]
+      if (!webpackNoCommon) {
+        plugin.chunks.unshift('static/js/' + entryPrefixer + 'common')
+      }
+    } else {
+      plugin.chunks = []
+    }
+
+    plugins.push(new HtmlWebpackPlugin(plugin))
+  })
+
+  return plugins
+}

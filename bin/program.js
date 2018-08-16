@@ -1,17 +1,19 @@
-import program from 'commander'
-import pkg from '../package.json'
-import pkgUpdate from '../scripts/util/pkg-update'
-import taskInit from '../scripts/task/init'
-import taskWebpack from '../scripts/task/webpack'
-import taskPre from '../scripts/task/pre'
-import taskClean from '../scripts/task/clean'
-import taskPack from '../scripts/task/pack'
-import taskUpload from '../scripts/task/upload'
-import taskAsset from '../scripts/task/asset'
-import taskImage from '../scripts/task/image'
-import taskBabelAsset from '../scripts/task/babel-asset'
-import taskServeClient from '../scripts/task/serve-client'
-import taskPostcss from '../scripts/task/postcss'
+#!/usr/bin/env node
+
+const program = require('commander')
+const pkg = require('../package.json')
+const pkgUpdate = require('../scripts/util/pkg-update')
+const taskInit = require('../scripts/task/init')
+const taskWebpack = require('../scripts/task/webpack')
+const taskPre = require('../scripts/task/pre')
+const taskClean = require('../scripts/task/clean')
+const taskPack = require('../scripts/task/pack')
+const taskUpload = require('../scripts/task/upload')
+const taskAsset = require('../scripts/task/asset')
+const taskImage = require('../scripts/task/image')
+const taskBabelAsset = require('../scripts/task/babel-asset')
+const taskServeClient = require('../scripts/task/serve-client')
+const taskPostcss = require('../scripts/task/postcss')
 
 pkgUpdate()
 
@@ -51,11 +53,9 @@ program.version(pkg.version)
 
 // 初始化任务
 // 将官方模板下载到本目录
-program
-  .command('init')
-  .action(() => {
-    taskInit()
-  })
+program.command('init').action(() => {
+  taskInit()
+})
 
 // webpack 任务
 // 根据环境定义取不同的 config 值
@@ -118,7 +118,9 @@ program
 // 根据环境定义取不同的 config 值
 program
   .command('babel-asset')
-  .description('use babel to compile js files those end with .bl.js in asset folder')
+  .description(
+    'use babel to compile js files those end with .bl.js in asset folder'
+  )
   .action(() => {
     taskBabelAsset(program['node_env'])
   })
@@ -143,25 +145,32 @@ program
 
 program
   .option('-t, --tasks <items>', 'list tasks to exec', list)
-  .option('-e, --node_env [env]', 'define NODE_ENV, a string should be "development", "dev", "experiment", "exp", "production" or "prod"')
+  .option(
+    '-e, --node_env [env]',
+    'define NODE_ENV, a string should be "development", "dev", "experiment", "exp", "production" or "prod"'
+  )
+  .option(
+    '--filter [filter]',
+    'filter webpack entry, an array of path string those files end with *.wp.js'
+  )
 
 program.parse(process.argv)
 
 if (program.tasks) {
   let taskChain = program.tasks
   let env = program['node_env']
+  let filter = program['filter']
   let idx = 0
-  let exec = () => {
-    return keyMapTask(taskChain[idx])(env)
-      .then(() => {
-        idx += 1
-        if (idx < taskChain.length) {
-          exec()
-        }
-      })
-      .catch((err) => {
-        throw new Error(err)
-      })
+  let exec = async () => {
+    try {
+      await keyMapTask(taskChain[idx])(env, filter)
+      idx += 1
+      if (idx < taskChain.length) {
+        exec()
+      }
+    } catch (err) {
+      throw new Error(err)
+    }
   }
   exec()
 }

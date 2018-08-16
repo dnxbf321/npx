@@ -1,34 +1,47 @@
-import webpack from 'webpack'
-import colors from 'colors'
-import leftPad from 'left-pad'
-import glob from 'glob'
-import rimraf from 'rimraf'
-import path from 'path'
-import getBabelAssetconf from '../webpack-conf/webpack-babel-asset-conf'
-import aliasEnv from '../util/alias-env'
+/*
+* @Author: dengjiayao
+* @Date:   2017-12-27 13:04:04
+* @Last Modified by:   dengjiayao
+* @Last Modified time: 2018-02-08 17:43:55
+*/
+const webpack = require('webpack')
+const colors = require('colors')
+const leftPad = require('left-pad')
+const glob = require('glob')
+const rimraf = require('rimraf')
+const path = require('path')
+const getBabelAssetconf = require('../webpack-conf/webpack-babel-asset-conf')
+const aliasEnv = require('../util/alias-env')
 
-export default (env) => {
+module.exports = env => {
   // 删除 dist 下的 .bl.js 文件
-  var files = glob.sync(path.join(process.cwd(), 'client/dist/static/**/*.bl.js'))
-  files.forEach((it) => {
-    rimraf(it, {}, () => {
-    })
+  let files = glob.sync(path.join(process.cwd(), 'client/dist/static/**/*.bl.js'))
+  files.forEach(it => {
+    rimraf(it, {}, () => {})
   })
 
   // 打包处理 .bl.js 文件
   env = aliasEnv(env)
-  var conf = getBabelAssetconf(env)
+  let conf = getBabelAssetconf(env)
   if (!conf) {
     return Promise.resolve()
   }
-  var compiler = webpack(conf)
+
+  let compiler = webpack(conf)
   return new Promise((resolve, reject) => {
     compiler.run((err, stats) => {
       if (err) {
         console.log(colors.bgRed(`[task ${leftPad('babel-asset', 12)}]`), err)
-        reject()
+        reject(err)
       } else {
-        console.log(colors.bgGreen(`[task ${leftPad('babel-asset', 12)}]`), stats.toString('normal'))
+        console.log(
+          colors.bgGreen(`[task ${leftPad('babel-asset', 12)}]`),
+          stats.toString({
+            children: false,
+            colors: true,
+            modules: false
+          })
+        )
         resolve()
       }
     })

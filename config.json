@@ -9,6 +9,11 @@
   },
   "jsdoc": true,
   "postcss": {},
+  "webpack": {
+    "banner": "@copyright ",
+    "no-common": false,
+    "no-html-inject": false
+  },
   "default": {
     "client": {
       "port": 9000,

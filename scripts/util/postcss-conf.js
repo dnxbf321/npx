@@ -1,10 +1,15 @@
-import extend from 'extend'
-import path from 'path'
-import getConfig from './config'
+/*
+* @Author: dengjiayao
+* @Date:   2017-12-27 13:14:56
+* @Last Modified by:   dengjiayao
+* @Last Modified time: 2018-02-08 17:45:06
+*/
+const extend = require('extend')
+const path = require('path')
+const getConfig = require('./config')
 
-var pluginList = [
+const pluginList = [
   'postcss-easy-import',
-  'stylelint',
   'precss',
   'postcss-pxtorem',
   'rucksack-css',
@@ -14,11 +19,11 @@ var pluginList = [
   'postcss-reporter'
 ]
 
-export default (env) => {
-  var config = getConfig(env)
-  var postcss = config['postcss'] || {}
+module.exports = env => {
+  let config = getConfig(env)
+  let postcss = config['postcss'] || {}
 
-  var usePlugins = pluginList.filter((pluginName) => {
+  let usePlugins = pluginList.filter(pluginName => {
     return postcss[pluginName] === undefined ? true : !!postcss[pluginName]
   })
 
@@ -30,46 +35,81 @@ export default (env) => {
 
   return {
     use: usePlugins,
-    'postcss-easy-import': extend(true, {
-      prefix: '_'
-    }, postcss['postcss-easy-import']),
-    stylelint: extend(true, {
-      config: {
-        extends: 'stylelint-config-standard',
-        rules: {}
-      }
-    }, postcss['stylelint']),
-    precss: extend(true, {
-      import: {
-        disable: true
-      }
-    }, postcss['precss']),
-    'postcss-pxtorem': extend(true, {
-      propWhiteList: [],
-      selectorBlackList: [/^html$/, /\.norem/]
-    }, postcss['postcss-pxtorem']),
-    'rucksack-css': extend(true, {
-      fallbacks: true
-    }, postcss['rucksack-css']),
-    'postcss-assets': extend(true, {
-      loadPaths: [path.join(process.cwd(), 'client/static/img')],
-      basePath: 'client',
-      baseUrl: config.client.publicPath,
-      cachebuster: true,
-      relative: true
-    }, postcss['postcss-assets']),
-    autoprefixer: extend(true, {
-      browsers: ['last 2 versions', '> 5%', 'safari >= 5', 'ie >= 8', 'opera >= 12', 'Firefox ESR', 'iOS >= 6', 'android >= 4']
-    }, postcss['autoprefixer']),
-    cssnano: extend(true, {
-      safe: true,
-      discardComments: {
-        removeAll: true
+    'postcss-easy-import': extend(
+      true,
+      {
+        prefix: '_'
       },
-      filterPlugins: false
-    }, postcss['cssnano']),
-    'postcss-reporter': extend(true, {
-      clearMessages: true
-    }, postcss['postcss-reporter'])
+      postcss['postcss-easy-import']
+    ),
+    precss: extend(
+      true,
+      {
+        import: {
+          disable: true
+        }
+      },
+      postcss['precss']
+    ),
+    'postcss-pxtorem': extend(
+      true,
+      {
+        propWhiteList: [],
+        selectorBlackList: [/^html$/, /\.norem/]
+      },
+      postcss['postcss-pxtorem']
+    ),
+    'rucksack-css': extend(
+      true,
+      {
+        fallbacks: true
+      },
+      postcss['rucksack-css']
+    ),
+    'postcss-assets': extend(
+      true,
+      {
+        loadPaths: [path.join(process.cwd(), 'client/static/img')],
+        basePath: 'client',
+        baseUrl: config.client.publicPath,
+        cachebuster: true,
+        relative: true
+      },
+      postcss['postcss-assets']
+    ),
+    autoprefixer: extend(
+      true,
+      {
+        browsers: [
+          'last 2 versions',
+          '> 5%',
+          'safari >= 5',
+          'ie >= 8',
+          'opera >= 12',
+          'Firefox ESR',
+          'iOS >= 6',
+          'android >= 4'
+        ]
+      },
+      postcss['autoprefixer']
+    ),
+    cssnano: extend(
+      true,
+      {
+        safe: true,
+        discardComments: {
+          removeAll: true
+        },
+        filterPlugins: false
+      },
+      postcss['cssnano']
+    ),
+    'postcss-reporter': extend(
+      true,
+      {
+        clearMessages: true
+      },
+      postcss['postcss-reporter']
+    )
   }
 }
